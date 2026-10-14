@@ -4,7 +4,11 @@ Pełne rozwiązanie z kodem, wykresami i komentarzem po angielsku jest w `iFood_
 
 > Jednostki: kwoty w danych to „MU” (monetary units), nie wiadomo, w jakiej walucie. Wszystkie liczby poniżej pochodzą z danych **po czyszczeniu** (1 994 klientów), chyba że napisano inaczej.
 >
-> **Do prezentacji:** gotowy skrypt do przeczytania po angielsku (ok. 20 min, z ramkami „If they ask…”) jest w `PRESENTATION_SCRIPT_EN.md`.
+> **Do prezentacji:**
+> - Gotowy skrypt do przeczytania po angielsku (ok. 20 min, z ramkami „If they ask…”) jest w `PRESENTATION_SCRIPT_EN.md`.
+> - Na callu pokazuj `iFood_Case_Study_Code.ipynb`: ten sam kod i te same wyniki, bez opisów.
+> - Czytaj z `iFood_Case_Study_Solution.ipynb` (kod + wyjaśnienia) albo ze skryptu.
+> - Numery komórek `In [n]` są w obu notatnikach takie same, a skrypt przy każdym `[SHOW]` podaje, którą komórkę pokazać.
 
 ---
 

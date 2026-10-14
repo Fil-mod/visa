@@ -4,6 +4,7 @@
 |---|---|
 | `iFood_Case_Study_Solution.ipynb` | Full solution (Q1–Q8), executed, with outputs and charts. For every question: *Approach* → code → **Result & what it means**. Starts with an executive TL;DR and a **decision log** (every important choice, the alternatives and the reason); ends with **Appendix A**, which checks the assumptions of every method used and explains why each was chosen. |
 | `iFood_Case_Study_Solution.html` | The same notebook rendered as a standalone HTML page (open in any browser). |
+| `iFood_Case_Study_Code.ipynb` / `.html` | **Code-only version for screen sharing:** exactly the same code and results, with no explanation cells; each section starts with a `# ═══ … ═══` comment. Cell numbers `In [n]` match the explained notebook and the cues in the presentation script. |
 | `PRESENTATION_SCRIPT_EN.md` | Ready-to-read ~20-minute presentation script (first person): methodology, every decision with its alternatives, results, plus "If they ask…" boxes, a Q&A appendix and a numbers cheat-sheet. |
 | `PRZEWODNIK_PL.md` | Polish study guide: approach / what was done / result / meaning for every question, all decisions with their alternatives, why each method is valid here, a metrics glossary and likely interview questions. |
 | `ifood_df.csv` | The input data (unchanged). |

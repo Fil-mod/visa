@@ -8871,7 +8871,7 @@ Distinct records matching another record on everything except one attribute: {'m
 <div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Decision (see markdown below): drop exact copies; collapse each conflicting pair into ONE customer whose label is unknown.</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Decision: drop exact copies; collapse each conflicting pair into ONE customer whose Response is unknown (NaN).</span>
 <span class="n">cleaning_log</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">'Raw file'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))]</span>
 
 <span class="n">cust</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
