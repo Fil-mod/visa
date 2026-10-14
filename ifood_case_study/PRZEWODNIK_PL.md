@@ -3,6 +3,8 @@
 Pełne rozwiązanie z kodem, wykresami i komentarzem po angielsku jest w `iFood_Case_Study_Solution.ipynb`. Ten plik to wersja do nauki i do obrony na rozmowie. Dla każdego zadania opisuję **podejście**, **co konkretnie zrobiłem**, **wynik** i **co ten wynik znaczy**. Na końcu jest słowniczek metryk i lista pytań, które mogą paść na rozmowie.
 
 > Jednostki: kwoty w danych to „MU” (monetary units), nie wiadomo, w jakiej walucie. Wszystkie liczby poniżej pochodzą z danych **po czyszczeniu** (1 994 klientów), chyba że napisano inaczej.
+>
+> **Do prezentacji:** gotowy skrypt do przeczytania po angielsku (ok. 20 min, z ramkami „If they ask…”) jest w `PRESENTATION_SCRIPT_EN.md`.
 
 ---
 
@@ -15,6 +17,142 @@ Pełne rozwiązanie z kodem, wykresami i komentarzem po angielsku jest w `iFood_
 5. **Test reklamacji (Complain) nie ma mocy statystycznej.** Nawet gdyby żaden z 19 reklamujących nie odpowiedział, p wyniosłoby 0,096. Wynik jest **nierozstrzygnięty**, a nie „brak efektu”.
 6. **Model:** wygrywa regresja logistyczna (PR-AUC 0,71 w nested CV, a na teście ROC-AUC 0,91). Kontaktowanie tylko klientów z p > 27% zamienia **−1 385 MU w +484 MU na 1 000 klientów**.
 7. **Segmenty:** 4 persony. Żaden segment nie przekracza progu 27% w całości, dlatego **segment wyznacza komunikat, a model wyznacza, kogo kontaktować.**
+
+---
+
+## Decyzje: jakie były warianty, co wybrałem i dlaczego
+
+W notatniku jest to „Decision log” na początku, a pełny opis każdej decyzji znajduje się w miejscu, w którym zapadła.
+
+### 1. 19 klientów ze sprzecznym `Response` (Q1b)
+| Wariant | Skutek | Ocena |
+|---|---|---|
+| **Jeden wiersz, etykieta „nieznana”** ✅ | 1 994 klientów w analizie opisowej, 1 975 w testach i modelu | **wybrane** |
+| Usunąć klienta całkowicie | 1 975 wszędzie | tracimy poprawne dane o wydatkach i demografii, nic nie zyskując |
+| Przyjąć `Response = 1` | odsetek odpowiedzi rośnie z 14,7% do ok. 15,5% | brak dowodu; zawyża KPI i uczy model być może błędnych etykiet |
+| Zostawić obie kopie | ta sama osoba z dwiema przeciwnymi etykietami | szum; ta sama osoba może trafić do train i do test z przeciwnymi odpowiedziami |
+
+**Dlaczego:** kopie to na pewno ten sam klient, ale w danych nie ma ID ani daty, które powiedziałyby, która etykieta jest prawdziwa. Brak etykiety to uczciwy zapis tego, co wiemy. Wydatki tych klientów są poprawne, więc zostają w EDA i segmentacji. To 1% etykiet, więc żaden wynik nie może się przez to istotnie zmienić.
+
+### 2. 6 rekordów logicznie niemożliwych (Q1d)
+| Wariant | Ocena |
+|---|---|
+| **Usunąć** ✅ | **wybrane** |
+| Zostawić z flagą | skrajne wartości (28 zakupów z katalogu przy dochodzie 2 447) ciągnęłyby centroidy k-means i dopasowanie dochód–wydatki, a flaga nie mówi, *które* pole jest błędne |
+| „Naprawić” wartości | czyste zgadywanie |
+
+**Dlaczego:**
+- Łamią **twarde reguły logiki**: wydatki przy zerze zakupów, więcej zakupów z rabatem niż wszystkich, wydatki = 35% dochodu. Nie chodzi o to, że wyglądają „dziwnie”.
+- Mają wspólny, zepsuty wzorzec: dochód poniżej 10 tys., często 15 zakupów z rabatem albo 14–20 wizyt w sieci.
+- To 0,3% bazy i sami nie-responderzy; odsetek odpowiedzi zmienia się tylko z 14,69% na 14,73%.
+
+### 3. Podejrzane dochody: 23 poniżej 10 tys., w tym 12 × dokładnie 7 500 (Q1d, Q3c)
+| Wariant | Ocena |
+|---|---|
+| **Zostawić i opisać** ✅ | **wybrane** |
+| 7 500 → brak + imputacja | wymyśla dane i tworzy nowy „szpic” w miejscu imputowanej wartości |
+| Usunąć dochody < 10 tys. | usuwa też prawdziwie biednych klientów, czyli przesuwa bazę w stronę zamożnych (selekcja, którą sami byśmy wprowadzili) |
+
+**Dlaczego:** te wartości są *możliwe*, tylko podejrzane. Metody są na nie odporne (rangi, logarytm, regularyzacja). **Test odporności:** bez nich korelacja Spearmana zostaje 0,86, a stosunek wydatków rodzin do bezdzietnych ok. 0,63. Zmienia się tylko elastyczność (2,4 → 2,7), więc podaję ją jako zakres „ok. 2,4–2,7”.
+
+### 4–5. Kolumny pochodne i liczba zakupów (Q1, Q2)
+- **Przeliczam sumy z komponentów** zamiast im ufać, bo 2 z 3 są niezgodne ze słownikiem.
+- `TotalPurchases` liczę zgodnie z poleceniem **i** w wersji bez podwójnego liczenia zakupów z rabatem. Do wartości koszyka używam wersji kanałowej (mediana 29,9 vs 23,7).
+
+### 6. Model finalny (Q5): regresja logistyczna wybrana regułą 1-SE
+**Dlaczego w ogóle te cztery modele (kandydaci):**
+| Kandydat | Po co w wyścigu |
+|---|---|
+| Baseline (zawsze przewiduje średnią) | podłoga: każdy model musi go pobić (PR-AUC 0,147) |
+| **Regresja logistyczna** (L1/L2/elastic net, z wagami klas i bez) | standard w modelach odpowiedzi: skalibrowane prawdopodobieństwa, współczynniki = ilorazy szans, dobra przy małych danych |
+| Random forest | nieliniowości i interakcje bez ręcznego feature engineeringu |
+| Gradient boosting (HistGB) | zwykle najdokładniejsza rodzina na danych tabelarycznych; odpowiednik XGBoost/LightGBM |
+
+**Czego nie użyłem i dlaczego:**
+- SVM: brak natywnych prawdopodobieństw.
+- k-NN: słabe przy mieszanych cechach i niezbalansowanych klasach.
+- Naive Bayes: zakłada niezależność cech, a wydatki są silnie skorelowane.
+- Sieci neuronowe: 233 pozytywy to za mało.
+- XGBoost: poza listą dozwolonych bibliotek.
+
+**Porównanie (wszystkie modele na równych zasadach, każdy z własnym progiem z treningu):**
+| Model | Nested CV PR-AUC | Test PR-AUC | Test ROC-AUC | Brier | Zysk test (własny próg) |
+|---|---|---|---|---|---|
+| **LR 1-SE** ✅ | 0,71 | 0,662 | 0,906 | 0,080 | +182 (przy 27,3%: **+191**) |
+| LR najlepsze CV | 0,71 | 0,666 | 0,905 | 0,081 | +216 (próg 0,15) |
+| Gradient boosting | 0,64 | 0,592 | 0,886 | 0,088 | +154 |
+| Random forest | 0,60 | 0,508 | 0,874 | 0,094 | +151 |
+
+**Czym charakteryzuje się wybrany model:**
+- **Regresja logistyczna:** wynik klienta = ważona suma cech (log-szanse), a p = 1/(1+e^(−wynik)). Każda waga to iloraz szans, który da się wytłumaczyć CMO.
+- **Elastic net (pół L1, pół L2):**
+  - L1 zeruje słabe lub zbędne cechy (tu `Kidhome` i `AvgSpendPerOrder`), czyli wbudowana selekcja;
+  - L2 rozkłada wagę między skorelowane cechy wydatków (VIF do 24), zamiast losowo wybierać jedną.
+- **C = 0,32:** ok. 100× silniejsza regularizacja niż w wariancie „najlepsze CV” (C = 31,6). Jest potrzebna, bo na parametr przypada tylko **7,3 zdarzenia** (reguła kciuka dla modelu bez kary to ≥ 10).
+- **Bez wag klas,** więc prawdopodobieństwa zachowują sens (kalibracja) i reguła „p > 27,3%” działa.
+- **Reguła 1-SE:**
+  - wynik CV sam jest szumny (SD między foldami 0,028), więc wszystko w odległości 1 błędu standardowego od najlepszego (AP ≥ 0,689) jest statystycznie nierozróżnialne;
+  - z tej grupy biorę najprostszy model;
+  - decyzję podjąłem **przed** otwarciem zbioru testowego.
+- **Zmierzona stabilność** (50 prób bootstrapowych):
+  - współczynniki są ok. **40% mniej zmienne** (średnie SD 0,155 vs 0,271);
+  - mniejsze wagi (największa 1,15 vs 1,79);
+  - taka sama dokładność;
+  - zmiany znaku równie rzadkie w obu wariantach (ok. 7%), więc oba mówią tę samą historię, ale 1-SE robi to stabilniej.
+
+**Z czego świadomie rezygnujemy (uczciwie):** wariant „najlepsze CV” z własnym progiem 0,15 zarobił więcej: na treningu (OOF) 977 vs 917, na teście +216 vs +191 MU. Różnica +25 MU ma jednak 95% CI od −30 do +87 (nieistotna; w 20% losowań wypada gorzej). Wybieram stabilność, prostotę i przejrzystą regułę zamiast zysku, który może być szumem. Gdyby priorytetem był maksymalny oczekiwany zysk, ten wariant jest opisaną alternatywą (z walidacją progu przed każdą kampanią).
+
+### 7. Zestaw cech (Q5)
+| Wariant | CV PR-AUC | Jakie ryzyko adresuje |
+|---|---|---|
+| **Wszystkie cechy** ✅ | **0,694** | – |
+| Bez Recency | 0,621 | wyciek czasowy, jeśli recency mierzono po kampanii |
+| Bez demografii (wiek, dzieci, stan cywilny, wykształcenie) | 0,646 | bezpośrednie użycie cech osobowych |
+| Bez Recency i demografii | 0,578 | oba ryzyka naraz |
+| Bez historii kampanii | 0,547 | klienci bez historii („cold start”) |
+
+**Dlaczego wszystkie:**
+- Najwyższa dokładność.
+- **Recency to pytanie o pochodzenie danych, a nie o model.** Trzeba potwierdzić datę snapshotu; wariant bez Recency czeka jako zapas (0,62, nadal 4× lepiej niż losowo).
+- **Usunięcie demografii nie usuwa uprzedzeń,** bo dochód i koszyk działają jak zastępniki, a do tego trudniej wtedy mierzyć uprzedzenia. Lepiej zostawić te cechy, **mierzyć wyniki w grupach** i wprowadzić zasady (np. minimalny dostęp do oferty).
+
+### 8. Kogo kontaktować (Q5): próg rentowności 27,3%
+| Reguła | Kontakt | Wychwyceni responderzy | Zysk test | Na 1 000 klientów | Kiedy ma sens |
+|---|---|---|---|---|---|
+| Wszyscy | 100% | 100% | −547 | −1 385 | nigdy przy tej ekonomii |
+| Reguła kciuka („przyjął wcześniej”) | 22% | 52% | +75 | +190 | brak modelu |
+| Próg 0,5 | 9% | 43% | +167 | +423 | mały budżet / zmęczenie klientów kontaktami |
+| Próg z danych (OOF) 0,26 | 19% | 64% | +182 | +461 | próg czysto empiryczny |
+| **Próg rentowności 27,3%** ✅ | **18%** | **64%** | **+191** | **+484** | **domyślnie** |
+| Stały budżet: top 20% | 20% | 66% | +181 | +458 | budżet ustalony z góry |
+| *Idealna wiedza* | 15% | 100% | +464 | +1 175 | teoretyczny sufit |
+
+**Dlaczego próg rentowności:**
+- Wynika z ekonomii, a nie z dopasowania do danych (11·p > 3), więc nie może się przeuczyć.
+- Jest poprawny, bo model jest skalibrowany: próg z danych (0,26) wychodzi praktycznie taki sam.
+- Dał najwyższy zysk spośród reguł, które da się ustalić z góry.
+- Sam się aktualizuje: próg = koszt / wartość odpowiedzi; przy marży 40% byłoby to 3/4,4 ≈ 68%.
+
+**Inne możliwości:**
+- stały budżet, gdy kwota jest ustalona wcześniej;
+- niższy próg w kampaniach zasięgowych;
+- wyższy, gdy problemem jest zmęczenie klientów kontaktami;
+- docelowo próg „uplift” (kontakt tylko z osobami, które odpowiedzą *dzięki* ofercie).
+
+### 9–10. Liczba segmentów i skalowanie (Q6): k-means, k = 4, log + standaryzacja
+| Wariant | Silhouette | Stabilność (ARI) | Najmniejszy segment | Znaczenie | Ocena |
+|---|---|---|---|---|---|
+| k = 2 | 0,38 (najwyższa) | 0,97 | 47% | tylko „lekcy vs ciężcy kupujący” | za mało do działania |
+| k = 3 | 0,31 | 0,98 | 29% | łączy rodziców nastolatków szukających promocji z zamożnymi rodzinami | ukrywa dwie różne grupy |
+| **k = 4** ✅ | 0,25 | **0,87** | **20%** | 4 persony, każda z inną akcją | **wybrane** |
+| k = 5 | 0,19 | 0,91 | 18% | dzieli niskie wydatki na 41 i 105 MU przy tej samej demografii | brak nowej akcji |
+
+**Dlaczego k = 4:**
+- Dane to raczej kontinuum niż wyraźne „wyspy” (silhouette spada od k = 2), więc k jest częściowo decyzją biznesową w granicach statystyki.
+- k = 4 jest stabilne, a każdy segment ma co najmniej 20% klientów.
+- **Każdy segment wymaga innej akcji.**
+
+**Skalowanie:** log + z-score sprawia, że 10→100 znaczy tyle samo co 100→1000, a kilku dużych klientów nie dominuje odległości.
 
 ---
 
@@ -105,7 +243,7 @@ Pełne rozwiązanie z kodem, wykresami i komentarzem po angielsku jest w `iFood_
 - **Ale przy tym samym dochodzie:**
   - na wino wpływają **małe dzieci** (−38% do −52%), a **nastolatki nie** (od 0 do +19%);
   - na response wpływają **nastolatki** (OR 0,34–0,41), a **małe dzieci nie** (OR ≈ 0,9, nieistotne);
-  - CMH: OR 0,35, p ≈ 3·10⁻¹⁰.
+  - CMH: test związku p ≈ 3·10⁻¹⁰, ale **efekt nie jest jednorodny** (test interakcji p = 0,007). W najniższym kwartylu dochodu wszyscy odpowiadają w ok. 10% (OR 1,08), w pozostałych efekt jest silny (OR 0,22–0,38). Wspólny OR 0,35 to tylko średnia, dlatego raportuję wyniki osobno dla każdego przedziału dochodu.
 - **Znaczenie:** marketing ma rację co do obu tez, ale etykieta „ma dzieci” jest za grubym narzędziem. Rodziny z małymi dziećmi i rodziny z nastolatkami to dwie różne grupy odbiorców. Zastrzeżenie: to dane obserwacyjne. Mniejsza reakcja może oznaczać „mniejszą reakcję na *nasze* oferty”, a to rozstrzygnie dopiero eksperyment z ofertą rodzinną.
 
 **Q4b, Complain:**
@@ -231,6 +369,66 @@ Pełne rozwiązanie z kodem, wykresami i komentarzem po angielsku jest w `iFood_
 ## Q8: Podsumowanie dla CMO (treść w notatniku, 190 słów)
 
 Cztery zdania kluczowe: kampania do wszystkich traci pieniądze (próg 27%, wynik 15%). Wartość jest skoncentrowana (20% klientów → 52% przychodu). Przeszłe zachowanie przewiduje odpowiedź (30–82% vs 8%). **Rekomendacje:** koniec z masową wysyłką i kontakt tylko według modelu (−1 385 → +480 na 1 000 klientów), program VIP dla zamożnych bezdzietnych (22% klientów, 47% przychodu), naprawa danych (co 10. rekord to duplikat).
+
+---
+
+## Dlaczego wolno użyć każdej metody i dlaczego akurat tej
+
+Każda metoda ma założenia, a wynik jest tyle wart, ile one. W notatniku (Dodatek A) **sprawdzam założenia na tych danych kodem**. Tu jest skrót.
+
+**Sprawdzenia (wynik z notatnika):**
+| Założenie | Wynik | Wniosek |
+|---|---|---|
+| Niezależność obserwacji (1 wiersz = 1 klient) | 0 duplikatów po czyszczeniu | ✅ testy, bootstrap i CV są uprawnione |
+| χ²: oczekiwana liczebność ≥ 5 w każdej komórce | dzieci × response: 82; reklamacje × response: **2,8** | ✅ dla dzieci; ❌ dla reklamacji, dlatego tam Fisher |
+| CMH: podobny OR w każdym przedziale dochodu | test interakcji p = 0,007 (OR 1,08 / 0,32 / 0,38 / 0,22) | ❌, więc podaję wyniki per przedział, a nie jeden OR |
+| Regresja logistyczna (Q4): ≥ 10 zdarzeń na parametr | 26–97 | ✅ |
+| Model Q5: ≥ 10 zdarzeń na parametr | **7,3** (233 / 32) | ⚠️ dlatego model jest **regularyzowany** |
+| Współliniowość (VIF) w Q5 | do 24 (wartość koszyka, wino, mięso) | ⚠️ dlatego L2 w elastic net; L1 wyzerował wartość koszyka |
+| Współliniowość kontroli w Q4 | VIF ≤ 1,3 | ✅ |
+| Liniowość log-szans w Q5 | model ze splajnami 0,698 vs liniowy 0,702 | ✅ forma liniowa wystarcza |
+| k-means: zwarte, kuliste klastry | zgodność z GMM (ARI 0,59) i Ward (0,71) | ⚠️/✅ wspólna struktura, granice nieco różne (brak ostrych klastrów) |
+| Kalibracja (potrzebna do progu 27,3%) | Brier 0,080 vs 0,125 dla bazy; przewidziane 0,26 → zaobserwowane 0,29 | ✅ |
+
+**Testy statystyczne: dlaczego wolno i dlaczego te:**
+| Metoda | Założenia | Dlaczego tu można / dlaczego ta |
+|---|---|---|
+| Kruskal-Wallis + η² | niezależne obserwacje, wynik co najmniej porządkowy | wydatki są skośne (ANOVA zakłada normalność); η², bo przy 2 000 osób „istotne” jest prawie wszystko |
+| Mann-Whitney + delta Cliffa | niezależne grupy; przy różnych kształtach rozkładów testuje P(X > Y), a nie samą medianę | dlatego wynik podaję jako „72% szans, że bezdzietny wydaje więcej”; nie wymaga normalności |
+| Welch t | średnie z prób w przybliżeniu normalne (CTG przy n = 560 / 1 434), różne wariancje dozwolone | biznes liczy średnie (przychód); Welch, bo wariancje są różne |
+| Bootstrap | obserwacje niezależne i z tego samego rozkładu | daje CI dla mediany, AP i zysku, które nie mają prostego wzoru |
+| χ² / test z dla proporcji | liczebność oczekiwana ≥ 5 | spełnione dla dzieci |
+| Fisher dokładny | brak wymagań co do liczebności | użyty tam, gdzie χ² nie działa (reklamacje) |
+| Wilson / Newcombe | dane dwumianowe | klasyczny przedział Walda zawodzi przy małym n |
+| OLS + błędy HC1 | liniowość parametrów, brak idealnej współliniowości; HC1 znosi wymóg stałej wariancji; normalność błędów niepotrzebna przy n ≈ 2 000 | log1p dla skośnych wydatków; ten sam wniosek przy elastycznej kontroli dochodu (decyle) |
+| Logistyczna (inferencja) | niezależność, liniowe log-szanse, ≥ 10 zdarzeń na parametr | naturalny model dla 0/1; daje skorygowane OR |
+| Holm | brak (działa przy dowolnej zależności testów) | ta sama ochrona co Bonferroni, a nigdy mniejsza moc |
+| Moc: przybliżenie + symulacja | przybliżenie wymaga dużych liczebności | przy 2,8 oczekiwanych zdarzeniach przybliżenie kłamie (93%), symulacja dokładna pokazuje 0% |
+| Bayes Beta-dwumianowy | dane dwumianowe, płaski prior | daje zdania typu „34% szans, że reklamujący odpowiadają rzadziej” |
+
+**Modele ML: dlaczego wolno:**
+| Model | Wymagania / założenia | Stan na tych danych |
+|---|---|---|
+| Regresja logistyczna | liniowe log-szanse, niezależność, dość zdarzeń na parametr, umiarkowana współliniowość | liniowość ✅ (splajny nic nie dają); mało zdarzeń i wysoki VIF ⚠️ obsłużone regularizacją ✅; kalibracja ✅ |
+| Random forest | brak założeń rozkładowych; niezależne wiersze; prawdopodobieństwa nieskalibrowane | ✅ dozwolony; w praktyce przeucza się (233 pozytywy) i ma gorszą kalibrację |
+| Gradient boosting | jak wyżej; wymaga regularizacji przy małych danych | ✅ dostroiłem learning rate, wielkość liścia i L2 |
+| Stratyfikowana CV / nested CV | wiersze wymienne (brak porządku czasowego) | ✅ dla tego snapshotu. ⚠️ W produkcji kampanie są sekwencyjne, więc walidacja czasowa (ucz na przeszłych, testuj na następnej) |
+| Grupowa permutation importance | skorelowane cechy zaniżają ważność pojedynczych kolumn | ✅ tasuję całe grupy naraz |
+
+**Klastrowanie: dlaczego wolno:**
+| Metoda | Założenia | Stan |
+|---|---|---|
+| k-means | sensowna odległość euklidesowa (cechy w tej samej skali), zwarte i podobnie rozłożone klastry, wrażliwość na outliery | ✅ log + z-score i usunięte niemożliwe rekordy; zgodność z GMM i Ward |
+| GMM, Ward | (sprawdzenie) | rozluźniają założenia k-means, więc struktura nie jest artefaktem jednej metody |
+| PCA | liniowość | tylko do wykresu (72% wariancji w 2 składowych); klastry liczone w pełnej przestrzeni 11 cech |
+
+**Zasady, które stoją za wszystkimi wyborami:**
+1. Najpierw dane, potem metoda (skośność → rangi, log, bootstrap; małe liczebności → testy dokładne).
+2. Wielkość efektu i przedział ufności, a nie tylko p-value.
+3. Najprostsza metoda, która nie jest gorsza (1-SE, LR zamiast boostingu, k = 4 zamiast 5).
+4. Uczciwa walidacja (test użyty raz, nested CV, progi wybierane tylko na treningu).
+5. Zrozumiałość dla biznesu.
+6. Gdy założenie nie jest spełnione, mówię to wprost i dostosowuję metodę.
 
 ---
 
