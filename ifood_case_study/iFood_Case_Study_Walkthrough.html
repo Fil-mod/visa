@@ -7806,7 +7806,7 @@ a.anchor-link {
 </head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f950b2bf">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3b8b9b6b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7818,7 +7818,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=96a3f7a0">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6a080bb4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7921,18 +7921,26 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f0f9d77d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c2c81b4d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Loaded the data and set up the environment. I used only the libraries allowed in the brief (pandas, numpy, matplotlib/seaborn, scipy, scikit-learn), plus Python's built-in <code>sqlite3</code> for the SQL question. The random seed is fixed at 42, so every number is reproducible, and all charts share one colour-blind-safe style.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>Imports.</strong> Only the libraries allowed in the brief – <code>pandas</code>, <code>numpy</code>, <code>matplotlib</code>, <code>seaborn</code>, <code>scipy</code>, <code>scikit-learn</code> – plus <code>sqlite3</code>, which ships with Python and is needed to actually run the SQL in Q7. I deliberately did <strong>not</strong> use <code>statsmodels</code>, because it is not on the list; where I needed its functionality, I wrote small helpers myself (Q4).</li>
+<li><strong><code>RANDOM_STATE = 42</code>.</strong> One fixed seed, passed to every function that involves randomness: the train/test split, cross-validation folds, bootstraps, models and k-means. Re-running the notebook therefore reproduces every number exactly – a reviewer can check my results.</li>
+<li><strong><code>plt.rcParams.update({...})</code> with one fixed palette.</strong> All charts share one style, set once at the top. The colours were checked for colour-blind readability and are always used in the same order, so the same colour means the same thing everywhere.</li>
+<li><strong><code>df = pd.read_csv('ifood_df.csv')</code> → <code>df.shape</code> = (2205, 39).</strong> The file loads with 2,205 rows and 39 columns.</li>
+<li><strong>Column groups as lists</strong> (<code>MNT_COLS</code> for the 6 spend columns, <code>CHANNEL_COLS</code>, <code>PURCHASE_COLS</code>, <code>CMP_COLS</code>, <code>MARITAL_COLS</code>, <code>EDU_COLS</code>). Each definition exists once and is reused everywhere, so "spend columns" always means exactly the same 6 columns – no copy-paste errors between sections.</li>
+<li><strong>Printed the library versions</strong> (pandas 3.0, scikit-learn 1.9), so anyone can reproduce the environment.</li>
+</ol>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=242aed91">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b597d9c2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7944,7 +7952,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ce9f8656">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3b50d157">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7955,7 +7963,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=97e783f3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3b4ae9f2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8394,24 +8402,30 @@ Income is stored as float but every value is a whole number: True
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=58c4fbac">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=58f7a0d5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Checked the size, the data types, missing values and the number of distinct values per column.</p>
-<p><strong>Result.</strong> 2,205 rows × 39 columns and no missing values. Three things stood out immediately:</p>
-<ul>
-<li><code>Income</code> is stored as a decimal although every value is a whole number. That usually means the column once had missing values, so customers without an income were probably removed before we received the file – worth confirming with the data owner.</li>
-<li><code>Z_CostContact</code> and <code>Z_Revenue</code> have a single value each.</li>
-<li><code>MntRegularProds</code> has a negative minimum, which is impossible for an amount spent.</li>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>df.shape</code></strong> → 2,205 rows, 39 columns.</li>
+<li><strong><code>df.isna().sum().sum()</code>.</strong> <code>isna()</code> marks every missing cell, the first <code>sum()</code> counts per column, the second adds the columns up. That gives one number for the whole file: <strong>0 missing values</strong>.</li>
+<li><strong><code>df.dtypes.value_counts()</code></strong> → 38 integer columns and 1 float column (<code>Income</code>).</li>
+<li><strong><code>(df['Income'] % 1 == 0).all()</code>.</strong> The remainder of division by 1 is 0 only for whole numbers, so this asks whether the float column actually contains only whole numbers. Answer: <strong>True</strong>. That matters, because pandas stores an integer column as float when it once contained missing values. So customers without an income were most likely <strong>removed before we received the file</strong>, not filled in – a silent selection step I would confirm with the data owner.</li>
+<li><strong>One overview table, one row per column,</strong> built from <code>df.isna().sum()</code>, <code>df.nunique()</code> (number of distinct values), <code>df.min()</code>, <code>df.median()</code> and <code>df.max()</code>. <strong>Why this layout:</strong> every column's problems are visible on one screen.<ul>
+<li><code>n_unique = 1</code> exposes a <strong>constant</strong> column → <code>Z_CostContact</code> and <code>Z_Revenue</code>.</li>
+<li>A <strong>negative minimum</strong> in a spend column is impossible → <code>MntRegularProds</code>, minimum −283.</li>
 </ul>
+</li>
+</ol>
+<p><strong>Result.</strong> No missing values, but three leads for the next steps: income rows were probably dropped upstream, there are two constant columns, and one spend column has impossible negative values.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e4b1cc74">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b3e9fdcf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8672,36 +8686,49 @@ Distinct records matching another record on everything except one attribute: {'m
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9e1aed06">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a5607d7e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Looked for exact duplicates, then for <em>near</em>-duplicates: rows identical on everything except one attribute, including the target.</p>
-<p><strong>Result.</strong></p>
-<ul>
-<li><strong>184 exact duplicate rows</strong> (8% of the file).</li>
-<li><strong>19 pairs identical on all 38 columns except <code>Response</code>:</strong> the same customer recorded once as accepting the campaign and once as not.</li>
-<li><strong>2 pairs</strong> that differ only in marital status.</li>
-</ul>
-<p>These are copies, not lookalikes: among genuinely different customers only one pair even shares the same income and enrolment day, and that pair differs in 18 other columns.</p>
-<p><strong>Decisions.</strong></p>
-<ul>
-<li><strong>Exact duplicates → removed.</strong> They inflate the sample, which makes tests over-confident. In modelling, copies that land in both the training and the test set leak information.</li>
-<li><strong>The 19 contradicting pairs → one row per customer, label set to <em>unknown</em>.</strong><ul>
-<li>The alternatives were: drop the customer (loses valid spend data), assume they accepted (no evidence, and it would push the response rate up to ~15.5%), or keep both copies (the same person with opposite labels, possibly in both train and test).</li>
-<li>Nothing in the file says which copy is true, so "unknown" is the honest choice. These customers stay in the descriptive analysis and are skipped in everything that uses <code>Response</code>.</li>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>df.duplicated().sum()</code> → 184.</strong> <code>duplicated()</code> marks every row that is an exact copy of an earlier row (all 39 columns equal). 184 rows = <strong>8.3% of the file</strong>.</li>
+<li><strong>How many copies each record has:</strong> <code>df[df.duplicated(keep=False)].groupby(list(df.columns)).size().value_counts()</code>. <code>keep=False</code> marks <em>all</em> copies, including the first one; grouping by every column and counting rows per group gives the number of copies → 172 records appear twice and 6 appear three times.</li>
+<li><strong><code>df.duplicated(subset=FEATURES_NO_TARGET)</code> → 203.</strong> The same check on the 38 columns <em>without</em> <code>Response</code>. 203 − 184 = <strong>19 extra rows</strong> that are identical on everything except the target, i.e. the same customer recorded once as accepting the campaign and once as not.</li>
+<li><strong>Near-duplicate scan.</strong> A loop that removes one attribute at a time from the <code>subset</code> and counts duplicates again. The one-hot groups (all <code>marital_*</code> columns, all <code>education_*</code> columns) are treated as a single attribute. <strong>Why:</strong> this shows <em>which</em> attribute differs between two otherwise identical records. It found <strong>2 pairs that differ only in marital status</strong>.</li>
+<li><strong>Proof that these are copies, not lookalikes.</strong> <code>distinct.duplicated(subset=['Income', 'Customer_Days'], keep=False)</code> asks how often genuinely different customers share even two values – income to the unit and enrolment day. Only one pair does, and it differs in 18 other columns. Two different people matching on 36–38 columns is practically impossible, so these are copies of the same customer.</li>
+<li><strong>Finding the conflicting customers:</strong> <code>groupby(FEATURES_NO_TARGET)['Response'].transform('nunique').gt(1)</code>.<ul>
+<li><code>groupby</code> collects identical customer profiles;</li>
+<li><code>nunique</code> counts how many different <code>Response</code> values each profile has;</li>
+<li><code>transform</code> writes that number back onto <strong>every row</strong> (not one row per group), so I can filter the original rows directly;</li>
+<li><code>.gt(1)</code> marks profiles with both 0 and 1 → <strong>38 rows = 19 customers</strong>.</li>
 </ul>
 </li>
-<li><strong>The 2 marital-status pairs → one record each.</strong></li>
+<li><strong>Cleaning, in this order:</strong><ul>
+<li><code>cust = df.drop_duplicates()</code> removes the exact copies;</li>
+<li><code>drop_duplicates(subset=FEATURES_NO_TARGET, keep='first')</code> keeps one row per conflicting customer;</li>
+<li><code>cust['Response'].astype(float).where(~ResponseConflict)</code> sets their label to <strong>NaN (unknown)</strong>;</li>
+<li><code>drop_duplicates(subset=NO_MARITAL)</code> merges the 2 marital-status pairs, and their label is also set to unknown if the copies disagreed (1 case).</li>
 </ul>
-<p><strong>Effect.</strong> The response rate drops from 15.1% to 14.7%.</p>
+</li>
+<li><strong><code>cleaning_log</code>.</strong> After every step I append the step name and the row count, which gives an audit trail of exactly where each row went.</li>
+</ol>
+<p><strong>Decision on the 19 contradicting pairs: one row per customer, label = unknown.</strong> I considered four options:</p>
+<ul>
+<li><strong>Drop the customer entirely</strong> – throws away valid spend and demographic data for no gain.</li>
+<li><strong>Assume they accepted</strong> – there is no evidence for it, and it would push the response rate up to ~15.5%.</li>
+<li><strong>Keep both copies</strong> – the same person with opposite labels, possibly ending up in both train and test.</li>
+<li><strong>Label = unknown</strong> ✅ – the honest choice, because nothing in the file says which copy is true. <strong>Why NaN works technically:</strong> <code>mean()</code> skips NaN, and the model only uses rows where <code>Response.notna()</code>, so these customers drop out of anything that uses the label automatically, while their spend still counts in the EDA and the segmentation.</li>
+</ul>
+<p><strong>Why exact duplicates must go:</strong> they inflate the sample size (tests become over-confident), and a copy that lands in both the training and the test set lets the model "see" the answer.</p>
+<p><strong>Result.</strong> Response rate <strong>15.10% → 14.69%</strong> after de-duplication.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8a8b5ef1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8e4f36bd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8841,31 +8868,38 @@ std                0.0        0.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a85ab21b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=de4a9baf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Investigated the two constant columns.</p>
-<p><strong>Result.</strong> <code>Z_CostContact</code> = 3 and <code>Z_Revenue</code> = 11 for every customer. They reproduce the public iFood case brief exactly: 2,240 customers × 3 = 6,720 campaign cost, and 334 acceptances × 11 = 3,674 revenue. So they are the campaign's unit economics: <strong>3 to contact a customer, 11 earned per acceptance</strong>.</p>
-<p><strong>Decision.</strong> I dropped them as columns, because a constant carries no information, but kept them as business constants. They give the most important number in the case:</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>df[['Z_CostContact', 'Z_Revenue']].agg(['nunique', 'min', 'max', 'std'])</code>.</strong> One distinct value each, min = max, standard deviation 0 → both are constant: <strong>3</strong> and <strong>11</strong>.</li>
+<li><strong>Compared with the public iFood case brief:</strong> 2,240 customers × 3 = 6,720 campaign cost, and 334 acceptances × 11 = 3,674 revenue. Both match exactly, so the columns are the campaign's unit economics: <strong>3 to contact one customer, 11 earned per acceptance</strong>.</li>
+<li><strong>Stored them as constants:</strong> <code>COST_PER_CONTACT = 3</code>, <code>REVENUE_PER_RESPONSE = 11</code>, <code>BREAK_EVEN_RATE = 3 / 11 = 0.273</code>. <strong>Why constants and not columns:</strong> they are campaign parameters, not customer attributes. As constants they feed every profit calculation later (Q5 thresholds, Q6 segment economics) from one place.</li>
+<li><strong><code>campaign_pnl(n_contacted, n_responders)</code>.</strong> A small function returning cost (n × 3), revenue (responders × 11), profit and ROI. I ran it for the public brief, for the file as delivered, and for the de-duplicated file, so the three can be compared side by side.</li>
+<li><strong><code>cust.drop(columns=['Z_CostContact', 'Z_Revenue'])</code>.</strong> Removed from the analytical table: a column with zero variance carries zero information for any analysis or model.</li>
+</ol>
+<p><strong>Decision.</strong> Drop them as columns, keep them as business constants.</p>
+<p><strong>Result.</strong></p>
 <ul>
-<li><strong>break-even response rate = 3 / 11 = 27.3%</strong>;</li>
-<li>the campaign converted ~15%, so it <strong>lost about 45% of its cost</strong>.</li>
+<li><strong>Break-even response rate = 27.3%.</strong></li>
+<li>The campaign converted ~15%, so it <strong>lost ~45% of its cost</strong> (ROI −45%; −2,952 on the delivered file).</li>
+<li>Caveat: 11 is revenue, not margin, so with margin data the break-even would be higher.</li>
 </ul>
-<p>I use this threshold in the model (Q5) and in the segmentation (Q6). One caveat: 11 is revenue, not margin, so with margin data the break-even would be higher.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6fdb0cb0">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cc1ecbe7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_section" data-mime-type="text/markdown">
-<h3 id="Q1-%E2%80%94-Checking-the-pre-computed-columns">Q1 — Checking the pre-computed columns<a class="anchor-link" href="#Q1-%E2%80%94-Checking-the-pre-computed-columns">¶</a></h3>
+<h3 id="Q1-%E2%80%94-Checking-the-pre-computed-columns-against-the-data-dictionary">Q1 — Checking the pre-computed columns against the data dictionary<a class="anchor-link" href="#Q1-%E2%80%94-Checking-the-pre-computed-columns-against-the-data-dictionary">¶</a></h3>
 </div>
 </div>
 </div>
@@ -9006,25 +9040,37 @@ std                0.0        0.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=db2e69a8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6a878cee">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Recomputed every pre-computed column from its components and compared the result with the data dictionary.</p>
-<p><strong>Result.</strong> The dictionary is wrong in three places:</p>
+<p><strong>What I did – step by step</strong></p>
 <ol>
-<li><code>MntTotal</code> <strong>excludes gold</strong>, so revenue is understated by 7.8%.</li>
-<li><code>MntRegularProds</code> subtracts gold a second time, which produces 3 negative values.</li>
-<li><code>AcceptedCmpOverall</code> covers only the 5 earlier campaigns, not the latest one.</li>
+<li><strong><code>sum6 = df[MNT_COLS].sum(axis=1)</code>.</strong> <code>axis=1</code> sums across columns, giving each customer's total over the 6 categories.</li>
+<li><strong>Each documented definition tested as a share of rows:</strong> <code>(df['MntTotal'] == sum6).mean()</code>. A comparison gives True/False per row, and <code>.mean()</code> of True/False is the share that is True. <strong>Why this form:</strong> one number per hypothesis – 100% proves a rule, anything less shows how often it breaks.<ul>
+<li><code>MntTotal</code> = all 6 categories (documented) → <strong>2.8%</strong> of rows only.</li>
+<li><code>MntTotal</code> = 6 categories <strong>minus gold</strong> → <strong>100%</strong>. So <code>MntTotal</code> excludes gold.</li>
+<li><code>MntRegularProds</code> = <code>MntTotal</code> − gold → 100%. Gold is therefore subtracted <strong>twice</strong>, which produces 3 negative values (minimum −283).</li>
+<li><code>AcceptedCmpOverall</code> = Cmp1–5 <strong>+ Response</strong> (documented) → 84.9%; = Cmp1–5 only → <strong>100%</strong>. So it does <strong>not</strong> contain the latest campaign.</li>
+<li><code>df[MARITAL_COLS].sum(axis=1) == 1</code> → 100%: every customer has exactly one marital flag, and the same holds for education.</li>
+</ul>
+</li>
+<li><strong>Fix:</strong> recomputed all three columns from their components – <code>cust[MNT_COLS].sum(axis=1)</code>, <code>MntTotal - MntGoldProds</code>, <code>cust[CMP_COLS].sum(axis=1)</code>.</li>
+<li><strong><code>assert</code> checks after the fix</strong>, e.g. <code>(cust['MntRegularProds'] &gt;= 0).all()</code>. If the fix were ever wrong, the notebook would stop with an error instead of silently continuing.</li>
 </ol>
-<p><strong>Decision.</strong> Recompute all three from their parts, and never trust pre-computed totals. The third point matters for Q5: as delivered, the column does not leak the target – but "fixing" it to match the documentation would create exactly that leak.</p>
+<p><strong>Decision.</strong> Never trust pre-computed totals – always rebuild them from their components.</p>
+<p><strong>Result.</strong></p>
+<ul>
+<li>Average spend <strong>564 → 607 (+7.8%)</strong> once gold is included: every revenue figure built on the delivered column was understated.</li>
+<li><code>AcceptedCmpOverall</code> does not leak the target as delivered. But "fixing" it to match the documentation would create a leak, which is why I rebuild it explicitly from the 5 earlier campaigns.</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=86535a7c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=74abd47f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9245,24 +9291,42 @@ Chi-square goodness-of-fit vs. a flat (uniform) distribution: chi2 = 3.0, p = 0.
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5f9e25ee">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c672f914">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Checked ranges, outliers (Tukey fences), repeated values, and the date each variable is measured against.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>describe(percentiles=[.01, .05, .25, .5, .75, .95, .99])</code>.</strong> Besides min and max, this shows the 1st/5th/95th/99th percentiles. <strong>Why:</strong> it tells whether an extreme value is a single isolated point or a whole tail.</li>
+<li><strong>Histograms with the median and Tukey fences</strong> (Q1 − 1.5·IQR and Q3 + 1.5·IQR, from <code>quantile([.25, .75])</code>). <strong>Why Tukey and not mean ± 3 SD:</strong> quartiles are not pulled by the outliers themselves, and Tukey assumes no normal distribution.</li>
+<li><strong>Which date are Age and tenure measured against?</strong><ul>
+<li><code>Customer_Days.max() - Customer_Days.min()</code> = <strong>699 days</strong> – exactly the enrolment window of the public source data (30-Jul-2012 to 29-Jun-2014).</li>
+<li><code>pd.Timestamp('2014-06-29') + pd.Timedelta(days=min)</code> gives the date the days were counted to: <strong>27-May-2020</strong>. The same calculation from the oldest customer gives the same date, which confirms it.</li>
+<li>Age 24–80 implies birth years 1940–1996 if age is also measured in 2020, which fits.</li>
+</ul>
+</li>
+<li><strong>Income:</strong><ul>
+<li>the Tukey fences [−13,965, 117,699] contain every value → no classic outliers;</li>
+<li><code>(Income &lt; 10_000).sum()</code> → 29 customers with an implausibly low yearly income;</li>
+<li><code>Income.value_counts().head(4)</code> → <strong>7,500 appears 12 times</strong>, while the next most common value appears 3 times. A value repeated that often is a placeholder;</li>
+<li><code>MntTotal / (2 * Income)</code>: spend covers 2 years while income is yearly, so I doubled income to put both on the same period. Median 0.4%, 99th percentile 1.4%, maximum <strong>35%</strong> – one customer is wildly off.</li>
+</ul>
+</li>
+<li><strong>Recency:</strong> <code>np.histogram(Recency, bins=10, range=(0, 100))</code> counts customers per 10-day bin (211, 202, 205 … all about 200), and <strong><code>stats.chisquare(counts)</code></strong> tests whether the counts could come from a perfectly flat distribution: <strong>p = 0.97</strong>, i.e. indistinguishable from flat. Real recency is skewed (many recent buyers, a long tail of lapsed ones), so this extract was capped at 99 days or filtered.</li>
+</ol>
 <p><strong>Result.</strong></p>
 <ul>
-<li><strong>Age (24–80)</strong> looks plausible. But <code>Customer_Days</code> spans exactly the 699-day enrolment window of the source data (2012–2014), which means the days were counted to <strong>May 2020</strong>, and age fits the same 2020 anchor. So ages and tenure are about <strong>6 years too high</strong>. Comparisons between customers are fine; absolute figures are not.</li>
-<li><strong>Income:</strong> no outliers by Tukey's rule, but <strong>12 customers have exactly 7,500</strong> (a placeholder value) and 23 earn under 10,000 a year.</li>
-<li><strong>Recency</strong> is perfectly flat from 0 to 99 days (χ² p = 0.97). Real recency is skewed, so this extract was capped or filtered, and we don't know whether recency was measured before or after the campaign.</li>
+<li>Ages and tenure are <strong>about 6 years too high</strong>. Comparisons are fine; absolute figures are not.</li>
+<li>Income contains a placeholder (7,500) and implausibly low values.</li>
+<li>Recency is artificial, and we don't know whether it was measured before or after the campaign – a potential leak for Q5.</li>
 </ul>
 <p><strong>Decision on the suspicious incomes: keep them and document them.</strong></p>
 <ul>
-<li>Imputing them would invent data.</li>
-<li>Removing them would also remove genuinely low-income customers and bias the base towards affluent customers.</li>
-<li>The values are possible, just suspicious, and in Q3c I checked that the conclusions don't change without them.</li>
+<li><strong>Impute</strong> – rejected: it invents data and creates a new spike at the imputed value.</li>
+<li><strong>Remove</strong> – rejected: it would also remove genuinely low-income customers and bias the base upwards.</li>
+<li><strong>Keep</strong> ✅ – the values are possible, just suspicious, and in Q3c I re-run the income analysis without them to prove the conclusions don't change.</li>
 </ul>
 </div>
 </div>
@@ -9455,25 +9519,33 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=93030380">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0a8f0215">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Applied three hard business rules: no spend without purchases, no more discounted purchases than purchases in total, and no spend above 25% of income.</p>
-<p><strong>Decision: remove the 6 records that break them</strong>, rather than flagging or "repairing" them.</p>
-<ul>
-<li>At least one field in each of them must be wrong.</li>
-<li>They share a corrupted, bot-like pattern: incomes under 10k and many web visits.</li>
-<li>They are only 0.3% of customers, all non-responders, so removing them barely moves anything.</li>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>Three hard business rules as boolean columns in one DataFrame:</strong><ul>
+<li><strong>R1:</strong> <code>(MntTotal &gt; 0) &amp; (channel purchases == 0)</code> – money spent without a single purchase;</li>
+<li><strong>R2:</strong> <code>NumDealsPurchases &gt; channel purchases</code> – more discounted purchases than purchases in total;</li>
+<li><strong>R3:</strong> <code>MntTotal / (2 * Income) &gt; 0.25</code> – more than a quarter of income spent on food over two years.</li>
 </ul>
-<p><strong>Result.</strong> 2,205 rows → <strong>1,994 unique customers</strong>, of whom 1,975 have a trustworthy label and 291 responded (<strong>14.7%</strong>). Every cleaning step is logged with its row count.</p>
+</li>
+<li><strong><code>rules.sum()</code></strong> → R1: 4, R2: 3, R3: 1. <strong><code>rules.any(axis=1)</code></strong> marks a record that breaks at least one rule → <strong>6 records</strong>.</li>
+<li><strong>Printed those 6 records and looked at them:</strong> all have an income under 10k, and most have 14–20 web visits a month or exactly 15 deal purchases – a corrupted, bot-like pattern.</li>
+<li><strong><code>cust = cust.loc[~bad]</code></strong> (<code>~</code> = NOT) keeps everything else.</li>
+<li><strong>The cleaning log as a table</strong>, with a <code>rows_removed</code> column from <code>.diff()</code>.</li>
+</ol>
+<p><strong>Why rules and not an automatic outlier detector:</strong> a rule states <em>why</em> a record is impossible, so every removal is explainable and was defined before looking at any outcome. An automatic detector would also remove extreme-but-real customers.</p>
+<p><strong>Decision: remove the 6 records</strong> rather than flag or "repair" them. At least one field in each must be wrong, we can't know which, and they are 0.3% of customers, all non-responders.</p>
+<p><strong>Result.</strong> 2,205 rows → <strong>1,994 unique customers</strong>, of whom <strong>1,975 have a trustworthy label</strong> and <strong>291 responded (14.73%)</strong>.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=55dd48eb">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=20468e72">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9484,7 +9556,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7f6bef7d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f0d8d925">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9502,7 +9574,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b58f9d74">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=44ccc393">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9514,7 +9586,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=021edc69">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=725463ca">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9782,26 +9854,55 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4b8b8704">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4baf9962">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Built the requested fields and validated each one.</p>
-<p><strong>Decisions.</strong></p>
-<ul>
-<li><strong><code>TotalPurchases</code>:</strong> built as specified, plus a channel-only version. A discounted purchase is still made on the web, by catalogue or in store, so the specified sum counts it twice. The difference matters: the median basket is <strong>23.7 as specified vs 29.9</strong> without the double counting.</li>
-<li><strong><code>AvgSpendPerPurchase</code>:</strong> customers with zero purchases get "undefined" – not 0, which would look like a cheap customer, and not infinity.</li>
-<li><strong><code>TenureYears</code>:</strong> measured relative to the newest customer (0–1.9 years), because the delivered days are anchored to 2020 and would show 6–8 years.</li>
-<li><strong><code>Education</code> and <code>Marital_Status</code>:</strong> collapsed from the dummies, and checked that they convert back to the original columns exactly.</li>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>TotalChildren = Kidhome + Teenhome</code></strong>, plus <strong><code>HasChildren = (TotalChildren &gt; 0).astype(int)</code></strong>. The 0/1 flag is what the Q4 tests compare (households with vs without children).</li>
+<li><strong><code>TotalPurchases = cust[PURCHASE_COLS].sum(axis=1)</code></strong> – deals + web + catalogue + store, exactly as the task specifies.</li>
+<li><strong><code>ChannelPurchases = cust[CHANNEL_COLS].sum(axis=1)</code></strong> – web + catalogue + store only. <strong>Why add it:</strong> a discounted purchase is still made through one of the three channels, so <code>NumDealsPurchases</code> is a subset of them. Adding it again counts those purchases twice.</li>
+<li><strong><code>AvgSpendPerPurchase = MntTotal / TotalPurchases.replace(0, np.nan)</code>.</strong><ul>
+<li><code>.replace(0, np.nan)</code> turns zero purchases into "unknown" <em>before</em> dividing, so the result is NaN ("undefined").</li>
+<li>Without it, 0 purchases would produce infinity. Filling with 0 instead would make the customer look cheap, which is false.</li>
+<li>It uses the <strong>corrected</strong> <code>MntTotal</code>, including gold. I also built <code>AvgSpendPerOrder</code> on the channel-only count.</li>
 </ul>
-<p><strong>Note.</strong> Some groups are small – Basic education has 49 customers and Widow 69 – so their numbers come with wide confidence intervals later on.</p>
+</li>
+<li><strong>Tenure:</strong> <code>(Customer_Days - Customer_Days.min()) / 365.25</code>.<ul>
+<li>Subtracting the minimum makes the newest customer tenure 0, which removes the 2020 anchor found in Q1d; 365.25 accounts for leap years.</li>
+<li>I also kept <code>Customer_Days / 365.25</code> as delivered, and reconstructed the enrolment date with <code>pd.Timestamp('2020-05-27') - pd.to_timedelta(Customer_Days, unit='D')</code>.</li>
+</ul>
+</li>
+<li><strong>Collapsing the dummies:</strong> <code>cust[EDU_COLS].idxmax(axis=1)</code> returns, for each row, the <strong>name of the column that holds the 1</strong> (e.g. <code>education_PhD</code>).<ul>
+<li><code>.str.replace('education_', '')</code> leaves just <code>PhD</code>.</li>
+<li><code>pd.Categorical(..., categories=[...], ordered=True)</code> fixes the order Basic → 2n Cycle → Graduation → Master → PhD, so tables and charts are sorted logically.</li>
+<li>The same for marital status.</li>
+</ul>
+</li>
+<li><strong>Validation with <code>assert</code></strong> – the notebook stops if any check fails:<ul>
+<li><code>TotalChildren</code> is between 0 and 4;</li>
+<li>no missing categories;</li>
+<li><strong>round-trip:</strong> <code>pd.get_dummies(cust['Education'])</code> must reproduce the original <code>education_*</code> columns exactly – proof that the collapse lost nothing;</li>
+<li>the enrolment dates fall exactly in 30-Jul-2012 to 29-Jun-2014, which also confirms the 2020 anchor from Q1d.</li>
+</ul>
+</li>
+<li><strong>Extra helper columns used later:</strong> <code>InCouple</code>, <code>PrevAcceptedGroup</code> (0 / 1 / 2 / 3+ earlier acceptances), <code>AgeBand</code>, <code>IncomeQuartile</code> (<code>pd.qcut</code>), spend shares, and <code>DealShare</code>.</li>
+</ol>
+<p><strong>Results and what they mean.</strong></p>
+<ul>
+<li>Median <code>TotalPurchases</code> is 15 vs 12 for <code>ChannelPurchases</code>, so the specified average basket (<strong>median 23.7</strong>) understates the real one (<strong>median 29.9</strong>) by ~20%. That matters for the $30 free-delivery design in Q4c, because the threshold sits right at the median basket.</li>
+<li>2 zero-purchase customers existed in the raw file; both were among the impossible records removed in Q1, but the NaN rule stays in place for new data.</li>
+<li>Tenure is 0–1.9 years (median ~1 year) instead of the misleading 5.9–7.8 years as delivered.</li>
+<li>Small groups – <strong>Basic education 49 customers, Widow 69</strong> – will have wide confidence intervals later. "2n Cycle" is the Bologna second cycle (≈ Master level), so its place in the order is ambiguous; I kept it as a separate category rather than guess.</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4fb5c1b1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b7d2b563">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9813,7 +9914,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6def3e59">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=47aa1b8e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9824,7 +9925,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1ed67d0f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b975e620">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9963,20 +10064,40 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e4f31c94">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ecf93526">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Plotted histograms with the mean and the median, measured skewness, and tested whether spend comes from two populations (a one- vs two-component mixture, compared by BIC).</p>
-<p><strong>Result.</strong> Income and age are symmetric. Spend is strongly skewed – <strong>mean 608 vs median 398</strong> – and on a log scale it is clearly <strong>bimodal</strong>: about 42% light buyers (~60) and 58% heavy buyers (~850).</p>
-<p><strong>Why it matters.</strong> "The average customer" doesn't exist. That is why I report medians and segments, and use log-spend in the models.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><p><strong>One table of shape statistics</strong> for Income, Age, total spend and <code>log10(spend)</code>:</p>
+<ul>
+<li><code>mean()</code> and <code>median()</code>;</li>
+<li><code>skew()</code> – 0 means symmetric, positive means a long right tail;</li>
+<li><code>kurt()</code> – heaviness of the tails;</li>
+<li>the share of customers below the mean, <code>(dist &lt; dist.mean()).mean()</code>.</li>
+</ul>
+<p><strong>Why the last one:</strong> if far more than 50% of customers are below the mean, the mean is pulled up by a minority.</p>
+</li>
+<li><p><strong>Four histograms</strong> with a mean line (orange) and a median line (grey), including spend on a log scale. <strong>Why log:</strong> spend is money – multiplicative – and a log scale shows its real shape.</p>
+</li>
+<li><p><strong>Bimodality test.</strong> <code>GaussianMixture(k).fit(log-spend)</code> for k = 1 and k = 2, compared with <code>.bic()</code>. <strong>Why BIC:</strong> it rewards fit but penalises extra parameters, so a second component wins only if it genuinely describes the data better. <code>n_init=5</code> restarts the fit 5 times to avoid a poor local solution.</p>
+</li>
+</ol>
+<p><strong>Result.</strong></p>
+<ul>
+<li>Income (skew 0.02) and age (0.09) are symmetric; mean ≈ median.</li>
+<li>Spend: <strong>mean 608 vs median 398</strong>, skew 0.86, and <strong>59% of customers are below the mean</strong>.</li>
+<li>On the log scale, BIC is <strong>3,213 for two components vs 3,896 for one</strong> – a huge difference – with centres at <strong>~61 (42% of customers)</strong> and <strong>~845 (58%)</strong>: two populations, light and heavy buyers.</li>
+</ul>
+<p><strong>Why it matters.</strong> "The average customer" does not exist. I report medians and segments, and use log-spend in the models.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a83c0c36">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a26ebbbf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10820,31 +10941,55 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=149e6070">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c0ab521b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Compared spend by education, marital status and number of children:</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><p><strong><code>segment_table(col)</code></strong>, a function that runs <code>cust.groupby(col)</code> and returns, per group:</p>
 <ul>
-<li>means with bootstrap confidence intervals;</li>
-<li>each group's share of revenue vs its share of customers;</li>
-<li>a Kruskal-Wallis test with an effect size (η²) to rank the three segmentations.</li>
+<li>number of customers;</li>
+<li>mean and median spend;</li>
+<li>mean income;</li>
+<li>share of customers;</li>
+<li>share of revenue (<code>group spend sum / total spend sum</code>);</li>
+<li>a <strong>revenue index = 100 × revenue share / customer share</strong>.</li>
 </ul>
-<p><strong>Decision.</strong> A rank-based test, because spend is skewed and ANOVA assumes normality; and an effect size, because with 2,000 customers almost every difference is "statistically significant".</p>
+<p><strong>Why the index:</strong> 100 means the group brings in revenue in proportion to its size; 185 means 1.85× its share. That is the number Marketing actually acts on. I ran it for education, marital status and number of children.</p>
+</li>
+<li><p><strong>Which segmentation separates spenders most:</strong> <code>stats.kruskal(*groups)</code> for each segmentation, with the effect size <strong>η² = (H − k + 1) / (n − k)</strong> (H = test statistic, k = groups, n = customers).</p>
+<ul>
+<li><strong>Why Kruskal-Wallis:</strong> it compares <em>ranks</em>, so it needs no normal distribution – spend is heavily skewed.</li>
+<li><strong>Why η²:</strong> with ~2,000 customers almost every difference gets a tiny p-value, so I rank the segmentations by effect size instead.</li>
+</ul>
+</li>
+<li><p><strong>Bootstrap confidence intervals for the means:</strong> <code>boot_mean_ci()</code> draws 4,000 resamples of each group with replacement (<code>rng.integers</code>), computes the mean of each, and takes the 2.5th and 97.5th percentiles. <strong>Why bootstrap:</strong> it needs no formula or normality assumption; it lets the data tell its own uncertainty. Plotted as dots (mean) with lines (95% CI).</p>
+</li>
+<li><p><strong>Spend mix:</strong> <code>groupby(col)[MNT_COLS].sum()</code> divided by each group's row total (<code>div(s.sum(axis=1), axis=0)</code>). That is a <strong>revenue-weighted share of wallet</strong> – where the group's money actually goes, rather than an average of individual percentages. Then each share divided by the overall share × 100 gives an index, shown as a coloured table.</p>
+</li>
+</ol>
 <p><strong>Result.</strong></p>
 <ul>
-<li><strong>Children separate spenders by far the most:</strong> η² is 0.26, vs 0.03 for education and 0.00 for marital status. Childless households are 28% of customers but <strong>52% of revenue</strong>.</li>
-<li><strong>Education:</strong> PhDs spend the most; the small Basic group spends very little.</li>
-<li><strong>Mix:</strong> wine is half of all revenue and meat a quarter. Childless households over-index on meat and fish; families put a bigger share of a smaller wallet into wine and gold; the Basic group buys almost no wine. Marital status barely changes the mix.</li>
+<li><strong>Children separate spenders by far the most:</strong> η² = <strong>0.26</strong> for number of children, vs 0.03 for education and 0.00 for marital status (not even significant, p = 0.22).</li>
+<li><strong>Childless households are 28% of customers but 52% of revenue</strong> (index 185; mean spend 1,123). One child → 471, two or more → ~250.</li>
+<li><strong>Education:</strong> PhD 671, Graduation 627, Master 611, 2n Cycle 493, <strong>Basic only 84</strong> (49 customers, lowest income).</li>
+<li><strong>Mix:</strong> wine is 50.5% of all revenue and meat 27.2%.<ul>
+<li>Childless households over-index on meat (122) and fish (111).</li>
+<li>Families put a bigger share of a smaller wallet into wine (112–123) and gold (119–144).</li>
+<li>The Basic group's wine index is only 18, while its fruit, fish, sweets and gold indices are above 300.</li>
+<li>Marital status changes the mix by less than ±10%.</li>
 </ul>
-<p><strong>So what.</strong> Segment on household composition, not on marital status.</p>
+</li>
+</ul>
+<p><strong>So what.</strong> Segment on household composition, not on marital status, and tailor the product message by education and family stage.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=91f246e6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=19422fcd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11145,25 +11290,34 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f716031d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9785fd9a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Measured the correlation, fitted a log-log slope (how spend scales with income), and compared spend by income decile for households with and without children. Then I repeated the analysis without the 23 suspicious low incomes.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>stats.spearmanr(Income, MntTotal)</code> and <code>stats.pearsonr(...)</code> side by side.</strong> Spearman works on ranks and measures any <em>monotonic</em> relationship, robust to skew and outliers. Pearson measures a <em>linear</em> one. Reporting both shows whether the relationship is linear.</li>
+<li><strong><code>stats.linregress(np.log(Income), np.log(MntTotal))</code>.</strong> In a log-log regression the slope is the <strong>elasticity</strong>: the % change in spend for a 1% change in income. <code>1.1 ** slope - 1</code> converts it into "+10% income → +x% spend".</li>
+<li><strong>The same Spearman correlation inside each children group</strong> (<code>groupby('KidsGroup')</code>).</li>
+<li><strong>Holding income constant without a model:</strong> <code>pd.qcut(Income, 10)</code> cuts customers into 10 equal-sized income bands (deciles), then <code>groupby([IncomeDecile, HasChildren])['MntTotal'].median()</code>. Comparing families and non-families <strong>within the same decile</strong> removes most of the income difference between them. I used the median because spend is skewed.</li>
+<li><strong>Spend as a share of income per income quartile:</strong> <code>(MntTotal / 2) / Income</code>, median per quartile.</li>
+<li><strong>Robustness for the Q1d decision:</strong> the three key numbers recomputed on <code>cust[~(Income &lt; 10_000)]</code> – without the 23 suspicious low incomes.</li>
+</ol>
 <p><strong>Result.</strong></p>
 <ul>
-<li>The relationship is strong and convex: Spearman 0.86, and roughly <strong>+25% spend for +10% income</strong>.</li>
-<li><strong>At the same income, families spend far less.</strong></li>
-<li>Without the low incomes everything holds except the exact elasticity (2.4 → 2.7), so I quote it as a range.</li>
+<li>Spearman <strong>0.86</strong>, Pearson 0.82: strong, but not purely linear.</li>
+<li>Elasticity <strong>2.37</strong> (R² 0.61): <strong>+10% income → about +25% spend</strong>. Spend as a share of income rises from 0.11% in the lowest quartile to 0.86% in the highest, so these products behave like "luxury" goods.</li>
+<li><strong>At the same income, families spend far less</strong> – e.g. decile 3: 66 vs 290; decile 6: 482 vs 939.</li>
+<li><strong>Robustness:</strong> without the low incomes, Spearman stays 0.86 and the children ratio stays ~0.63. Only the elasticity moves (2.37 → 2.71), so I quote it as "about 2.4–2.7".</li>
 </ul>
 <p><strong>So what.</strong> Income alone overestimates families – household composition has to be part of any customer-value model.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6dede7f5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=20b68e1f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11221,13 +11375,14 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c3e64741">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=19500171">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>Slide 1 – so what:</strong> the top 20% of customers bring in <strong>52% of revenue</strong>; the bottom half brings in only 9%. Protecting the top fifth is worth more than another mass discount.</p>
+<p><strong>How:</strong> <code>MntTotal.sort_values(ascending=False)</code>, then <code>cumsum() / sum()</code> gives the cumulative share of revenue as we go down the customer list. I read it off at 10%, 20% and 50% of customers.</p>
+<p><strong>Slide 1 – so what:</strong> the top 10% of customers bring in <strong>30%</strong> of revenue, the top 20% bring in <strong>52%</strong>, and the bottom half only <strong>9%</strong>. Protecting the top fifth is worth more than another mass discount.</p>
 </div>
 </div>
 </div>
@@ -11285,13 +11440,14 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=de981ac3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=48b65968">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>Slide 2 – so what:</strong> at the same income, families spend <strong>20–72% less</strong>, so income-based targeting overestimates them. Offers to families should build the basket, not push premium wine.</p>
+<p><strong>How:</strong> <code>pd.qcut(Income, 5)</code> puts customers into five equal-sized income bands; within each band I take the median spend of households with and without children.</p>
+<p><strong>Slide 2 – so what:</strong> at the same income, families spend <strong>20–72% less</strong> (ratios 0.72 / 0.28 / 0.54 / 0.69 / 0.80 from the lowest band to the top), so income-based targeting overestimates them. Offers to families should build the basket, not push premium wine.</p>
 </div>
 </div>
 </div>
@@ -11397,18 +11553,24 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f706eeef">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=26909299">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>Slide 3 – so what:</strong> the 79% of customers who never accepted an offer respond at <strong>8%</strong>, far below the 27% break-even, while past acceptors respond at <strong>30–82%</strong>. Stop mass mailing and target customers with a track record.</p>
+<p><strong>How:</strong> <code>groupby('PrevAcceptedGroup')['Response'].agg(['mean', 'size'])</code> – the response rate to the latest campaign by how many of the 5 earlier campaigns the customer accepted, with a red line at the 27.3% break-even.</p>
+<p><strong>Slide 3 – so what:</strong></p>
+<ul>
+<li><strong>1,564 customers (79%)</strong> never accepted an earlier offer and respond at <strong>8%</strong>, far below the break-even.</li>
+<li>Customers with one earlier acceptance respond at <strong>30%</strong>, two at <strong>52%</strong>, three or more at <strong>82%</strong>.</li>
+</ul>
+<p>Stop mass mailing and concentrate on customers with a track record.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2668d84c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e7fbe608">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11420,7 +11582,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e0b6794d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4a844dad">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11523,18 +11685,33 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=871da91a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fff6d86d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Wrote the statistical helpers – confidence intervals, logistic and robust linear regression, the Holm correction – using numpy and scipy only, because statsmodels is not on the allowed list. I checked each one separately against statsmodels, and they agree to machine precision.</p>
+<p><strong>What I did – the helper functions, and why each exists.</strong> <code>statsmodels</code> is not on the allowed list, so I built the pieces I needed from <code>numpy</code> and <code>scipy</code>:</p>
+<ol>
+<li><strong><code>wilson_ci(k, n)</code></strong> – a confidence interval for a proportion using the Wilson score formula. <strong>Why:</strong> the textbook interval (p ± 1.96·SE) is wrong for small groups or rates near 0, and I need it for 19 complainers.</li>
+<li><strong><code>newcombe_diff_ci(k1, n1, k2, n2)</code></strong> – a confidence interval for the <em>difference</em> of two proportions, built from two Wilson intervals (Newcombe's method). The same reason.</li>
+<li><strong><code>compare_proportions(k1, n1, k2, n2)</code></strong> – everything for one 2×2 comparison:<ul>
+<li><code>stats.chi2_contingency(table, correction=False)</code> – without the continuity correction this is exactly the two-proportion z-test; it also returns the <strong>expected counts</strong>, which I use to check whether the test is valid;</li>
+<li><code>stats.fisher_exact(table)</code> – the exact test for small counts;</li>
+<li><code>stats.contingency.relative_risk</code> and <code>stats.contingency.odds_ratio</code> – effect sizes with confidence intervals;</li>
+<li>Cohen's h = 2·asin(√p1) − 2·asin(√p2) – an effect size used for power calculations.</li>
+</ul>
+</li>
+<li><strong><code>logit_inference(X, y)</code></strong> – logistic regression fitted by <strong>Newton-Raphson</strong> (repeatedly solving <code>np.linalg.solve(H, gradient)</code> until the steps are tiny). It returns coefficients, <strong>standard errors</strong> from the inverse of the information matrix, p-values and odds ratios with 95% CIs. <strong>Why my own:</strong> scikit-learn's <code>LogisticRegression</code> gives no standard errors or p-values, which I need for inference.</li>
+<li><strong><code>ols_robust(X, y)</code></strong> – linear regression with <strong>HC1 robust standard errors</strong> (sandwich formula). <strong>Why robust:</strong> spend varies more for high-income customers, so ordinary standard errors would be wrong.</li>
+<li><strong><code>holm(pvals)</code></strong> – Holm-adjusted p-values. <strong>Why:</strong> when testing several hypotheses, the chance of at least one false alarm grows. Holm controls that, and it is never less powerful than Bonferroni.</li>
+</ol>
+<p><strong>Verification.</strong> I checked every helper against statsmodels outside this notebook: identical results to machine precision (differences ~10⁻¹⁶).</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=be4a807d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f72b3a0f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11685,25 +11862,37 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=32e5856b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ffd35979">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>Decision on the test.</strong> Wine spend is heavily skewed and has many zeros (Shapiro-Wilk p &lt; 10⁻¹¹). So the main test is <strong>Mann-Whitney</strong>, which needs no normality. Because revenue depends on means, I added <strong>Welch's t-test</strong> and <strong>bootstrap confidence intervals</strong>, and I report effect sizes, not just p-values.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>Two arrays:</strong> <code>kids</code> (wine spend of 1,434 households with children) and <code>nokids</code> (560 without).</li>
+<li><strong>Checked normality first, to choose the test:</strong> <code>stats.shapiro()</code> gives p = 2.5·10⁻¹² and 3.3·10⁻⁴⁰ – far from normal – and <code>stats.skew()</code> gives 0.44 and 1.60. Wine spend also has many zeros.</li>
+<li><strong>Main test: <code>stats.mannwhitneyu(kids, nokids, alternative='two-sided')</code></strong>, plus <code>alternative='less'</code> for the directional claim. It compares the <strong>ranks</strong> of the two groups, so it needs no normal distribution and isn't dominated by a few big spenders.</li>
+<li><strong>Effect size from the same test:</strong><ul>
+<li><strong>Cliff's δ = 2U / (n1·n2) − 1</strong>, a number from −1 to 1 – the effect size that belongs to Mann-Whitney;</li>
+<li>the "probability of superiority", 1 − U / (n1·n2): the chance that a random childless customer out-spends a random parent.</li>
+</ul>
+</li>
+<li><strong>Robustness on the means:</strong> <code>stats.ttest_ind(kids, nokids, equal_var=False)</code> – Welch's t-test, which does not assume equal variances – on the raw values and on <code>np.log1p</code> values. <strong>Why also means:</strong> the business cares about averages, because revenue = mean × customers.</li>
+<li><strong>Bootstrap 95% CIs:</strong> 5,000 resamples of each group (<code>rng.integers(0, n, (5000, n))</code>, a fast vectorised version), the difference in means and medians for each resample, then the 2.5–97.5 percentiles.</li>
+</ol>
 <p><strong>Result.</strong></p>
 <ul>
-<li>Mean wine spend <strong>232 vs 500 (−54%</strong>, 95% CI −301 to −235); median 97 vs 466.</li>
-<li><strong>Cliff's δ = −0.44:</strong> a random childless customer out-spends a random parent on wine 72% of the time.</li>
-<li>p ≈ 10⁻⁵¹.</li>
+<li>Mean wine spend <strong>232 vs 500 (−54%)</strong>, difference −268 (95% CI −301 to −235); median <strong>97 vs 466</strong>.</li>
+<li><strong>Cliff's δ = −0.44</strong> (a medium-to-large effect): a random childless customer out-spends a random parent on wine <strong>72% of the time</strong>.</li>
+<li>Mann-Whitney p ≈ <strong>10⁻⁵¹</strong>; Welch confirms (p ≈ 10⁻⁴⁷).</li>
 </ul>
 <p>The claim is true, and the effect is large.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fc7b334b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a266b43e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12182,30 +12371,39 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a1e63a15">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5f847533">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong></p>
-<ul>
-<li>Compared response rates with a chi-square test, with Fisher's test as a check, and corrected for testing three hypotheses (Holm).</li>
-<li>Parents earn less, and income drives both spend and response. So I re-estimated both effects <strong>at equal income and age</strong> – with two different ways of controlling for income – and <strong>split children into young kids and teenagers</strong>.</li>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>lab = cust[cust['Response'].notna()]</code></strong> – only the 1,975 customers with a trustworthy label.</li>
+<li><strong><code>compare_proportions()</code> on two outcomes:</strong> the latest campaign (<code>Response</code>), and "accepted any of the 6 campaigns" (earlier acceptances + <code>Response</code> &gt; 0), so the conclusion doesn't depend on one campaign.</li>
+<li><strong><code>holm()</code> across the three tests of Marketing's claims</strong> (wine, latest campaign, any campaign).</li>
+<li><strong>Is it really the children, or just income?</strong> Parents earn less (mean income 46k vs 66k), and income drives both spend and response. So I re-estimated both effects <strong>at equal income and age</strong>:<ul>
+<li><strong>wine:</strong> <code>ols_robust(X, np.log1p(MntWines))</code> – <code>log1p</code> because spend is skewed and contains zeros, so the coefficient becomes a % effect via <code>exp(b) - 1</code>;</li>
+<li><strong>response:</strong> <code>logit_inference(X, Response)</code>, reported as an odds ratio <code>exp(b)</code>;</li>
+<li>X = the children term(s) + age (in decades) + income, with income entered <strong>two ways</strong>: <code>np.log(Income)</code> (a straight-line effect), and <code>pd.get_dummies(pd.qcut(Income, 10), drop_first=True)</code> – 9 income-decile dummies that assume <strong>no shape at all</strong>. <strong>Why two ways:</strong> if the conclusion holds under both, it doesn't depend on how I modelled income;</li>
+<li>two versions of the children term: <code>HasChildren</code>, then <code>Kidhome</code> and <code>Teenhome</code> <strong>separately</strong>, to see <em>which</em> children matter.</li>
 </ul>
+</li>
+<li><strong>A stratified view a stakeholder can read:</strong> a 2×2 table (children × responded) inside each income quartile, the response rates side by side, and the <strong>Cochran-Mantel-Haenszel</strong> statistic computed from those four tables – a test of "children vs no children <em>within</em> income bands".</li>
+</ol>
 <p><strong>Result.</strong></p>
 <ul>
-<li>Response is <strong>9.6% vs 27.8%</strong> (−18 points; relative risk 0.34, so parents are about three times less likely to respond). All tests survive the Holm correction.</li>
-<li>At equal income, the <strong>wine</strong> effect is mostly an income effect. What remains comes from <strong>young children</strong> (−38% to −52%); teenagers don't reduce wine spend.</li>
-<li>The <strong>response</strong> effect survives the income adjustment and comes from <strong>teenage households</strong> (odds ratio ≈ 0.35–0.4). Young children make no difference.</li>
-<li>The effect is absent in the lowest income quartile, where everyone responds at about 10%, and strong in the other three. Since it is not uniform (p = 0.007), I report it per income band rather than as one pooled number.</li>
+<li>Response <strong>9.6% vs 27.8%</strong> – a difference of −18.2 points (95% CI −22.4 to −14.3), relative risk <strong>0.34</strong> (about three times less likely), odds ratio 0.28. "Any campaign": 19.8% vs 45.8%. All three tests survive Holm (adjusted p &lt; 10⁻²⁴).</li>
+<li><strong>At equal income, wine:</strong> <code>HasChildren</code> alone is only −11% to −15%, so most of the raw −54% gap is income. Split up, <strong>young kids: −38% to −52%</strong> under both specifications, <strong>teenagers: no reduction</strong> (+4% to +19%).</li>
+<li><strong>At equal income, response:</strong> <code>HasChildren</code> OR 0.33–0.40. Split up, <strong>teenagers: OR 0.34–0.41</strong> (robust), <strong>young kids: OR ≈ 0.9</strong>, not significant.</li>
+<li><strong>Per income quartile:</strong> childless customers respond 2–3.5× more in the top three quartiles (top quartile <strong>34.7% vs 10.5%</strong>), but in the lowest quartile there is no gap (9.5% vs 10.2%). The CMH test of association gives p ≈ 3·10⁻¹⁰, but because the effect is not uniform, I report per band rather than one pooled number.</li>
 </ul>
-<p><strong>So what.</strong> Marketing is right, but "has children" is too blunt: young-kid households and teenage households are two different audiences. One caveat: this is observational data, so "families respond less" may simply mean "families respond less to the offers we sent". Only an experiment can separate the two.</p>
+<p><strong>So what.</strong> Marketing is right, but "has children" is too blunt: <strong>young-kid households and teenage households are two different audiences</strong> – the first buys less wine, the second responds less to campaigns. One caveat: this is observational data, so "families respond less" may simply mean "less to the offers we sent". Only an experiment can separate the two.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a6e264d8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0782bed8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12500,19 +12698,39 @@ P(difference is "material", i.e. more than 5 pp lower) = 13%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=81e31da6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7ec21b02">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Compared complainers with non-complainers using <strong>Fisher's exact test</strong>: chi-square is invalid here, because only 2.8 responders are expected among complainers. Then I asked whether the test <em>could</em> have found an effect at all – analytic and simulated power, the required sample size, and a Bayesian estimate.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>Counts:</strong> 19 complainers with a label, of whom 3 responded; 1,956 non-complainers, of whom 288 responded.</li>
+<li><strong><code>compare_proportions(3, 19, 288, 1956)</code>:</strong><ul>
+<li>the expected count shows only <strong>2.8 responders expected</strong> among complainers, and chi-square needs at least 5 per cell, so <strong>Fisher's exact test</strong> (<code>stats.fisher_exact</code>) is the valid one;</li>
+<li><code>wilson_ci(3, 19)</code> gives a confidence interval that works for small groups.</li>
+</ul>
+</li>
+<li><strong>Could this test <em>ever</em> have found an effect?</strong> Power calculated two ways:<ul>
+<li><strong>the formula:</strong> <code>power_two_prop()</code> – the normal approximation using Cohen's h;</li>
+<li><strong>simulation:</strong> <code>simulated_power_fisher()</code> uses <code>rng.binomial</code> to generate 4,000 fake datasets for each assumed true response rate of complainers (0%, 3.7%, 7.4% …), runs <code>fisher_exact</code> on each, and counts how often p &lt; 0.05. <strong>Why simulate:</strong> with ~3 expected events the formula is unreliable, while the simulation gives the true power of the test I actually use.</li>
+</ul>
+</li>
+<li><strong>Minimum detectable effect and required sample size</strong> from the Cohen's h formula, at 80% power and 5% significance.</li>
+<li><strong>Best case for the hypothesis:</strong> <code>stats.fisher_exact([[0, 19], [288, 1668]])</code> – what p would we get if <strong>none</strong> of the 19 complainers had responded?</li>
+<li><strong>Bayesian view:</strong> <code>rng.beta(1 + k, 1 + n - k, 200_000)</code> draws 200,000 plausible values of each group's response rate (Beta posterior with a flat prior), and the difference between them gives the probability that complainers respond less.</li>
+</ol>
 <p><strong>Result.</strong></p>
 <ul>
-<li>3 of 19 complainers responded: <strong>15.8% vs 14.7%</strong> – no difference (p = 0.75).</li>
-<li>But the test is powerless: even if <strong>none</strong> of the 19 had responded, p would still be 0.096.</li>
-<li>Detecting a halving of the response rate would need about <strong>150 complainers</strong>.</li>
-<li>The Bayesian view gives only a 34% chance that complainers respond less.</li>
+<li><strong>15.8% vs 14.7%</strong> – no difference (Fisher p = 0.75; 95% CI for the difference −9.3 to +22.9 points).</li>
+<li><strong>The test is powerless:</strong><ul>
+<li>even if <em>none</em> of the 19 had responded, the two-sided p would be <strong>0.096</strong> – so the simulated power to detect any reduction is <strong>0%</strong>;</li>
+<li>the formula claims up to 93% – a good illustration of why approximations fail with ~3 expected events;</li>
+<li>detecting a <strong>halving</strong> would need about <strong>149 complainers</strong> (we have 19), i.e. a customer base of ~15,600 at the current 1% complaint rate.</li>
+</ul>
+</li>
+<li>Bayesian: a <strong>34%</strong> probability that complainers respond less, with a credible interval from −9 to +23 points.</li>
 </ul>
 <p><strong>So what.</strong> The result is <em>inconclusive</em>, not "no effect", and this data cannot answer the question. My advice:</p>
 <ul>
@@ -12525,7 +12743,7 @@ P(difference is "material", i.e. more than 5 pp lower) = 13%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=45ed8a6e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9721496a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12633,19 +12851,32 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1e336cc6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=870496ad">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
+<p><strong>What I did – the numbers behind the design</strong></p>
+<ol>
+<li><p><strong><code>(AvgSpendPerOrder &gt;= 30).mean()</code> → 50%.</strong> Half the customers already average $30+ per order, so they would get free delivery without changing anything – pure cost. <strong><code>.between(20, 30)</code> → 15%</strong> are in the "nudgeable" zone just below the threshold.</p>
+</li>
+<li><p><strong>Sample size:</strong> <code>n_per_arm_mean()</code> implements <strong>n = 2·(z₀.₉₇₅ + z₀.₈)²·σ² / δ²</strong> – 5% significance, 80% power.</p>
 <ul>
-<li><strong>Hypotheses:</strong> H0 – no change in contribution margin per customer; H1 – a change. The test is two-sided, because an offer can also lose money.</li>
-<li><strong>Randomisation:</strong> by customer, not by session or order, using a hash of the customer ID, stratified by segment and region, 50/50. I'd run an A/A test and sample-ratio checks first.</li>
-<li><strong>Primary metric:</strong> contribution margin per customer – revenue minus product cost, delivery subsidy and discounts. Conversion alone would reward an offer that sells more and earns less.</li>
+<li>σ = the standard deviation of monthly spend (<code>MntTotal / 24</code> = 25.3 on average, SD 25.1);</li>
+<li>δ = a 5% change (~1.27 per customer per month);</li>
+<li><strong>CUPED</strong> (adjusting for each customer's pre-test spend) multiplies σ by √(1 − ρ²) – with an assumed correlation ρ = 0.7 that roughly halves the sample.</li>
+</ul>
+<p><code>n_per_arm_prop()</code> does the same for a conversion metric.</p>
+</li>
+</ol>
+<p><strong>The design</strong></p>
+<ul>
+<li><strong>Hypotheses:</strong> H0 – no change in contribution margin per customer; H1 – a change. The test is two-sided, because the offer can also lose money.</li>
+<li><strong>Randomisation:</strong> by customer – not by session or order – using a hash of the customer ID, so a customer always sees the same version. Stratified by segment and region, 50/50, with an A/A test and sample-ratio checks first.</li>
+<li><strong>Primary metric:</strong> contribution margin per customer (revenue − product cost − delivery subsidy − discounts). Conversion alone would reward an offer that sells more and earns less.</li>
 <li><strong>Guardrails:</strong> delivery time, delivery cost per order, cancellations, complaints, unsubscribes, "basket padding" just above $30, and retention after the test.</li>
-<li><strong>Size and duration:</strong> from this data, about <strong>6,100 customers per arm</strong> to detect a +5% change in margin, or about 3,100 with CUPED. At least two full weeks, and no peeking at results.</li>
-<li><strong>From the data:</strong> half the customers already average more than $30 per order, so for them the offer is pure cost; only about 15% sit in the "nudgeable" $20–30 zone.</li>
+<li><strong>Size and duration:</strong> <strong>~6,100 customers per arm</strong> for a 5% margin change, <strong>~3,100 with CUPED</strong>. At least two full weeks (weekday and weekend patterns), and no peeking at results.</li>
 <li><strong>What could invalidate it:</strong><ul>
 <li>shared courier capacity – more orders in treatment slow down deliveries for the control group too;</li>
 <li>contamination through shared accounts and promo codes;</li>
@@ -12658,7 +12889,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1b5f458a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e9c6ddee">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12670,7 +12901,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bbc7a4fc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=046cf8cc">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12681,7 +12912,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=54cfb2b6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=973e6034">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12837,23 +13068,48 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d71c974f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=470cb22d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Decided what must <em>not</em> go into the model, then split the data.</p>
-<p><strong>Decisions.</strong></p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><p><strong>Imported the scikit-learn building blocks:</strong> splitting and cross-validation, pipelines, preprocessing, the three model types, and the metrics.</p>
+</li>
+<li><p><strong>Explicit feature lists</strong>, so every model gets exactly the same inputs:</p>
 <ul>
-<li><strong>Excluded:</strong> the target, the constant columns, exact sums of other columns (<code>AcceptedCmpOverall</code>, <code>MntTotal</code>), and the 19 customers with unknown labels. The duplicates were already removed in Q1 – that matters, because copies in both train and test inflate every metric.</li>
-<li><strong>Split:</strong> stratified 80/20 – 1,580 training and 395 test customers, with 14.7% responders in both. The test set is used <strong>once</strong>, at the very end.</li>
+<li><code>LOG_FEATURES</code> – the 6 spend columns + <code>AvgSpendPerOrder</code>, which will be log-transformed;</li>
+<li><code>NUM_FEATURES</code> – income, age, kids, teens, tenure, recency, purchase counts, web visits, complaint flag and the 5 earlier-campaign flags;</li>
+<li><code>CAT_FEATURES</code> – education and marital status.</li>
 </ul>
+<p>That is 26 input columns.</p>
+</li>
+<li><p><strong>The excluded-features table</strong>, so every exclusion is documented:</p>
+<ul>
+<li>the target itself;</li>
+<li>the constant <code>Z_</code> columns;</li>
+<li><code>AcceptedCmpOverall</code>, <code>MntTotal</code>, <code>MntRegularProds</code>, <code>TotalChildren</code>, etc. – each is an exact sum of columns already included, so adding it would duplicate information and make the coefficients unstable;</li>
+<li>the raw dummies, replaced by the categorical columns;</li>
+<li>the 19 unknown labels.</li>
+</ul>
+</li>
+<li><p><strong><code>model_df = cust[cust['Response'].notna()]</code></strong> – 1,975 labelled customers.</p>
+</li>
+<li><p><strong><code>train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)</code>:</strong></p>
+<ul>
+<li>1,580 training customers (233 responders) and 395 test customers (58 responders);</li>
+<li><strong>why <code>stratify=y</code>:</strong> with only 15% responders, a purely random split could leave the test set with noticeably more or fewer responders, and every metric would shift. Stratifying keeps 14.7% in both;</li>
+<li>the test set is used <strong>once</strong>, at the very end.</li>
+</ul>
+</li>
+</ol>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b9ed11a3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a285bd8d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12921,32 +13177,50 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=faa5aa37">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7f401882">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Put all preprocessing – the log of skewed spend, scaling and one-hot encoding – <strong>inside pipelines</strong>, so it is re-fitted in every cross-validation fold and nothing leaks between folds.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>make_preprocessor()</code></strong> – a <code>ColumnTransformer</code> that sends each group of columns through its own <code>Pipeline</code>:<ul>
+<li><strong>spend:</strong> <code>SimpleImputer(strategy='median')</code> → <code>FunctionTransformer(np.log1p)</code> → <code>StandardScaler()</code>. <code>log1p</code> = log(1 + x) compresses the skewed amounts and handles zeros; <code>StandardScaler</code> puts every feature on the same scale (mean 0, SD 1), which regularised logistic regression needs so that the penalty treats features equally;</li>
+<li><strong>other numbers:</strong> median imputation → scaling;</li>
+<li><strong>categories:</strong> <code>OneHotEncoder(categories=[...], drop=['Graduation', 'Married'])</code>. <strong>Why drop explicit reference levels:</strong> each coefficient then reads "vs. Graduation" or "vs. Married", and dropping one level per variable avoids perfect collinearity.</li>
+</ul>
+</li>
+<li><strong>Why everything sits inside a <code>Pipeline</code>:</strong> during cross-validation, the imputer, scaler and encoder are re-fitted <strong>on each training fold only</strong>. If I scaled the whole dataset first, information from the validation fold (its mean and SD) would leak into training and inflate the scores.</li>
+<li><strong><code>make_logreg()</code></strong> – <code>LogisticRegression(solver='saga', max_iter=20_000)</code>. <code>saga</code> is the solver that supports L1, L2 and elastic-net penalties. The function also handles a scikit-learn API change: from version 1.8 the penalty is set only through <code>l1_ratio</code>, while older versions need <code>penalty='elasticnet'</code>.</li>
+<li><strong>The four pipelines:</strong> baseline <code>DummyClassifier(strategy='prior')</code> (always predicts the average rate), <code>LogisticRegression</code>, <code>RandomForestClassifier</code>, <code>HistGradientBoostingClassifier</code>.</li>
+<li><strong>Search spaces:</strong><ul>
+<li><strong>logistic regression:</strong> <code>C</code> over 11 values from 0.001 to 100 (<code>np.logspace</code>; C = 1/penalty strength); <code>l1_ratio</code> ∈ {0 = L2, 0.5 = elastic net, 1 = L1}; <code>class_weight</code> ∈ {None, balanced} → 66 combinations;</li>
+<li><strong>random forest:</strong> number of trees, <code>max_depth</code>, <code>min_samples_leaf</code>, <code>max_features</code>, <code>class_weight</code>;</li>
+<li><strong>gradient boosting:</strong> <code>learning_rate</code>, <code>max_iter</code>, <code>max_leaf_nodes</code>, <code>min_samples_leaf</code>, <code>l2_regularization</code>, <code>class_weight</code>, drawn from distributions (<code>loguniform</code>, <code>randint</code>).</li>
+</ul>
+</li>
+<li><strong><code>SCORING = {AP, ROC-AUC, Brier}</code> with <code>refit='AP'</code>.</strong> Every search records all three metrics but picks the winner on <strong>PR-AUC</strong> (average precision), the right metric for a 15% target.</li>
+</ol>
 <p><strong>Decision: which models compete, and why.</strong></p>
 <ul>
-<li><strong>Baseline</strong> (always predicts the average rate) – the floor every model has to beat.</li>
+<li><strong>Baseline</strong> – the floor every model has to beat.</li>
 <li><strong>Logistic regression</strong> – the standard for response models: calibrated probabilities, explainable coefficients, and it works on small data.</li>
-<li><strong>Random forest</strong> – captures non-linear effects and interactions.</li>
-<li><strong>Gradient boosting</strong> – usually the most accurate family on tabular data (scikit-learn's equivalent of XGBoost).</li>
+<li><strong>Random forest</strong> – captures non-linear effects and interactions without feature engineering.</li>
+<li><strong>Gradient boosting</strong> – usually the most accurate family on tabular data (scikit-learn's equivalent of XGBoost, which isn't on the allowed list).</li>
 </ul>
 <p><strong>Not used:</strong></p>
 <ul>
 <li>SVM – no native probabilities;</li>
 <li>k-NN – struggles with mixed feature types and imbalance;</li>
-<li>Naive Bayes – assumes independent features, but the spend categories are correlated;</li>
+<li>Naive Bayes – assumes independent features, but the spend categories are strongly correlated;</li>
 <li>neural networks – 233 positive examples are far too few.</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=64e81d25">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f66a585e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13069,14 +13343,25 @@ Wall time: 1min 51s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b899f0f6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=56799d19">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Tuned each model with 5-fold stratified cross-validation, scored on PR-AUC. Logistic regression got a <strong>grid search</strong>, because it has few hyper-parameters and an exhaustive search is cheap. The trees got a <strong>random search</strong>, because they have many hyper-parameters and random search finds good regions faster.</p>
-<p><strong>Result.</strong> Logistic regression 0.70, gradient boosting 0.64, random forest 0.60.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>StratifiedKFold(n_splits=5, shuffle=True, random_state=42)</code>.</strong> The training data is split into 5 folds, each with the same 14.7% responders. Each model is trained on 4 folds and scored on the 5th, five times over.</li>
+<li><strong><code>GridSearchCV</code> for logistic regression.</strong> All 66 combinations × 5 folds – cheap, so I try everything.</li>
+<li><strong><code>RandomizedSearchCV(n_iter=30)</code> for the trees.</strong> With 5–6 hyper-parameters a full grid would be thousands of fits, and random search finds good regions much faster.</li>
+<li><strong><code>n_jobs=-1</code></strong> uses all CPU cores. <strong><code>warnings.catch_warnings()</code></strong> silences only a harmless scikit-learn UserWarning, so the output stays readable.</li>
+<li><strong>Read the best setting and its scores from <code>cv_results_</code>.</strong></li>
+</ol>
+<p><strong>Result.</strong></p>
+<ul>
+<li>Logistic regression: <strong>PR-AUC 0.702</strong> (ROC-AUC 0.914) with C = 31.6, L1, no class weights.</li>
+<li>Gradient boosting: 0.644. Random forest: 0.596 – it chose class weights and fully grown trees (<code>min_samples_leaf=1</code>), a sign of over-fitting.</li>
+</ul>
 </div>
 </div>
 </div>
@@ -13140,14 +13425,26 @@ Wall time: 1min 51s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=83a146ec">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6d9ef79d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Looked at how logistic regression's score depends on the strength of regularisation, and applied the <strong>one-standard-error rule</strong>: among all settings that are statistically indistinguishable from the best, take the simplest.</p>
-<p><strong>Result.</strong> Performance plateaus from C ≈ 0.3 upwards. The best score (0.702) comes from a weakly regularised model. The 1-SE rule instead picks an elastic net with about <strong>100× stronger regularisation</strong>, scoring 0.691 – within one standard error of the best.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>Took <code>cv_results_</code> from the grid search</strong> and plotted the mean CV PR-AUC against <code>C</code> (log scale), one line per penalty type and class-weight setting. This is a validation curve: it shows how sensitive the model is to regularisation.</li>
+<li><strong>Implemented the one-standard-error rule:</strong><ul>
+<li>best mean AP = 0.702, and its standard error = SD across folds / √5;</li>
+<li>threshold = best − 1 SE = <strong>0.689</strong>;</li>
+<li>candidates = all settings with AP ≥ 0.689 <strong>and no class weights</strong>;</li>
+<li>sorted by <code>C</code> ascending, i.e. strongest regularisation first, the first row wins.</li>
+</ul>
+</li>
+<li><strong>Why the 1-SE rule:</strong> a CV score is itself an estimate with noise. Everything within one standard error of the best is statistically indistinguishable from it, so I take the simplest model among them – it is more likely to hold up on new data.</li>
+<li><strong>Why no class weights:</strong> class weighting inflates every predicted probability. I need real probabilities, because the business rule is "contact if probability &gt; 27.3%".</li>
+</ol>
+<p><strong>Result.</strong> Performance plateaus from C ≈ 0.3 upwards. The 1-SE rule picks <strong>C = 0.32 with an elastic net (<code>l1_ratio = 0.5</code>)</strong>: about <strong>100× stronger regularisation</strong> than the best (C = 31.6), with CV AP <strong>0.691</strong> vs 0.702.</p>
 </div>
 </div>
 </div>
@@ -13270,20 +13567,38 @@ Wall time: 4min 8s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=90aad773">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8b16acfd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Ran <strong>nested cross-validation</strong>: tuning on the inner folds, evaluation on the outer folds. Otherwise the comparison is flattered by the tuning itself.</p>
-<p><strong>Result.</strong> Logistic regression <strong>0.71</strong>, gradient boosting 0.64, random forest 0.60, against 0.15 for a random model. Logistic regression wins on <strong>all 5 outer folds</strong> against both.</p>
-<p><strong>Why the simple model wins.</strong> The data is small – 233 positive examples – and the signal is mostly monotonic: more previous acceptances and more recent purchases mean more response. The tree models end up fitting noise.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><p><strong>The problem:</strong> the scores in the previous step are optimistic, because the same folds were used both to pick the hyper-parameters and to measure them.</p>
+</li>
+<li><p><strong>Nested cross-validation:</strong> <code>cross_validate(make_search(name, nested_inner, n_iter=20), X_train, y_train, cv=outer_cv)</code>.</p>
+<ul>
+<li>The <strong>outer</strong> loop (5 folds) holds out one fold;</li>
+<li>the <strong>inner</strong> loop (3 folds) runs the whole tuning procedure on the remaining data;</li>
+<li>the tuned model is then scored on the held-out outer fold, which it has never seen.</li>
+</ul>
+<p>The result is an <strong>unbiased estimate of the whole procedure</strong>: "tune a logistic regression this way, then predict".</p>
+</li>
+<li><p><strong>Paired comparison:</strong> all models use the <strong>same</strong> outer folds, so I compare them fold by fold (<code>nested['LR']['test_AP'] - nested['GB']['test_AP']</code>) and count the wins. <strong>Why paired:</strong> it removes the noise of some folds simply being easier than others.</p>
+</li>
+</ol>
+<p><strong>Result.</strong></p>
+<ul>
+<li>Logistic regression <strong>0.71 ± 0.04</strong>, gradient boosting 0.64, random forest 0.60, baseline 0.15.</li>
+<li>Logistic regression wins on <strong>5 of 5</strong> outer folds against both (by +0.07 AP vs gradient boosting and +0.11 vs the forest).</li>
+</ul>
+<p><strong>Why the simple model wins.</strong> The data is small (233 positive examples), and the signal is mostly monotonic: more previous acceptances and more recent purchases mean more response. A linear model captures that with few parameters; the tree models spend their flexibility on noise.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d911437e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=01efef67">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13441,21 +13756,34 @@ Wall time: 4min 8s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d4866d5a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=aa5a5d23">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Evaluated every tuned model <strong>once</strong> on the untouched test set, with bootstrap confidence intervals.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>Final 1-SE model:</strong> <code>sklearn.base.clone(pipes['Logistic regression']).set_params(**one_se['params']).fit(X_train, y_train)</code> – a fresh copy with the chosen settings, trained on the full training set.</li>
+<li><strong>Probabilities for the test set</strong> from every tuned model: <code>predict_proba(X_test)[:, 1]</code>.</li>
+<li><strong>Metrics:</strong><ul>
+<li><code>roc_auc_score</code> – ranking quality overall;</li>
+<li><code>average_precision_score</code> (PR-AUC) – ranking quality among the top-ranked customers we would actually contact;</li>
+<li><code>brier_score_loss</code> – the mean squared error of the probabilities, i.e. calibration;</li>
+<li><code>log_loss</code>;</li>
+<li><strong>lift at the top 10%</strong> – the response rate among the 10% highest scores divided by the overall rate.</li>
+</ul>
+</li>
+<li><strong><code>bootstrap_metric()</code></strong> – 2,000 resamples of the 395 test customers, recomputing AUC and AP each time and taking the 2.5–97.5 percentiles. <strong>Why:</strong> with only 58 responders in the test set, a single number hides a lot of uncertainty.</li>
+</ol>
 <p><strong>Result.</strong> The final model reaches:</p>
 <ul>
-<li>ROC-AUC <strong>0.91</strong>;</li>
-<li>PR-AUC <strong>0.66</strong> (95% CI 0.55–0.76);</li>
-<li>Brier score 0.080;</li>
-<li>the top 10% of scores respond at <strong>4.4×</strong> the average rate.</li>
+<li>ROC-AUC <strong>0.906</strong> (95% CI 0.87–0.94);</li>
+<li>PR-AUC <strong>0.662</strong> (95% CI 0.55–0.76) vs 0.147 for random;</li>
+<li>Brier <strong>0.080</strong> vs 0.125 for the baseline;</li>
+<li><strong>lift 4.4×</strong> – the top 10% respond at ~65% vs 14.7% on average.</li>
 </ul>
-<p>This is consistent with nested CV, so the model is not over-fitted. The wide intervals reflect that the test set contains only 58 responders.</p>
+<p>The other models score 0.59 (gradient boosting) and 0.51 (forest). The test results agree with nested CV, so the model is not over-fitted.</p>
 </div>
 </div>
 </div>
@@ -13522,19 +13850,25 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=11ead11b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=054d906a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>Why not accuracy.</strong></p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>Accuracy check:</strong> <code>(y_test == 0).mean()</code> is the accuracy of always predicting "nobody responds" → <strong>85.3%</strong>; the model at a 0.5 threshold reaches <strong>88.9%</strong>. A 3.5-point difference hides a model that actually finds responders, and accuracy treats a wasted contact (−3) the same as a missed responder (−8 of lost profit).</li>
+<li><strong>Out-of-fold probabilities on the training data:</strong> <code>cross_val_predict(final_model, X_train, y_train, cv=inner_cv, method='predict_proba')</code>. Every training customer gets a score from a model that didn't see them. <strong>Why:</strong> thresholds are chosen on these scores, so the test set stays untouched.</li>
+<li><strong><code>profit(y, contact)</code> = 11 × responders reached − 3 × customers contacted</strong>, evaluated for 89 thresholds from 0.02 to 0.90 (<code>np.linspace</code>). The best threshold is <code>grid[profit.argmax()]</code>. The F1-optimal threshold is found the same way, for comparison.</li>
+<li><strong><code>calibration_curve(y_train, oof, n_bins=8, strategy='quantile')</code></strong> – customers sorted into 8 equal-sized groups by predicted probability, comparing average predicted vs actually observed response. <strong>Why quantile bins:</strong> every point is based on the same number of customers.</li>
+</ol>
+<p><strong>Result.</strong></p>
 <ul>
-<li>Predicting "nobody responds" is already <strong>85% accurate</strong> and finds no one; our model reaches 89%.</li>
-<li>Accuracy hides the real value, and it treats a wasted contact (−3) the same as a missed responder (−8).</li>
+<li>The profit-optimal threshold on the training data is <strong>0.26</strong> – practically identical to the theoretical break-even <strong>0.273</strong> (= 3/11).</li>
+<li>Calibration is close: predicted 0.26 → observed 0.29; predicted 0.68 → observed 0.66.</li>
 </ul>
-<p>So I use <strong>PR-AUC</strong> for ranking quality, the <strong>Brier score and calibration</strong> for the probabilities, and <strong>profit</strong>.</p>
-<p><strong>Result.</strong> The profit-optimal threshold on the training data (0.26) matches the theoretical break-even (0.273), and predicted probabilities match observed rates – the model is <strong>calibrated</strong>.</p>
+<p>So the model's probabilities can be read literally, and the 27.3% rule is valid.</p>
 </div>
 </div>
 </div>
@@ -13801,13 +14135,25 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0394dd5e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=65f186d4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>Decision: who to contact.</strong> The options, compared on the test set:</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>Each targeting rule as a True/False "contact" vector on the test set</strong> – everyone; the rule of thumb (<code>X_test[CMP_COLS].sum(axis=1) &gt; 0</code>); thresholds 0.5, 0.26 and 0.273; a fixed budget (the top 20% by <code>np.argsort(-p)</code>); and perfect foresight as the ceiling.</li>
+<li><strong><code>confusion_matrix(y_test, contact).ravel()</code></strong> → responders reached (TP), wasted contacts (FP) and missed responders (FN); then precision, recall, <code>profit()</code> and profit per 1,000 customers.</li>
+<li><strong>Charts:</strong><ul>
+<li><strong>cumulative gains</strong> – customers sorted by score, <code>cumsum()</code> of responders / all responders;</li>
+<li><strong>profit vs depth of targeting</strong>;</li>
+<li><strong>calibration</strong>;</li>
+<li><strong>profit vs threshold</strong> on the training data.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Decision: who to contact.</strong></p>
 <table>
 <thead>
 <tr>
@@ -13850,18 +14196,19 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 </tr>
 </tbody>
 </table>
-<p><strong>Why I chose the break-even threshold:</strong></p>
+<p><strong>Why the break-even threshold:</strong></p>
 <ul>
-<li>It comes from the economics – contact when 11 × probability &gt; 3 – so nothing is fitted to the data.</li>
-<li>It is valid because the model is calibrated.</li>
+<li>It comes from the economics – contact when 11 × probability &gt; 3 – so nothing is fitted to the data, and it can't over-fit.</li>
+<li>It is valid because the model is calibrated, and the data-driven optimum (0.26) confirms it.</li>
 <li>It earned the most of all the rules that can be fixed in advance.</li>
 </ul>
-<p>The other rules have their place: a fixed budget when spend is set before the campaign, a lower threshold for reach campaigns, a higher one when contact fatigue matters. And if the economics change, the threshold changes with them – with a 40% margin it would be about 68%.</p>
+<p>Other rules have their place: a fixed budget when spend is set before the campaign, a lower threshold for reach campaigns, a higher one when contact fatigue matters. If the economics change, so does the threshold: with a 40% margin it would be 3 / 4.4 ≈ 68%.</p>
+<p><strong>Extra numbers.</strong> The top 20% of scores contain <strong>66% of all responders</strong>. In hindsight, the best possible cut-off on the test curve was the top 24% (+243), and perfect foresight would earn +464 – the model captures about 40% of that ceiling.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0baa0770">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3b74b035">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14251,31 +14598,49 @@ Wall time: 19.6 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fd3c5d57">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5760d2c9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>Decision.</strong> The final model is a <strong>logistic regression with an elastic-net penalty</strong>, selected with the 1-SE rule, without class weights.</p>
-<p><strong>Why.</strong></p>
-<ul>
-<li><strong>It is the best model family on every test:</strong> nested CV, the test set and test profit – even when every model gets its own optimised threshold.</li>
-<li><strong>Against the best-CV logistic regression:</strong><ul>
-<li>same accuracy – test PR-AUC 0.662 vs 0.666;</li>
-<li>smaller and steadier coefficients – about <strong>40% less variable</strong> across bootstrap resamples;</li>
-<li>and it needs the regularisation: there are only 7 events per parameter, and the spend features are strongly correlated.</li>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>A fair comparison of all four models.</strong> For each model, <code>cross_val_predict</code> gives out-of-fold probabilities on the training data, and from those I pick <strong>its own</strong> profit-optimal threshold. <strong>Why:</strong> a model with inflated probabilities (the forest, with class weights) shouldn't be penalised just because 27.3% doesn't suit it. Then I compute test PR-AUC, ROC-AUC, Brier, and test profit at its own threshold and at 27.3%.</li>
+<li><strong>How certain are the profit differences?</strong> A <strong>paired bootstrap</strong> on the test set: 5,000 resampled test sets, <code>boot_profit()</code> computing the profit of each model <strong>on the same resampled customers</strong>, and the 2.5–97.5 percentiles of the difference vs the final model. I also show the out-of-fold profit on the training data – a comparison that could be made <em>before</em> touching the test set.</li>
+<li><strong>Stability of the two logistic-regression variants:</strong> both refitted on <strong>50 bootstrap samples</strong> of the training data (<code>clone(m).fit(X_train.iloc[idx], y_train.iloc[idx])</code>). For each I measure:<ul>
+<li>how big the coefficients are – largest and sum;</li>
+<li>how much each coefficient moves across refits – mean SD;</li>
+<li>how often a coefficient flips sign or drops to zero.</li>
 </ul>
 </li>
-<li><strong>No class weights</strong> keeps the probabilities calibrated, which the 27.3% rule depends on.</li>
-<li><strong>Explainable:</strong> every coefficient is an odds ratio.</li>
+</ol>
+<p><strong>Result.</strong></p>
+<ul>
+<li><strong>Logistic regression is the best family on every view:</strong> nested CV, test PR-AUC and test profit – even with each model at its own threshold (LR +182/+191, gradient boosting +154, forest +151).</li>
+<li><strong>1-SE vs best-CV logistic regression:</strong><ul>
+<li>same accuracy – test PR-AUC 0.662 vs 0.666, Brier 0.080 vs 0.081;</li>
+<li>smaller coefficients – largest 1.15 vs 1.79, sum 13.5 vs 21.4;</li>
+<li><strong>about 40% less variable</strong> across refits (mean SD 0.155 vs 0.271);</li>
+<li>sign flips equally rare in both (~7%).</li>
 </ul>
-<p><strong>What I gave up.</strong> The lightly regularised version, with its own data-driven threshold, earned somewhat more on the test set (+216 vs +191). But the difference is not significant (95% CI −30 to +87), so I chose stability and a transparent rule over a gain that may be noise.</p>
+</li>
+</ul>
+<p><strong>Decision.</strong> The final model is the <strong>logistic regression with an elastic-net penalty, selected with the 1-SE rule, without class weights</strong>.</p>
+<p><strong>Why this one:</strong></p>
+<ol>
+<li>It belongs to the best model family on every test.</li>
+<li>It matches the best-CV variant on accuracy, with smaller and steadier coefficients, so it is the safer bet for the <em>next</em> campaign.</li>
+<li>It needs the regularisation: only 7 events per parameter, and strongly correlated spend features.</li>
+<li>Without class weights its probabilities are calibrated, which the 27.3% rule depends on.</li>
+<li>Every coefficient is an odds ratio, so it can be explained to a CMO or a regulator.</li>
+</ol>
+<p><strong>What I gave up.</strong> The lightly regularised version, with its own data-driven threshold (0.15), earned somewhat more: <strong>+216 vs +191</strong> on test, and 977 vs 917 out-of-fold on the training data. But the test difference has a 95% CI of <strong>−30 to +87</strong> – not significant – so I chose stability and a transparent rule over a gain that may be noise.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a782b6de">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=82285c38">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14739,20 +15104,32 @@ InCouple           0: 22% (n=706.0)  1: 11% (n=1269.0)
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9ab9368f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=427f33f1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Read the drivers three ways: the model's coefficients, plus grouped permutation importance for two different model families. Correlated columns are shuffled together, because otherwise they mask each other. The two models agree almost perfectly.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>Coefficients:</strong> <code>final_model.named_steps['clf'].coef_</code> paired with <code>named_steps['prep'].get_feature_names_out()</code> – the names after preprocessing. Because every feature is standardised, each coefficient is the effect of <strong>+1 standard deviation</strong>, and <code>np.exp(coef)</code> turns it into an odds ratio. I plotted the top 15.</li>
+<li><strong><code>grouped_permutation_importance()</code></strong> – my own version of permutation importance. A <strong>group</strong> of columns (e.g. all 5 campaign flags, or all 7 spend columns) is shuffled together 50 times, and I measure how much the test PR-AUC drops. <strong>Why grouped:</strong> correlated columns cover for each other, so shuffling them one at a time understates how important they are together.</li>
+<li><strong>Ran it for two different model families</strong> – the final logistic regression and gradient boosting – and measured their agreement with <code>stats.spearmanr</code> on the importance rankings. <strong>Why two models:</strong> if a linear model and a tree model agree, the drivers are a property of the data, not of one algorithm.</li>
+<li><strong>Translated the drivers into business numbers:</strong> <code>pd.cut(Recency, [...])</code>, <code>pd.qcut(TenureYears, 4)</code>, <code>pd.cut(NumCatalogPurchases, [...])</code>, then <code>groupby(...)['Response'].mean()</code> – the observed response rate per band.</li>
+</ol>
+<p><strong>Result.</strong></p>
+<ul>
+<li>The two models agree almost perfectly (<strong>Spearman 0.96</strong>).</li>
+<li>Biggest drop in PR-AUC when shuffled: campaign history (<strong>−0.28</strong>), Recency (−0.09), purchase channels (−0.09), tenure (−0.06). Income, age and complaints ≈ 0.</li>
+</ul>
 <p><strong>Top 3 drivers, with observed response rates:</strong></p>
 <ol>
 <li><strong>Campaign history:</strong> 8% with no earlier acceptance, 30% with one, 52% with two, 82% with three or more.</li>
-<li><strong>Recency:</strong> 29% for customers who bought in the last 20 days vs 6% after 80–100 days.</li>
-<li><strong>Channel:</strong> heavy catalogue buyers respond at 31%, vs 4% for customers who never buy by catalogue.</li>
+<li><strong>Recency:</strong> <strong>29%</strong> for customers who bought in the last 20 days vs <strong>6%</strong> after 80–100 days (odds ratio 0.39 per +1 SD of days).</li>
+<li><strong>Channel:</strong> heavy catalogue buyers (6+ purchases) respond at <strong>31%</strong>, vs <strong>4%</strong> for customers who never buy by catalogue.</li>
 </ol>
-<p>Next come tenure, and teenagers at home (negative). Income, age and complaints add nothing once behaviour is known.</p>
+<p>Next come tenure (longest-tenured quarter 26% vs newest 9%) and teenagers at home (odds ratio 0.62; young kids drop out of the model completely, consistent with Q4). Single, divorced and widowed customers respond 2–3× more than married ones at equal behaviour.</p>
+<p><strong>Reading note.</strong> Wine (−) and meat (+) have opposite signs only because spend categories are correlated – together they describe the basket mix at a given total. That is why I base the driver story on the grouped importance and the observed rates, not on single coefficients.</p>
 <p><strong>Recommendation.</strong> Contact customers who said yes before, bought recently and shop by catalogue – and let the model's score decide who is above 27%.</p>
 </div>
 </div>
@@ -14876,30 +15253,29 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d53b4f26">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=11cbc397">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>Decision: feature set → all features</strong> (PR-AUC 0.69). The alternatives I tested:</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong>Five feature sets:</strong> all features; without <code>Recency</code>; without demographics (age, kids, teens, marital status, education); without both; and without the campaign history.</li>
+<li><strong>For each:</strong> a fresh pipeline with <code>make_preprocessor()</code> restricted to those columns, the <strong>same final settings</strong> (<code>set_params(**one_se['params'])</code>), and scoring with <code>RepeatedStratifiedKFold(n_splits=5, n_repeats=3)</code>. <strong>Why repeated:</strong> 15 estimates per variant instead of 5, so small differences are less noisy.</li>
+</ol>
+<p><strong>Result (CV PR-AUC).</strong> All features <strong>0.694</strong>; without Recency 0.621; without demographics 0.646; without both 0.578; without campaign history 0.547.</p>
+<p><strong>Decision: feature set → all features.</strong></p>
 <ul>
-<li>without Recency: 0.62;</li>
-<li>without demographics: 0.65;</li>
-<li>without both: 0.58;</li>
-<li>without campaign history: 0.55.</li>
-</ul>
-<p><strong>Why all.</strong></p>
-<ul>
-<li>It has the highest accuracy.</li>
-<li>Recency is only a risk if it was measured after the campaign – a question for the data owner. The no-Recency model is ready as a fallback.</li>
-<li>Dropping demographics would not remove the bias, because income and basket mix act as proxies. So I keep them and audit the outcomes instead.</li>
+<li><strong>Highest accuracy</strong>, and every removal has a measurable cost.</li>
+<li><strong>Recency</strong> is only a risk if it was measured <em>after</em> the campaign – then customers who accepted would look "recent" <em>because</em> they accepted, which is leakage. That is a question for the data owner, and the no-Recency model (0.62, still 4× random) is ready as a fallback.</li>
+<li><strong>Demographics:</strong> dropping them would not remove bias, because income and basket mix act as proxies for family status and age. So I keep them and <strong>audit the outcomes by group</strong> instead (next cell).</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ada46bc4">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=02a10ef9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15132,30 +15508,41 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bbba8d66">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b884589d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>Risks before using this model to hand out discounts.</strong></p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>cross_val_predict(final_model, X, y, cv=StratifiedKFold(5))</code> on all 1,975 labelled customers.</strong> Every customer gets a score from a model that didn't see them. <strong>Why:</strong> group-level rates need more customers than the 395 in the test set.</li>
+<li><strong>Selected = score ≥ 0.26.</strong> For each group – age band, children, in a couple, education, income quartile – I compute:<ul>
+<li>the actual response rate;</li>
+<li>the <strong>share selected</strong> for the offer;</li>
+<li>the <strong>true positive rate</strong> – of the group's actual responders, how many the model selects;</li>
+<li>the precision of the selection.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Result and risks before using this model to hand out discounts.</strong></p>
 <ul>
 <li><strong>Fairness:</strong><ul>
-<li>it selects 34% of childless households but only 8–13% of families, and 34% of the richest quarter vs 11–13% of everyone else;</li>
-<li>among actual responders, it finds 79% of the childless ones but only 50% of those in families with 2+ children;</li>
+<li>it selects <strong>34% of childless households but 13% / 8% of families</strong> with 1 / 2+ children, and <strong>34% of the richest quarter vs 11–13%</strong> of everyone else;</li>
+<li>among actual responders, it finds <strong>79%</strong> of the childless ones but only <strong>50%</strong> of those in families with 2+ children;</li>
 <li>so discounts would flow to the richest customers – who would probably buy anyway.</li>
 </ul>
 </li>
 <li><strong>Response is not incrementality:</strong> the model predicts who accepts, not who accepts <em>because of</em> the offer. That calls for a randomised holdout and an uplift model.</li>
 <li><strong>Feedback loop:</strong> keep 5–10% of contacts random, so the model keeps learning about everyone.</li>
 <li><strong>Economics:</strong> use margin, including the cost of the discount – not revenue.</li>
-<li><strong>Governance and data:</strong> GDPR rules on profiling, a possible Recency timing leak, data from 2012–14 and a small sample – so monitor calibration and retrain regularly.</li>
+<li><strong>Governance and data:</strong> GDPR rules on profiling, a possible Recency timing leak, data from 2012–14 and a small sample (291 responders) – so monitor calibration and retrain regularly.</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=64cdf243">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2f256e35">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15167,7 +15554,7 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b10b1adb">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=84345695">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15275,18 +15662,31 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=26c74647">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=708aeb93">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Clustered on <strong>behaviour only</strong>: 6 spend categories, 4 purchase channels and web visits.</p>
-<ul>
-<li>Demographics are left out on purpose, so I can use them afterwards to validate the segments.</li>
-<li>Recency is left out because it is flat and changes every day.</li>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>SEG_FEATURES</code></strong> – the 11 behaviour columns: 6 spend categories, deal / web / catalogue / store purchases, and web visits.<ul>
+<li><strong>Demographics left out on purpose</strong>, so I can use them afterwards to <em>validate</em> the segments.</li>
+<li><strong>Recency left out</strong> because it is flat and changes every day, while a persona should be stable.</li>
 </ul>
-<p><strong>Decision on scaling.</strong> Of the three options I compared, I chose <strong>log + standardisation</strong>: going from 10 to 100 counts as much as going from 100 to 1,000, and a few heavy spenders don't dominate the distances.</p>
+</li>
+<li><strong>Three scalings, all with <code>StandardScaler()</code> (mean 0, SD 1):</strong> on raw values, on <code>np.log1p</code> values, and on ranks (<code>rank(pct=True)</code>).<ul>
+<li><strong>Why scale at all:</strong> k-means uses distances, so without scaling the column with the biggest numbers (wine spend) would dominate.</li>
+</ul>
+</li>
+<li><strong><code>KMeans(4, n_init=20, random_state=42)</code></strong> on each version. <strong>Why <code>n_init=20</code>:</strong> k-means depends on its random starting points, so it runs 20 times and keeps the best solution, avoiding a poor local optimum.</li>
+<li><strong>Compared</strong> the <code>silhouette_score</code> and the cluster sizes.</li>
+</ol>
+<p><strong>Decision: log + standardisation.</strong></p>
+<ul>
+<li>With logs, going from 10 to 100 counts as much as going from 100 to 1,000 – how a marketer thinks about spend – and a few heavy spenders don't dominate the distances.</li>
+<li>Raw z-scores have a higher silhouette (0.31 vs 0.25), but silhouettes from <em>different</em> scalings measure distances in different spaces and can't be compared directly. So the choice rests on that logic, and log scaling also gives balanced clusters (smallest 407 customers vs 260 on raw values).</li>
+</ul>
 </div>
 </div>
 </div>
@@ -15513,20 +15913,37 @@ Wall time: 12.2 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2b7ad80d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=42d2d7bb">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
+<p><strong>What I did – step by step.</strong> For every k from 2 to 10:</p>
+<ol>
+<li><strong><code>KMeans(k, n_init=20).fit(Z)</code></strong>, recording:<ul>
+<li><code>inertia_</code> – the within-cluster sum of squares, for the elbow chart;</li>
+<li><code>silhouette_score</code> – how well each customer fits its own cluster vs the nearest other one, −1 to 1;</li>
+<li><code>calinski_harabasz_score</code> – higher is better;</li>
+<li><code>davies_bouldin_score</code> – lower is better.</li>
+</ul>
+</li>
+<li><strong>Stability:</strong> 20 times, refit k-means on a bootstrap sample (<code>rng.integers</code> row indices) and compare its labels on the full data with the original solution, using <code>adjusted_rand_score</code> (ARI: 1 = identical clusters, 0 = chance). <strong>Why:</strong> a segmentation that changes when the data changes slightly can't be used to run campaigns.</li>
+<li><strong>Two other algorithms as cross-checks:</strong><ul>
+<li><code>GaussianMixture(k, covariance_type='full')</code> with BIC – allows elliptical clusters of different sizes;</li>
+<li><code>AgglomerativeClustering(k, linkage='ward')</code> – hierarchical clustering, with its agreement with k-means measured by ARI.</li>
+</ul>
+</li>
+<li><strong>The smallest cluster's share of customers</strong> – a segment that is too small isn't worth a separate campaign.</li>
+</ol>
+<p><strong>Result.</strong> The silhouette is highest at k = 2 (0.38) and falls steadily – there is no sharp "natural" number of clusters. Stability is 0.97–0.98 for k = 2–3, 0.87 at k = 4 and 0.91 at k = 5.</p>
 <p><strong>Decision: 4 segments.</strong></p>
 <ul>
-<li>k = 2 has the best silhouette score, but it only splits light buyers from heavy buyers.</li>
+<li>k = 2 only splits light buyers from heavy buyers (the bimodality from Q3a).</li>
 <li>k = 3 merges the deal-seeking teen parents with the affluent families.</li>
 <li>k = 5 only splits the low spenders into 41 vs 105 with an identical profile – no new action.</li>
-<li><strong>k = 4</strong> is stable (refits on resampled data reproduce it, ARI 0.87), every segment holds at least 20% of customers, and each one needs a different action.</li>
+<li><strong>k = 4</strong> is stable (ARI 0.87), every segment holds at least 20% of customers, it sits in the bend of the elbow, it agrees with Ward (ARI 0.71), and each segment needs a different action.</li>
 </ul>
-<p>A Gaussian mixture and hierarchical clustering served as checks, and they share the same core structure.</p>
 </div>
 </div>
 </div>
@@ -15961,12 +16378,21 @@ Wall time: 12.2 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c8c8f9b9">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7430cb87">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>KMeans(4, n_init=50)</code></strong> – more restarts for the final solution.</li>
+<li><strong>Relabelled the clusters 0–3 by average spend.</strong> k-means numbers clusters arbitrarily, so this keeps the labels readable and stable across runs.</li>
+<li><strong>The profile:</strong> <code>groupby('Segment')</code> for size, share of revenue, income, age, share with young kids and with teenagers, spend per category, average order value, channel purchases, deal share, web visits, earlier acceptances, response rate, and <strong>expected profit per contact = 11 × response rate − 3</strong>.</li>
+<li><strong>Channel mix:</strong> each channel's share of the segment's purchases, plus the channel that is most over-represented compared with the whole base.</li>
+<li><strong><code>PCA(2)</code></strong> – projects the 11 dimensions onto the 2 that capture most of the variation (57% + 15% = 72%), <em>only</em> to draw the segments. The clustering itself used all 11 features.</li>
+<li><strong>Named the segments only after reading the profile.</strong></li>
+</ol>
 <p><strong>Result – four personas:</strong></p>
 <table>
 <thead>
@@ -15981,35 +16407,35 @@ Wall time: 12.2 s
 <tr>
 <td>Budget Young Families</td>
 <td>36% / 4%</td>
-<td>income ~32k, young kids, small baskets, many deals; response 7%</td>
+<td>income ~32k, 77% have young kids, ~12 per order, 34% of purchases on deal, browse the web a lot but buy in store; response 7%</td>
 <td>no paid outreach – owned channels, family bundles</td>
 </tr>
 <tr>
 <td>Deal-Seeking Teen Parents</td>
 <td>21% / 16%</td>
-<td>income ~49k, teenagers, wine ~70% of the basket, most deal purchases, web</td>
+<td>income ~49k, 75% have teenagers, wine ~70% of the basket, most deal purchases, web</td>
 <td>deal-led wine offers online, only to model-selected customers</td>
 </tr>
 <tr>
 <td>Established Family Foodies</td>
 <td>20% / 34%</td>
-<td>income ~63k, ~1,000 spend across all categories, omnichannel</td>
+<td>income ~63k, ~1,000 spend across all categories, omnichannel, few deals</td>
 <td>cross-sell fresh and premium food; loyalty points rather than discounts</td>
 </tr>
 <tr>
 <td>Affluent Childless Connoisseurs</td>
 <td>22% / <strong>47%</strong></td>
-<td>income ~76k, no kids, highest spend, catalogue, almost no deals; response 25%</td>
+<td>income ~76k, 84% without children, highest spend (1,300) and order value (~71), catalogue, almost no deals; response 25%</td>
 <td>VIP and retention programme, no discounts</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Key insight.</strong> Even the best segment responds at 25% – below the 27% break-even. <strong>Segments decide the message and the channel; the model decides who gets contacted.</strong></p>
+<p><strong>Key insight.</strong> Even the best segment responds at 25% – below the 27% break-even – so the expected profit per contact is negative for every segment, from −2.2 to −0.25. <strong>Segments decide the message and the channel; the model decides who gets contacted.</strong></p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=434943f8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2d9e47fa">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16021,7 +16447,7 @@ Wall time: 12.2 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=51d15495">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f0b08539">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16339,27 +16765,48 @@ Literal query on the raw table (duplicates + MntTotal without gold):
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d709a62e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f1ae8ac6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Wrote two queries: the textbook version, and a production version that removes duplicates, recomputes the total including gold, and builds <code>Education</code> from the one-hot flags. I ran both in SQLite and checked that the production query matches pandas exactly.</p>
-<p><strong>Result.</strong> Fixing the data <strong>changes the ranking</strong>: on the raw table Master edges out Graduation, but after the fixes Graduation is ahead.</p>
+<p><strong>What I did – step by step</strong></p>
+<ol>
+<li><strong><code>sqlite3.connect(':memory:')</code> + <code>df.to_sql('customer_marketing', con)</code></strong> – an in-memory database holding the <strong>raw</strong> table. <strong>Why:</strong> the SQL is actually executed and checked, not just written.</li>
+<li><strong>The textbook query</strong> – <code>AVG(MntTotal)</code> and <code>AVG(CAST(Response AS REAL))</code> grouped by <code>Education</code>. It runs against a view I created (<code>CREATE VIEW ... CASE WHEN ...</code>), because the raw table has no <code>Education</code> column, only one-hot flags.</li>
+<li><strong>The production query</strong>, built from two CTEs (<code>WITH ... AS</code>):<ul>
+<li><code>SELECT DISTINCT *</code> removes the 184 exact duplicates;</li>
+<li>a <code>CASE WHEN education_Basic = 1 THEN 'Basic' ...</code> expression turns the flags into one <code>education</code> column. <code>"education_2n Cycle"</code> is in double quotes because the column name contains a space;</li>
+<li>the total is <strong>recomputed</strong> as the sum of all 6 categories, because the delivered <code>MntTotal</code> excludes gold;</li>
+<li><code>AVG(CAST(Response AS REAL))</code> – the <code>CAST</code> is there because some databases (e.g. SQL Server) average integers as integers and would return 0;</li>
+<li><code>GROUP BY education ORDER BY avg_mnt_total DESC</code>.</li>
+</ul>
+</li>
+<li><strong><code>pd.read_sql()</code></strong> fetches the results, and <strong><code>assert np.allclose(...)</code></strong> checks them against the same numbers computed in pandas – the query is proven correct.</li>
+</ol>
+<p><strong>Result.</strong> Fixing the data <strong>changes the ranking</strong>: on the raw table Master (571.0) edges out Graduation (570.9), but after the fixes <strong>Graduation (624.0) is ahead of Master (619.9)</strong>. A report on the raw table would have shown the wrong order.</p>
 <p><strong>Weekly report – end to end:</strong></p>
 <ol>
-<li><strong>Ingestion</strong> into a warehouse.</li>
-<li><strong>Transformation in dbt</strong> – totals always computed from their components, ages relative to the snapshot date.</li>
+<li><strong>Ingestion</strong> into a warehouse, with campaign contacts and responses stored as time-stamped events.</li>
+<li><strong>Transformation in dbt:</strong> totals always computed from their components, ages and tenure relative to the snapshot date, and metric definitions stored in one place.</li>
 <li><strong>Weekly orchestration</strong> with Airflow, Dagster or dbt Cloud.</li>
-<li><strong>A dashboard</strong> showing the response rate against the 27% break-even.</li>
+<li><strong>A dashboard</strong> showing the response rate against the 27% break-even, campaign profit and the segments.</li>
 </ol>
-<p>Every issue from Q1 becomes an <strong>automated test that stops the run</strong>: unique customer IDs, totals equal to the sum of their parts, no negative spend, exactly one education flag per customer, valid age and income ranges, and data freshness and drift alerts.</p>
+<p>Every Q1 issue becomes an <strong>automated test that stops the run</strong> before bad data reaches the dashboard:</p>
+<ul>
+<li>unique customer IDs;</li>
+<li>totals equal to the sum of their parts;</li>
+<li>no negative spend;</li>
+<li>exactly one education flag per customer;</li>
+<li>valid age and income ranges;</li>
+<li>data-freshness and drift alerts.</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3c197881">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=019d50de">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16371,7 +16818,7 @@ Literal query on the raw table (duplicates + MntTotal without gold):
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6196f170">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=53ca50e1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16395,7 +16842,7 @@ Literal query on the raw table (duplicates + MntTotal without gold):
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ac0d303b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5c54b5ac">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16655,23 +17102,24 @@ Wall time: 6.63 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=633371f5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e82b2114">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> Checked the assumptions behind the methods I used.</p>
-<p><strong>Result.</strong></p>
-<ul>
-<li><strong>Independence:</strong> no duplicate customers are left. ✓</li>
-<li><strong>Chi-square</strong> needs at least 5 expected per cell: 82 for children ✓, but only 2.8 for complaints ✗ – which is why I used Fisher's exact test there.</li>
-<li><strong>One pooled odds ratio across income bands</strong> needs the same effect in every band: not met (p = 0.007) ✗ – which is why I reported the effect per band.</li>
-<li><strong>Logistic regression in Q4:</strong> 26–97 events per parameter ✓. <strong>The Q5 model:</strong> only 7.3 events per parameter and correlated inputs (VIF up to 24) – which is why it is regularised.</li>
-<li><strong>Linearity:</strong> a non-linear (spline) version doesn't beat the linear model (0.698 vs 0.702) ✓.</li>
-<li><strong>k-means:</strong> its segments agree with alternative clustering methods (ARI 0.59 and 0.71) ✓.</li>
-<li><strong>Calibration:</strong> Brier score 0.080, vs 0.125 for a naive guess ✓.</li>
-</ul>
+<p><strong>What I did – step by step</strong> (each check tests one assumption of a method used above)</p>
+<ol>
+<li><strong>Independence</strong> (every test, bootstrap and CV split assumes one row per customer): <code>cust.duplicated(subset=...)</code> on the cleaned table → <strong>0 duplicates</strong> ✓.</li>
+<li><strong>Chi-square validity</strong> (at least 5 expected per cell): the smallest expected count from <code>chi2_contingency</code> → <strong>82</strong> for children ✓; <strong>2.8</strong> for complaints ✗, which is why Fisher's exact test was used there.</li>
+<li><strong>Same effect in every income band</strong> – needed for one pooled odds ratio. A likelihood-ratio test: <code>logit_loglik()</code> gives the log-likelihood of a logistic model with and without "children × income quartile" interaction terms, and <code>stats.chi2.sf(2 * difference, 3)</code> gives the p-value → <strong>p = 0.007</strong>, so the effect differs between bands ✗. That is why I report it per band (odds ratio 1.08 in the lowest quartile vs 0.22–0.38 in the others).</li>
+<li><strong>Events per parameter</strong> (rule of thumb ≥ 10 for an unpenalised logistic regression): responders / number of coefficients → <strong>26–97</strong> for the Q4 models ✓, but only <strong>7.3</strong> for the Q5 model ✗ – which is why it is <strong>regularised</strong>.</li>
+<li><strong>Multicollinearity – variance inflation factors:</strong> each feature regressed on all the others with <code>np.linalg.lstsq</code>, VIF = 1 / (1 − R²) → up to <strong>24</strong> (order value, wine 17.9, meat 11.8) for the Q5 inputs – again handled by the elastic-net penalty, which zeroed order value. For the Q4 controls, VIF ≤ 1.3 ✓.</li>
+<li><strong>Linearity of the log-odds:</strong> the same logistic regression with <code>SplineTransformer(n_knots=4, degree=3)</code>, which lets every numeric feature bend freely, tuned with <code>GridSearchCV</code> on the same folds → <strong>0.698 vs 0.702</strong> for the linear model. Curves add nothing, so the linear form is adequate ✓.</li>
+<li><strong>k-means assumptions</strong> (compact, round clusters): agreement (ARI) with a <code>GaussianMixture(covariance_type='full')</code>, which allows any elliptical shape, and with Ward → <strong>0.59 and 0.71</strong> – the same core structure ✓.</li>
+<li><strong>PCA</strong> shows 72% of the variation in 2 components – used only for drawing.</li>
+<li><strong>Calibration</strong> (needed for the 27.3% rule): Brier <strong>0.080 vs 0.125</strong> for a naive guess ✓.</li>
+</ol>
 </div>
 </div>
 </div>
