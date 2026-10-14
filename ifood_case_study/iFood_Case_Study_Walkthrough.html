@@ -7818,7 +7818,7 @@ a.anchor-link {
 </head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=527ca1c8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=df559aa6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7826,506 +7826,12 @@ a.anchor-link {
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_title" data-mime-type="text/markdown">
 <h1 id="iFood-Case-Study-%E2%80%94-code,-results-and-walkthrough">iFood Case Study — code, results and walkthrough<a class="anchor-link" href="#iFood-Case-Study-%E2%80%94-code,-results-and-walkthrough">¶</a></h1><p>Under every code cell and its output there is the explanation of <strong>that cell</strong>: the exact commands, why I did it this way, which decision I made and what the output means. Under charts, the box starts with the <strong>conclusions and the place on the chart each one comes from</strong>; <strong>how to read the chart</strong> is at the bottom of the box.
 Colour key: <span style="background:#f2f6fc;border-left:4px solid #2a78d6;padding:2px 8px">blue = explanation of the cell above</span> · <span style="background:#eef8f3;border-left:4px solid #1baf7a;padding:2px 8px">green = conclusions for the whole task</span> · <span style="background:#fff7e6;border-left:4px solid #eda100;padding:2px 8px">amber = for a marketing audience (no statistics needed)</span></p>
-<p><a href="#glossary">Abbreviations &amp; pronunciation</a> · <a href="#setup">Setup</a> · <a href="#q1">Q1 Data quality</a> · <a href="#q2">Q2 Features</a> · <a href="#q3">Q3 EDA</a> · <a href="#q4">Q4 Statistics</a> · <a href="#q5">Q5 Model</a> · <a href="#q6">Q6 Segments</a> · <a href="#q7">Q7 SQL</a> · <a href="#q8">Q8 Summary</a> · <a href="#checks">Method checks</a></p>
+<p><a href="#setup">Setup</a> · <a href="#q1">Q1 Data quality</a> · <a href="#q2">Q2 Features</a> · <a href="#q3">Q3 Exploratory analysis</a> · <a href="#q4">Q4 Statistics</a> · <a href="#q5">Q5 Model</a> · <a href="#q6">Q6 Segments</a> · <a href="#q7">Q7 SQL (Structured Query Language) report</a> · <a href="#q8">Q8 Summary</a> · <a href="#checks">Method checks</a></p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c7baef6e">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_glossary" data-mime-type="text/markdown">
-<p><a id="glossary"></a></p>
-<h2 id="Abbreviations,-symbols-and-how-to-say-them">Abbreviations, symbols and how to say them<a class="anchor-link" href="#Abbreviations,-symbols-and-how-to-say-them">¶</a></h2><p>Every abbreviation is also spelled out the first time it appears in each explanation box. This list collects them in one place.</p>
-<p><strong>Greek letters and symbols</strong></p>
-<table>
-<thead>
-<tr>
-<th>Symbol</th>
-<th>Say it</th>
-<th>What it means here</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>η²</strong></td>
-<td>"eta squared" – <strong>EE-tuh squared</strong> (British) or AY-tuh squared (American)</td>
-<td>Effect size after the Kruskal-Wallis test: the share of the differences between customers that the grouping explains (0 to 1; 0.01 small, 0.06 medium, 0.14 large)</td>
-</tr>
-<tr>
-<td><strong>χ²</strong></td>
-<td>"chi-squared" – <strong>KAI-squared</strong> (rhymes with "sky")</td>
-<td>The statistic of the chi-square tests on counts; larger = further from "no difference"</td>
-</tr>
-<tr>
-<td><strong>ρ</strong></td>
-<td>"rho" – <strong>roh</strong></td>
-<td>Spearman's rank correlation (−1 to +1)</td>
-</tr>
-<tr>
-<td><strong>δ</strong></td>
-<td>"delta" – <strong>DEL-tuh</strong></td>
-<td>Cliff's δ = effect size of the Mann-Whitney test (−1 to +1); in the A/B formula, δ = the change we want to detect</td>
-</tr>
-<tr>
-<td><strong>σ</strong></td>
-<td>"sigma" – <strong>SIG-muh</strong></td>
-<td>Standard deviation (in the A/B sample-size formula)</td>
-</tr>
-<tr>
-<td><strong>R²</strong></td>
-<td>"R-squared"</td>
-<td>Share of the variation explained by a regression (0 to 1)</td>
-</tr>
-<tr>
-<td><strong>H</strong></td>
-<td>"aitch"</td>
-<td>The Kruskal-Wallis test statistic</td>
-</tr>
-<tr>
-<td><strong>U</strong></td>
-<td>"you"</td>
-<td>The Mann-Whitney test statistic</td>
-</tr>
-<tr>
-<td><strong>p</strong></td>
-<td>"p" / "p-value"</td>
-<td>Probability of a result at least this extreme if there were really no effect; below 0.05 = "statistically significant"</td>
-</tr>
-<tr>
-<td><strong>n</strong>, <strong>k</strong></td>
-<td>"en", "kay"</td>
-<td>n = number of customers; k = number of groups or clusters</td>
-</tr>
-<tr>
-<td><strong>z₀.₉₇₅, z₀.₈</strong></td>
-<td>"z point nine seven five", "z point eight"</td>
-<td>1.96 and 0.84 – the normal-distribution values for 5% two-sided significance and 80% power</td>
-</tr>
-<tr>
-<td><strong>10⁻⁵¹</strong></td>
-<td>"ten to the minus fifty-one"</td>
-<td>0.000…01 with 50 zeros after the decimal point – practically zero</td>
-</tr>
-<tr>
-<td><strong>±, ×, ·, √, ≈, ≥, ≤, →</strong></td>
-<td>plus or minus, times, times, square root of, approximately, at least, at most, leads to / gives</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>e^x, exp(b)</strong></td>
-<td>"e to the x"</td>
-<td>The exponential function; exp(coefficient) turns a logistic-regression coefficient into an odds ratio</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Abbreviations</strong></p>
-<table>
-<thead>
-<tr>
-<th>Abbreviation</th>
-<th>Stands for</th>
-<th>In plain words</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A/B test</td>
-<td>–</td>
-<td>Randomised experiment: control version <strong>A</strong> vs new version <strong>B</strong></td>
-</tr>
-<tr>
-<td>A/A test</td>
-<td>–</td>
-<td>Both groups get the same version – checks that the set-up is fair</td>
-</tr>
-<tr>
-<td>ANOVA</td>
-<td>analysis of variance</td>
-<td>Classic test comparing the means of several groups (assumes normal data)</td>
-</tr>
-<tr>
-<td>AP</td>
-<td>average precision</td>
-<td>= PR-AUC; how pure the top of a ranking is (random = share of responders, 0.147)</td>
-</tr>
-<tr>
-<td>API</td>
-<td>application programming interface</td>
-<td>How code talks to a library</td>
-</tr>
-<tr>
-<td>ARI</td>
-<td>adjusted Rand index</td>
-<td>Agreement between two clusterings (1 = identical, 0 = chance)</td>
-</tr>
-<tr>
-<td>AUC</td>
-<td>area under the curve</td>
-<td>Summary of a ranking curve (see ROC-AUC, PR-AUC)</td>
-</tr>
-<tr>
-<td>BIC</td>
-<td>Bayesian information criterion</td>
-<td>Model fit with a penalty for complexity; lower = better</td>
-</tr>
-<tr>
-<td>CI</td>
-<td>confidence interval</td>
-<td>Range of plausible values for the true number (95% = the usual level)</td>
-</tr>
-<tr>
-<td>CMH</td>
-<td>Cochran-Mantel-Haenszel</td>
-<td>Test comparing two groups within strata (here: income bands)</td>
-</tr>
-<tr>
-<td>CMO</td>
-<td>Chief Marketing Officer</td>
-<td></td>
-</tr>
-<tr>
-<td>CPU</td>
-<td>central processing unit</td>
-<td>The computer's processor</td>
-</tr>
-<tr>
-<td>CTE</td>
-<td>common table expression</td>
-<td>A named sub-query in SQL (<code>WITH … AS</code>)</td>
-</tr>
-<tr>
-<td>CUPED</td>
-<td>Controlled-experiment Using Pre-Experiment Data</td>
-<td>Uses customers' pre-test behaviour to make an A/B test need fewer customers</td>
-</tr>
-<tr>
-<td>CV</td>
-<td>cross-validation</td>
-<td>Train on part of the data, score on the rest, repeat – an honest performance estimate</td>
-</tr>
-<tr>
-<td>dbt</td>
-<td>data build tool</td>
-<td>Software that builds clean tables in a data warehouse</td>
-</tr>
-<tr>
-<td>EDA</td>
-<td>exploratory data analysis</td>
-<td>First look at the data: distributions, segments, relationships</td>
-</tr>
-<tr>
-<td>EPV</td>
-<td>events per variable</td>
-<td>Responders ÷ model coefficients; ≥ 10 needed for an unpenalised logistic regression</td>
-</tr>
-<tr>
-<td>F1</td>
-<td>F1 score ("F-one")</td>
-<td>Harmonic mean of precision and recall</td>
-</tr>
-<tr>
-<td>FN / FP / TP</td>
-<td>false negatives / false positives / true positives</td>
-<td>Missed responders / wasted contacts / responders reached</td>
-</tr>
-<tr>
-<td>GB</td>
-<td>gradient boosting</td>
-<td>A model built from many small decision trees, each correcting the previous ones</td>
-</tr>
-<tr>
-<td>GDPR</td>
-<td>General Data Protection Regulation</td>
-<td>EU data-protection law (rules on profiling customers)</td>
-</tr>
-<tr>
-<td>GMM</td>
-<td>Gaussian mixture model</td>
-<td>Describes data as a blend of bell-shaped clouds</td>
-</tr>
-<tr>
-<td>H0 / H1</td>
-<td>null / alternative hypothesis</td>
-<td>"No effect" / "there is an effect"</td>
-</tr>
-<tr>
-<td>HC1</td>
-<td>heteroscedasticity-consistent (version 1)</td>
-<td>Robust standard errors that stay valid when the spread differs between customers</td>
-</tr>
-<tr>
-<td>ID</td>
-<td>identifier</td>
-<td>e.g. a unique customer number</td>
-</tr>
-<tr>
-<td>IQR</td>
-<td>interquartile range</td>
-<td>Q3 − Q1: the range of the middle half of customers</td>
-</tr>
-<tr>
-<td>IT</td>
-<td>information technology</td>
-<td>The IT / data team</td>
-</tr>
-<tr>
-<td>k-NN</td>
-<td>k-nearest neighbours</td>
-<td>A model that predicts from the most similar customers</td>
-</tr>
-<tr>
-<td>KPI</td>
-<td>key performance indicator</td>
-<td></td>
-</tr>
-<tr>
-<td>L1 / L2</td>
-<td>lasso / ridge penalty</td>
-<td>Regularisation: L1 can set coefficients exactly to zero, L2 shrinks all of them</td>
-</tr>
-<tr>
-<td>log1p</td>
-<td>log(1 + x)</td>
-<td>Logarithm that also works for zero</td>
-</tr>
-<tr>
-<td>LR</td>
-<td>logistic regression (in Q5) / likelihood ratio (in "likelihood-ratio test")</td>
-<td></td>
-</tr>
-<tr>
-<td>MDE</td>
-<td>minimum detectable effect</td>
-<td>Smallest true change a test catches with 80% probability</td>
-</tr>
-<tr>
-<td>MU</td>
-<td>monetary units</td>
-<td>The currency of the data set</td>
-</tr>
-<tr>
-<td>OLS</td>
-<td>ordinary least squares</td>
-<td>Standard linear regression</td>
-</tr>
-<tr>
-<td>OR</td>
-<td>odds ratio</td>
-<td>1 = no effect; above 1 raises, below 1 lowers the odds</td>
-</tr>
-<tr>
-<td>PC1 / PC2</td>
-<td>principal component 1 / 2</td>
-<td>The two axes of the PCA chart</td>
-</tr>
-<tr>
-<td>PCA</td>
-<td>principal component analysis</td>
-<td>Squeezes many columns into a few axes, for drawing</td>
-</tr>
-<tr>
-<td>pp</td>
-<td>percentage points</td>
-<td>9.6% vs 27.8% = a difference of 18.2 pp</td>
-</tr>
-<tr>
-<td>PR-AUC</td>
-<td>area under the precision-recall curve</td>
-<td>= AP (see above)</td>
-</tr>
-<tr>
-<td>Q1 … Q8</td>
-<td>the case-study questions</td>
-<td>Q1 = data quality … Q8 = executive summary</td>
-</tr>
-<tr>
-<td>Q1 / Q3 (of a variable), Q1–Q4 (income)</td>
-<td>1st / 3rd quartile; income quartiles</td>
-<td>Q1 = 25th percentile, Q3 = 75th; income Q1 = poorest quarter … Q4 = richest</td>
-</tr>
-<tr>
-<td>R1–R3</td>
-<td>business rules 1–3</td>
-<td>The three "impossible record" rules in Q1d</td>
-</tr>
-<tr>
-<td>RF</td>
-<td>random forest</td>
-<td>Many deep decision trees averaged together</td>
-</tr>
-<tr>
-<td>ROC-AUC</td>
-<td>area under the receiver-operating-characteristic curve</td>
-<td>Probability that a random responder scores higher than a random non-responder (0.5 = coin flip)</td>
-</tr>
-<tr>
-<td>ROI</td>
-<td>return on investment</td>
-<td>Profit ÷ cost</td>
-</tr>
-<tr>
-<td>RR</td>
-<td>relative risk</td>
-<td>Ratio of two rates (0.34 = a third as likely)</td>
-</tr>
-<tr>
-<td>SD</td>
-<td>standard deviation</td>
-<td>Typical distance of values from their mean</td>
-</tr>
-<tr>
-<td>SE, 1-SE</td>
-<td>standard error, one-standard-error (rule)</td>
-<td>Uncertainty of an estimate; the 1-SE rule picks the simplest model within one SE of the best</td>
-</tr>
-<tr>
-<td>SQL</td>
-<td>Structured Query Language</td>
-<td>The language of databases</td>
-</tr>
-<tr>
-<td>SS</td>
-<td>sum of squares</td>
-<td>"Within-cluster SS" = total squared distance of customers from their cluster centre</td>
-</tr>
-<tr>
-<td>SVM</td>
-<td>support vector machine</td>
-<td>A classification model without native probabilities</td>
-</tr>
-<tr>
-<td>TPR</td>
-<td>true positive rate</td>
-<td>Of the real responders, the share the model selects</td>
-</tr>
-<tr>
-<td>VIF</td>
-<td>variance inflation factor</td>
-<td>How much an input overlaps with the others (above 5 worrying, above 10 serious)</td>
-</tr>
-<tr>
-<td>VIP</td>
-<td>very important person</td>
-<td>Programme for top customers</td>
-</tr>
-<tr>
-<td>vs</td>
-<td>versus</td>
-<td>compared with</td>
-</tr>
-<tr>
-<td>XGBoost</td>
-<td>eXtreme Gradient Boosting</td>
-<td>A popular gradient-boosting library (not on the allowed list)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Codes in the column names</strong></p>
-<table>
-<thead>
-<tr>
-<th>Code</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Mnt…</code> (e.g. <code>MntWines</code>)</td>
-<td>amount of money spent on that category in the last 2 years</td>
-</tr>
-<tr>
-<td><code>Num…Purchases</code></td>
-<td>number of purchases (through deals, the website, the catalogue, the store)</td>
-</tr>
-<tr>
-<td><code>NumWebVisitsMonth</code></td>
-<td>website visits in the last month</td>
-</tr>
-<tr>
-<td><code>AcceptedCmp1–5</code></td>
-<td>accepted campaign 1–5 (the five earlier campaigns; 1 = yes)</td>
-</tr>
-<tr>
-<td><code>Response</code></td>
-<td>accepted the latest campaign (the target)</td>
-</tr>
-<tr>
-<td><code>Kidhome</code> / <code>Teenhome</code></td>
-<td>number of young children / teenagers at home</td>
-</tr>
-<tr>
-<td><code>Recency</code></td>
-<td>days since the last purchase</td>
-</tr>
-<tr>
-<td><code>Customer_Days</code></td>
-<td>days since enrolment (counted to 2020 in this file)</td>
-</tr>
-<tr>
-<td><code>Z_CostContact</code> / <code>Z_Revenue</code></td>
-<td>cost of one contact (3) / revenue of one acceptance (11)</td>
-</tr>
-<tr>
-<td><code>2n Cycle</code></td>
-<td>second Bologna cycle – about Master level</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Method names that are hard to say</strong></p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Say it</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Kruskal-Wallis</td>
-<td>KRUSS-kul WALL-iss</td>
-</tr>
-<tr>
-<td>Tukey (fences)</td>
-<td>TOO-kee</td>
-</tr>
-<tr>
-<td>Shapiro-Wilk</td>
-<td>shuh-PEER-oh WILK</td>
-</tr>
-<tr>
-<td>Šidák</td>
-<td>SHEE-dahk</td>
-</tr>
-<tr>
-<td>Gaussian</td>
-<td>GOW-see-un</td>
-</tr>
-<tr>
-<td>Bayesian</td>
-<td>BAY-zee-un</td>
-</tr>
-<tr>
-<td>Newcombe</td>
-<td>NYOO-kum</td>
-</tr>
-<tr>
-<td>Pareto</td>
-<td>puh-RAY-toh</td>
-</tr>
-<tr>
-<td>Calinski-Harabasz</td>
-<td>Polish names – say them the Polish way (Kaliński-Harabasz)</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a15b63c4">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e7b032f0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8394,7 +7900,7 @@ Colour key: <span style="background:#f2f6fc;border-left:4px solid #2a78d6;paddin
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ea5b0ac0">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ae8be957">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8446,7 +7952,7 @@ Colour key: <span style="background:#f2f6fc;border-left:4px solid #2a78d6;paddin
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=99c798eb">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c9bbbd82">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8472,7 +7978,7 @@ Colour key: <span style="background:#f2f6fc;border-left:4px solid #2a78d6;paddin
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=91328d61">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1e8a970d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8484,7 +7990,7 @@ Colour key: <span style="background:#f2f6fc;border-left:4px solid #2a78d6;paddin
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a4725e03">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=29c7b6ba">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8495,7 +8001,7 @@ Colour key: <span style="background:#f2f6fc;border-left:4px solid #2a78d6;paddin
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5424273e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=559b5ecd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8934,7 +8440,7 @@ Income is stored as float but every value is a whole number: True
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=503007d9">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ef10a7eb">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8959,7 +8465,7 @@ Income is stored as float but every value is a whole number: True
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0d9ffed5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6843ad5d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9026,7 +8532,7 @@ Distinct records matching another record on everything except one attribute: {'m
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=647f80a2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1bc5e82b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9188,7 +8694,7 @@ Distinct records matching another record on everything except one attribute: {'m
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=632ecaf1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=613eaa60">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9201,7 +8707,7 @@ Distinct records matching another record on everything except one attribute: {'m
 <li><code>groupby</code> collects identical customer profiles (all 38 non-target columns);</li>
 <li><code>nunique</code> counts how many different <code>Response</code> values each profile has;</li>
 <li><code>transform</code> writes that number back onto <strong>every row</strong> (instead of one row per group), so I can filter the original rows directly;</li>
-<li><code>.gt(1)</code> keeps profiles with more than one value, i.e. both 0 and 1.</li>
+<li><code>.gt(1)</code> keeps profiles with more than one value, that is both 0 and 1.</li>
 </ul>
 </li>
 <li><strong>Showed 6 example rows</strong>, sorted by income and response, so the conflict is visible.</li>
@@ -9268,7 +8774,7 @@ Distinct records matching another record on everything except one attribute: {'m
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=262c6f13">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=01314196">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9295,7 +8801,7 @@ Distinct records matching another record on everything except one attribute: {'m
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5cdcb0fb">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=06b75e2b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9420,7 +8926,7 @@ std                0.0        0.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c66f5eb3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fd768755">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9428,7 +8934,7 @@ std                0.0        0.0
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
 <p><strong>What I did – step by step</strong></p>
 <ol>
-<li><strong><code>df[['Z_CostContact', 'Z_Revenue']].agg(['nunique', 'min', 'max', 'std'])</code></strong> – four statistics in one call. One distinct value, min = max and a standard deviation of 0 together prove a column is constant.</li>
+<li><strong><code>df[['Z_CostContact', 'Z_Revenue']].agg(['nunique', 'min', 'max', 'std'])</code></strong> – four statistics in one call. One distinct value, minimum = maximum and a standard deviation of 0 together prove a column is constant.</li>
 <li><strong>Compared with the public iFood case brief:</strong> 2,240 customers × 3 = 6,720 campaign cost, and 334 acceptances × 11 = 3,674 revenue. Both match exactly, so these are the campaign's unit economics.</li>
 <li><strong>Stored them as constants:</strong> <code>COST_PER_CONTACT = 3</code>, <code>REVENUE_PER_RESPONSE = 11</code>, <code>BREAK_EVEN_RATE = 3 / 11</code>. <strong>Why constants:</strong> they are campaign parameters, not customer attributes, and they feed every later profit calculation (Q5 thresholds, Q6 segment economics) from one place.</li>
 <li><strong><code>campaign_pnl(n_contacted, n_responders)</code></strong> – a small function returning cost (n × 3), revenue (responders × 11), profit and ROI (return on investment). I ran it for the public brief, the file as delivered and the de-duplicated file, so the three can be compared side by side.</li>
@@ -9437,7 +8943,7 @@ std                0.0        0.0
 <ul>
 <li>Both columns are constant: <strong>3</strong> and <strong>11</strong>. So it costs <strong>3 to contact a customer</strong>, and an acceptance brings <strong>11</strong>.</li>
 <li><strong>Break-even response rate = 3 / 11 = 27.3%.</strong> Below that, a campaign loses money.</li>
-<li>All three versions of the campaign show a <strong>~15% response rate and ROI ≈ −45%</strong> – the campaign lost almost half of what it cost (−2,952 on the delivered file).</li>
+<li>All three versions of the campaign show a <strong>~15% response rate and ROI (return on investment) ≈ −45%</strong> – the campaign lost almost half of what it cost (−2,952 on the delivered file).</li>
 <li>Caveat: 11 is revenue, not margin, so with margin data the break-even would be even higher.</li>
 </ul>
 </div>
@@ -9459,7 +8965,7 @@ std                0.0        0.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=769404dd">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ff47df1a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9471,7 +8977,7 @@ std                0.0        0.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=27670fd3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3232c26f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9584,7 +9090,7 @@ std                0.0        0.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=76b15ad7">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7527891e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9593,7 +9099,7 @@ std                0.0        0.0
 <p><strong>What I did – step by step</strong></p>
 <ol>
 <li><strong><code>sum6 = df[MNT_COLS].sum(axis=1)</code>.</strong> <code>axis=1</code> sums across the 6 category columns, giving each customer's total.</li>
-<li><strong>Each documented definition tested as a share of rows:</strong> e.g. <code>(df['MntTotal'] == sum6).mean()</code>. The comparison gives True/False per row, and the mean of True/False is the share that is True. <strong>Why this form:</strong> one number per hypothesis – 100% proves a rule, anything less shows how often it breaks.</li>
+<li><strong>Each documented definition tested as a share of rows:</strong> for example <code>(df['MntTotal'] == sum6).mean()</code>. The comparison gives True/False per row, and the mean of True/False is the share that is True. <strong>Why this form:</strong> one number per hypothesis – 100% proves a rule, anything less shows how often it breaks.</li>
 <li><strong>I also tested the obvious alternatives:</strong> total <em>without</em> gold; <code>MntRegularProds = MntTotal − gold</code>; <code>AcceptedCmpOverall</code> with and without <code>Response</code>; exactly one marital / education flag per row (<code>df[MARITAL_COLS].sum(axis=1) == 1</code>).</li>
 </ol>
 <p><strong>Output and what it means</strong> – the data dictionary is wrong in three places:</p>
@@ -9641,7 +9147,7 @@ std                0.0        0.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cdf7c588">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7eba95f2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9662,7 +9168,7 @@ std                0.0        0.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=267ca076">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0fa99e0f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9780,13 +9286,13 @@ std                0.0        0.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a5e7993a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4940c4e6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did.</strong> <code>describe(percentiles=[.01, .05, .25, .5, .75, .95, .99])</code>. Besides min and max, it shows the 1st/5th/95th/99th percentiles. <strong>Why:</strong> it tells whether an extreme value is a single isolated point or a whole tail.</p>
+<p><strong>What I did.</strong> <code>describe(percentiles=[.01, .05, .25, .5, .75, .95, .99])</code>. Besides minimum and maximum, it shows the 1st/5th/95th/99th percentiles. <strong>Why:</strong> it tells whether an extreme value is a single isolated point or a whole tail.</p>
 <p><strong>Output and what it means.</strong></p>
 <ul>
 <li><strong>Age:</strong> 24–80; 1% are under 28 and 1% over 75 – a smooth, plausible range.</li>
@@ -9839,7 +9345,7 @@ std                0.0        0.0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3ae95138">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d49c9652">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9853,7 +9359,7 @@ std                0.0        0.0
 <li><strong>Age looks plausible</strong> (median 50, most customers 40–50, a smaller group around 60–70).<br/>→ <em>Where on the chart:</em> left panel – a smooth hill around the grey median line.</li>
 <li><strong>The few high incomes are rare but valid</strong> (5 customers above 100k).<br/>→ <em>Where on the chart:</em> middle panel, the thin bars at the far right – still inside the fence.</li>
 </ul>
-<p><strong>What I did.</strong> A histogram per variable (<code>ax.hist</code>), with a grey line at the median and red lines at the <strong>Tukey fences</strong> (Q1 − 1.5·IQR (interquartile range) and Q3 + 1.5·IQR, where Q1 and Q3 are the 1st and 3rd quartiles – the 25th and 75th percentiles – from <code>quantile([.25, .75])</code>), drawn only if they fall inside the data range.</p>
+<p><strong>What I did.</strong> A histogram per variable (<code>ax.hist</code>), with a grey line at the median and red lines at the <strong>Tukey fences</strong> (Q1 − 1.5·IQR (interquartile range) and Q3 + 1.5·IQR (interquartile range), where Q1 and Q3 are the 1st and 3rd quartiles – the 25th and 75th percentiles – from <code>quantile([.25, .75])</code>), drawn only if they fall inside the data range.</p>
 <p><strong>Why Tukey fences – and why I could use them here.</strong> Tukey's rule needs no assumption about the shape of the distribution: it is built from quartiles, and quartiles are not pulled by the extreme values themselves. The alternative, mean ± 3 standard deviations, assumes a normal distribution, and the outliers would inflate the very standard deviation used to find them.</p>
 <p><strong>How to read this chart</strong></p>
 <ul>
@@ -9928,7 +9434,7 @@ Chi-square goodness-of-fit vs. a flat (uniform) distribution: chi2 = 3.0, p = 0.
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5ecfc911">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=de16e0ff">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -9973,12 +9479,12 @@ Chi-square goodness-of-fit vs. a flat (uniform) distribution: chi2 = 3.0, p = 0.
 <li>spend / income: median 0.4%, 99th percentile 1.4%, but a maximum of <strong>35%</strong> – one customer is wildly off.</li>
 </ul>
 </li>
-<li><strong>Recency:</strong> 189–211 customers in every 10-day bin; χ² (chi-squared – say “KAI-squared”) = 3.0, <strong>p = 0.97</strong>, i.e. indistinguishable from flat. Real recency is skewed (many recent buyers, a long tail of lapsed ones), so the extract was capped at 99 days or filtered. We also don't know whether it was measured before or after the campaign – a possible leak for Q5.</li>
+<li><strong>Recency:</strong> 189–211 customers in every 10-day bin; χ² (chi-squared – say “KAI-squared”) = 3.0, <strong>p = 0.97</strong>, that is indistinguishable from flat. Real recency is skewed (many recent buyers, a long tail of lapsed ones), so the extract was capped at 99 days or filtered. We also don't know whether it was measured before or after the campaign – a possible leak for Q5.</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>Tukey fences</strong> = Q1 − 1.5·IQR (interquartile range) and Q3 + 1.5·IQR, where Q1 and Q3 are the 25th and 75th percentiles and IQR = Q3 − Q1 (the range of the middle half of customers). A value outside the fences is an "outlier" by convention. Every income lies inside [−13,965; 117,699] → 0 outliers.</li>
-<li><strong>χ² = 3.0</strong> = the sum over the bins of (observed − expected)² / expected. 0 would be perfectly flat; the larger, the less flat. With 10 bins (9 degrees of freedom) a truly random flat variable typically gives a value around 9. 3.0 is <em>even flatter than chance usually produces</em>.</li>
+<li><strong>Tukey fences</strong> = Q1 − 1.5·IQR (interquartile range) and Q3 + 1.5·IQR (interquartile range), where Q1 and Q3 are the 25th and 75th percentiles and IQR (interquartile range) = Q3 − Q1 (the range of the middle half of customers). A value outside the fences is an "outlier" by convention. Every income lies inside [−13,965; 117,699] → 0 outliers.</li>
+<li><strong>χ² (chi-squared – say “KAI-squared”) = 3.0</strong> = the sum over the bins of (observed − expected)² / expected. 0 would be perfectly flat; the larger, the less flat. With 10 bins (9 degrees of freedom) a truly random flat variable typically gives a value around 9. 3.0 is <em>even flatter than chance usually produces</em>.</li>
 <li><strong>p = 0.97</strong> = the probability of bins at least this uneven if Recency really were flat. A small p (below 0.05) would reject "flat". <strong>p = 0.97 means no evidence at all against a perfectly flat distribution</strong> – and that is the warning sign, because real purchase recency is never flat.</li>
 </ul>
 <p><strong>Decision on the suspicious incomes: keep them and document them.</strong></p>
@@ -10137,7 +9643,7 @@ Chi-square goodness-of-fit vs. a flat (uniform) distribution: chi2 = 3.0, p = 0.
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2a8363e3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d824a6a2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10201,7 +9707,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d36df983">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=97e37fc2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10220,7 +9726,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=434b23a1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5d9b1a6e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10231,7 +9737,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c50ca01c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=114d0eac">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10276,9 +9782,9 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </table>
 <p><strong>The one number to put on every campaign dashboard.</strong> A contact costs <strong>3</strong> and an acceptance brings in <strong>11</strong>, so a campaign must reach <strong>27% acceptance just to break even</strong>. The last campaign's 15% sounds healthy but actually <strong>lost about 45% of its cost</strong>. Report campaign <strong>profit</strong>, not only the response rate.</p>
 <p><strong>What you can safely use right away:</strong> what customers buy and how much, through which channels, their campaign history, family composition and education – all clean after our fixes.</p>
-<p><strong>Three requests to IT / the data owner:</strong></p>
+<p><strong>Three requests to IT (information-technology team) / the data owner:</strong></p>
 <ol>
-<li>a unique customer ID;</li>
+<li>a unique customer ID (identifier);</li>
 <li>the date the extract was taken;</li>
 <li>the margin per acceptance, not just revenue.</li>
 </ol>
@@ -10286,7 +9792,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=632ac4fe">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=219f190f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10304,7 +9810,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3f20a020">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e89755e4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10316,7 +9822,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=68f6f680">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2257a87e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10375,7 +9881,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b2f45685">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ae0a305d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10383,7 +9889,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
 <p><strong>What I did – step by step</strong></p>
 <ol>
-<li><strong><code>TotalChildren = Kidhome + Teenhome</code></strong>, plus <strong><code>HasChildren = (TotalChildren &gt; 0).astype(int)</code></strong>. The 0/1 flag is what the Q4 tests compare (households with vs without children).</li>
+<li><strong><code>TotalChildren = Kidhome + Teenhome</code></strong>, plus <strong><code>HasChildren = (TotalChildren &gt; 0).astype(int)</code></strong>. The 0/1 flag is what the Q4 tests compare (households with versus without children).</li>
 <li><strong><code>TotalPurchases = cust[PURCHASE_COLS].sum(axis=1)</code></strong> – deals + web + catalogue + store, exactly as the task specifies.</li>
 <li><strong><code>ChannelPurchases = cust[CHANNEL_COLS].sum(axis=1)</code></strong> – web + catalogue + store only. <strong>Why add it:</strong> a discounted purchase is still made through one of the three channels, so <code>NumDealsPurchases</code> is a subset of them, and adding it again counts those purchases twice.</li>
 <li><strong><code>AvgSpendPerPurchase = MntTotal / TotalPurchases.replace(0, np.nan)</code>.</strong><ul>
@@ -10397,7 +9903,7 @@ Final analytical table: 1,994 unique customers, 1,975 with a usable label, 291 r
 <li>I also kept the delivered version, <code>Customer_Days / 365.25</code>, and reconstructed the enrolment date with <code>pd.Timestamp('2020-05-27') - pd.to_timedelta(Customer_Days, unit='D')</code>.</li>
 </ul>
 </li>
-<li><strong>Collapsing the dummies:</strong> <code>cust[EDU_COLS].idxmax(axis=1)</code> returns, for each row, the <strong>name of the column that holds the 1</strong> (e.g. <code>education_PhD</code>).<ul>
+<li><strong>Collapsing the dummies:</strong> <code>cust[EDU_COLS].idxmax(axis=1)</code> returns, for each row, the <strong>name of the column that holds the 1</strong> (for example <code>education_PhD</code>).<ul>
 <li><code>.str.replace('education_', '')</code> leaves just <code>PhD</code>.</li>
 <li><code>pd.Categorical(..., categories=[...], ordered=True)</code> fixes the order Basic → 2n Cycle → Graduation → Master → PhD, so tables and charts are sorted logically.</li>
 <li>The same for marital status.</li>
@@ -10619,7 +10125,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f39f8dfe">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d9114e94">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10637,7 +10143,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 <ul>
 <li><strong>0 zero-purchase customers</strong> now. The 2 in the raw file were among the impossible records removed in Q1; the NaN rule stays in place for new data.</li>
 <li>Enrolment dates run from exactly <strong>30-Jul-2012 to 29-Jun-2014</strong> – the source window, which also confirms the 2020 anchor.</li>
-<li>Median <code>TotalPurchases</code> is <strong>15</strong> vs <strong>12</strong> for <code>ChannelPurchases</code>. So the specified average basket (<strong>median 23.7</strong>) understates the real one (<strong>median 29.9</strong>) by ~20%. That matters for the $30 free-delivery design in Q4c, where the threshold sits right at the median basket.</li>
+<li>Median <code>TotalPurchases</code> is <strong>15</strong> versus <strong>12</strong> for <code>ChannelPurchases</code>. So the specified average basket (<strong>median 23.7</strong>) understates the real one (<strong>median 29.9</strong>) by ~20%. That matters for the $30 free-delivery design in Q4c, where the threshold sits right at the median basket.</li>
 <li>Tenure is <strong>0–1.9 years</strong> (median ~1), instead of the misleading 5.9–7.8 years as delivered.</li>
 <li>Small groups: <strong>Basic education 49, Widow 69</strong> – their numbers will have wide confidence intervals later. "2n Cycle" is the Bologna second cycle (≈ Master level), so its position in the order is ambiguous; I kept it as a separate category rather than guess.</li>
 </ul>
@@ -10645,7 +10151,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1f34b132">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=29ae5c67">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10665,7 +10171,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2e87fe5a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8d59c5a8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10677,18 +10183,18 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8a043355">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b3c2c3a0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_task" data-mime-type="text/markdown">
-<p>Task: distributions; which segments spend most and how the mix differs; income vs spend; three slides for the Head of Marketing.</p>
+<p>Task: distributions; which segments spend most and how the mix differs; income versus spend; three slides for the Head of Marketing.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=96ab0a66">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dea0e40e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10827,7 +10333,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3fa47417">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=02d18e57">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -10835,9 +10341,9 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
 <p><strong>Conclusions – and where on the chart you see them</strong></p>
 <ul>
-<li><strong>Income and age are symmetric – their average describes the typical customer.</strong><br/>→ <em>Where on the chart:</em> panels 1–2 – the orange line (mean) and the grey line (median) almost overlap: 51.8k vs 51.5k, and 51 vs 50 years.</li>
+<li><strong>Income and age are symmetric – their average describes the typical customer.</strong><br/>→ <em>Where on the chart:</em> panels 1–2 – the orange line (mean) and the grey line (median) almost overlap: 51.8k versus 51.5k, and 51 versus 50 years.</li>
 <li><strong>Spend is heavily skewed – "the average customer" doesn't exist.</strong><br/>→ <em>Where on the chart:</em> panel 3 – a tall spike at the far left (31% of customers spent less than 100 in two years), a long flat tail to ~2,500, and the orange mean line (608) far to the right of the grey median line (398). 59% of customers are below the mean.</li>
-<li><strong>There are two kinds of customers: light buyers (~60) and heavy buyers (~850).</strong><br/>→ <em>Where on the chart:</em> panel 4 (log scale) – two separate hills with a dip between them. Confirmed by BIC (Bayesian information criterion): 3,213 for two groups vs 3,896 for one (lower = better); the groups hold 42% and 58% of customers.</li>
+<li><strong>There are two kinds of customers: light buyers (~60) and heavy buyers (~850).</strong><br/>→ <em>Where on the chart:</em> panel 4 (log scale) – two separate hills with a dip between them. Confirmed by BIC (Bayesian information criterion): 3,213 for two groups versus 3,896 for one (lower = better); the groups hold 42% and 58% of customers.</li>
 <li><strong>Consequence:</strong> I report medians and segments, and use log-spend in the models.</li>
 </ul>
 <p><strong>What I did – step by step</strong></p>
@@ -10856,7 +10362,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 <li><p><strong>Bimodality test:</strong> <code>GaussianMixture(k).fit(log-spend)</code> for k = 1 and k = 2, compared with <code>.bic()</code>. <code>n_init=5</code> restarts the fit 5 times to avoid a poor solution.</p>
 </li>
 </ol>
-<p><strong>Why a Gaussian mixture with BIC – and why I could use it here</strong></p>
+<p><strong>Why a Gaussian mixture with BIC (Bayesian information criterion) – and why I could use it here</strong></p>
 <ul>
 <li><strong>The question:</strong> is log-spend one group or two? A Gaussian mixture describes the data as a blend of normal "bumps"; comparing 1 bump with 2 bumps answers the question directly.</li>
 <li><strong>BIC</strong> (Bayesian information criterion) rewards a better fit but penalises every extra parameter, so a second bump wins only if it describes the data much better. It is valid for comparing models fitted by maximum likelihood <strong>on the same data</strong> ✓.</li>
@@ -10867,7 +10373,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 <li><strong>Skewness:</strong> 0 = symmetric; positive = long right tail. Roughly: below 0.5 fairly symmetric, 0.5–1 moderately skewed, above 1 strongly skewed. Spend 0.86 → moderately-to-strongly skewed.</li>
 <li><strong>Excess kurtosis:</strong> 0 = tails like a normal distribution; negative = flatter, with lighter tails (Income −0.85 and Age −0.81 are flat-topped, with no extreme values).</li>
 <li><strong>share_below_mean:</strong> 0.50 for a symmetric variable. 0.59 for spend → the mean is above the typical customer.</li>
-<li><strong>BIC:</strong> lower = better. A difference above 10 is considered very strong evidence; here the difference is <strong>683</strong> → overwhelming evidence for two groups.</li>
+<li><strong>BIC (Bayesian information criterion):</strong> lower = better. A difference above 10 is considered very strong evidence; here the difference is <strong>683</strong> → overwhelming evidence for two groups.</li>
 </ul>
 <p><strong>How to read this chart</strong></p>
 <ul>
@@ -10879,7 +10385,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=099f5d54">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=65589633">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11169,7 +10675,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0a4682f2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e8629b3e">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11285,7 +10791,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7bbec51b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2211cf19">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11294,7 +10800,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 <p><strong>What I did.</strong> <code>stats.kruskal(*groups)</code> for five ways of splitting customers (number of children, has children yes/no, education, marital status, in a couple yes/no), with the effect size <strong>η² (eta squared – say “EE-tuh squared”) = (H − k + 1) / (n − k)</strong> (H = test statistic, k = number of groups, n = customers), sorted from the strongest to the weakest.</p>
 <p><strong>Why Kruskal-Wallis – and why I could use it here</strong></p>
 <ul>
-<li><strong>The question:</strong> do several groups (e.g. 0 / 1 / 2 / 3 children) differ in spend? The textbook test is <strong>one-way ANOVA (analysis of variance)</strong>, but ANOVA assumes that spend is normally distributed with the <strong>same variance in every group</strong>. Neither holds: spend is right-skewed with two humps (Q3a), and childless customers vary far more than families. ANOVA's p-values would be unreliable.</li>
+<li><strong>The question:</strong> do several groups (for example 0 / 1 / 2 / 3 children) differ in spend? The textbook test is <strong>one-way ANOVA (analysis of variance)</strong>, but ANOVA (analysis of variance) assumes that spend is normally distributed with the <strong>same variance in every group</strong>. Neither holds: spend is right-skewed with two humps (Q3a), and childless customers vary far more than families. ANOVA (analysis of variance)'s p-values would be unreliable.</li>
 <li><strong>Kruskal-Wallis</strong> replaces every spend value by its <strong>rank</strong> (1 = lowest spender … 1,994 = highest) and tests whether the average rank differs between groups. What it needs, and how this data meets it:<ul>
 <li>independent observations – one row per customer ✓ (Q1b);</li>
 <li>an outcome that can be put in order – spend ✓;</li>
@@ -11307,23 +10813,23 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </ul>
 <p><strong>Output and what it means.</strong></p>
 <ul>
-<li><strong>Number of children η² = 0.26</strong> – by far the strongest separator (H = 513, p = 7·10⁻¹¹¹).</li>
+<li><strong>Number of children η² (eta squared – say “EE-tuh squared”) = 0.26</strong> – by far the strongest separator (H = 513, p = 7·10⁻¹¹¹).</li>
 <li><strong>Education 0.03</strong> – real (p = 2·10⁻¹³), but small.</li>
 <li><strong>Marital status 0.00</strong> (p = 0.22) – not even significant; "in a couple" the same (p = 0.33).</li>
 </ul>
 <p>Household composition explains spending; marital status does not.</p>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>H</strong> – how far apart the groups' average ranks are. 0 = identical; the bigger, the more different. If the groups really spent the same, H would behave like a χ² variable with k − 1 degrees of freedom – for 4 groups a value around 3 is normal. <strong>513 is enormous.</strong></li>
-<li><strong>p-value</strong> – the probability of differences at least this large if all groups really spent the same. Below 0.05 = "statistically significant", i.e. unlikely to be chance. Children 7·10⁻¹¹¹ and education 2·10⁻¹³ → real. <strong>Marital status 0.22</strong> → a difference of that size appears by chance 22% of the time → not significant.</li>
-<li><strong>η² (eta squared)</strong> – the <strong>share of the differences between customers' spend ranks that the grouping explains</strong>, from 0 (knowing the group tells you nothing) to 1 (the group explains everything). Rule of thumb: <strong>0.01 = small, 0.06 = medium, 0.14 = large.</strong><ul>
+<li><strong>H</strong> – how far apart the groups' average ranks are. 0 = identical; the bigger, the more different. If the groups really spent the same, H would behave like a χ² (chi-squared – say “KAI-squared”) variable with k − 1 degrees of freedom – for 4 groups a value around 3 is normal. <strong>513 is enormous.</strong></li>
+<li><strong>p-value</strong> – the probability of differences at least this large if all groups really spent the same. Below 0.05 = "statistically significant", that is unlikely to be chance. Children 7·10⁻¹¹¹ and education 2·10⁻¹³ → real. <strong>Marital status 0.22</strong> → a difference of that size appears by chance 22% of the time → not significant.</li>
+<li><strong>η² (eta squared – say “EE-tuh squared”)</strong> – the <strong>share of the differences between customers' spend ranks that the grouping explains</strong>, from 0 (knowing the group tells you nothing) to 1 (the group explains everything). Rule of thumb: <strong>0.01 = small, 0.06 = medium, 0.14 = large.</strong><ul>
 <li>number of children <strong>0.256 → large</strong>: about a quarter of the rank differences between customers is explained just by how many children they have;</li>
 <li>has children yes/no 0.229 → large – nearly all of it is the yes/no split;</li>
 <li>education <strong>0.031 → small</strong>;</li>
 <li>marital status 0.001 and "in a couple" −0.000 → <strong>none</strong>. A slightly negative value is just the formula's small-sample correction around zero; read it as 0.</li>
 </ul>
 </li>
-<li><strong>Why I rank by η² and not by p:</strong> with ~2,000 customers even tiny differences get small p-values. <strong>p answers "is it real?", η² answers "is it big?"</strong> – and Marketing needs the second.</li>
+<li><strong>Why I rank by η² (eta squared – say “EE-tuh squared”) and not by p:</strong> with ~2,000 customers even tiny differences get small p-values. <strong>p answers "is it real?", η² (eta squared – say “EE-tuh squared”) answers "is it big?"</strong> – and Marketing needs the second.</li>
 </ul>
 </div>
 </div>
@@ -11377,7 +10883,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=432bfb27">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=850a0a2d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11385,8 +10891,8 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
 <p><strong>Conclusions – and where on the chart you see them</strong></p>
 <ul>
-<li><strong>Children separate spend most clearly – each step from 0 → 1 → 2 children is a real drop.</strong><br/>→ <em>Where on the chart:</em> right panel – the 0-children dot (1,123, CI (confidence interval) 1,070–1,175) sits far to the right of the grey line; 1 child (471, CI 443–499) and 2 children (250, CI 218–283) – the three horizontal lines don't touch each other. The lines for 2 and 3 children overlap (250 vs 259) → no difference beyond two children.</li>
-<li><strong>Education matters only at the low end.</strong><br/>→ <em>Where on the chart:</em> left panel – Basic (84, CI 55–125) sits alone far to the left; 2n Cycle (493, CI 415–571) lies entirely left of the grey line; the Graduation, Master and PhD lines overlap each other around the grey line.</li>
+<li><strong>Children separate spend most clearly – each step from 0 → 1 → 2 children is a real drop.</strong><br/>→ <em>Where on the chart:</em> right panel – the 0-children dot (1,123, CI (confidence interval) 1,070–1,175) sits far to the right of the grey line; 1 child (471, CI (confidence interval) 443–499) and 2 children (250, CI (confidence interval) 218–283) – the three horizontal lines don't touch each other. The lines for 2 and 3 children overlap (250 versus 259) → no difference beyond two children.</li>
+<li><strong>Education matters only at the low end.</strong><br/>→ <em>Where on the chart:</em> left panel – Basic (84, CI (confidence interval) 55–125) sits alone far to the left; 2n Cycle (493, CI (confidence interval) 415–571) lies entirely left of the grey line; the Graduation, Master and PhD lines overlap each other around the grey line.</li>
 <li><strong>Marital status makes no difference.</strong><br/>→ <em>Where on the chart:</em> middle panel – all five lines overlap each other and touch or cross the grey line. Widow has the highest dot (744) but also the longest line (608–881, only 69 customers), and its left end touches the grey line.</li>
 <li><strong>The same ranking as the η² (eta squared – say “EE-tuh squared”) in the previous cell</strong> – now with the uncertainty visible.</li>
 </ul>
@@ -11396,7 +10902,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 <li>compute the mean of each resample;</li>
 <li>take the 2.5th and 97.5th percentiles.</li>
 </ul>
-<p>Plotted as a dot (mean) with a line (95% CI) per group, and a grey vertical line for the overall mean.</p>
+<p>Plotted as a dot (mean) with a line (95% CI (confidence interval)) per group, and a grey vertical line for the overall mean.</p>
 <p><strong>Why a bootstrap confidence interval – and why I could use it here</strong></p>
 <ul>
 <li>The usual formula (mean ± 1.96 × standard error) assumes the mean is normally distributed; for skewed spend in small groups (45–69 customers) that is shaky. The bootstrap uses the data's own variability instead – no formula and no normality assumption.</li>
@@ -11840,7 +11346,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3297fb22">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a6c58ef4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -11858,7 +11364,7 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 <ol>
 <li><strong>Share of wallet:</strong> <code>groupby(col)[MNT_COLS].sum()</code> divided by each group's row total (<code>div(s.sum(axis=1), axis=0)</code>). That is a <strong>revenue-weighted</strong> mix – where the group's money actually goes, rather than an average of individual percentages, which small spenders would distort.</li>
 <li><strong>Stacked 100% bars</strong> per group, with labels only on segments ≥ 9%, so the chart stays readable.</li>
-<li><strong>Index vs the average customer:</strong> each share divided by the overall share × 100, shown as a coloured table – blue below average, red above.</li>
+<li><strong>Index versus the average customer:</strong> each share divided by the overall share × 100, shown as a coloured table – blue below average, red above.</li>
 </ol>
 <p>(Descriptive shares and indices – no test, so nothing to assume. Small groups – Basic 49, Widow 69, 3 children 45 – have noisier mixes.)</p>
 <p><strong>How to read this chart</strong></p>
@@ -11872,13 +11378,13 @@ EnrolDate range: 2012-07-30 -&gt; 2014-06-29
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d97c5444">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8b35d05b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_section" data-mime-type="text/markdown">
-<h3 id="Q3c-%E2%80%94-Income-vs-total-spend">Q3c — Income vs total spend<a class="anchor-link" href="#Q3c-%E2%80%94-Income-vs-total-spend">¶</a></h3>
+<h3 id="Q3c-%E2%80%94-Income-versus-total-spend">Q3c — Income versus total spend<a class="anchor-link" href="#Q3c-%E2%80%94-Income-versus-total-spend">¶</a></h3>
 </div>
 </div>
 </div>
@@ -12033,7 +11539,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f5dee32f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cce4a064">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12050,22 +11556,22 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 <p><strong>Why these methods – and why I could use them here</strong></p>
 <ul>
 <li><strong>Spearman's ρ (rho – say “roh”; main measure)</strong> – does spend tend to rise when income rises? It works on ranks, so it captures any <em>monotonic</em> relationship (straight or curved) and isn't pulled by the long tail of big spenders. Needs: pairs measured on the same customer ✓, independent customers ✓, values that can be ordered ✓. No normality needed.</li>
-<li><strong>Pearson's r (for comparison only)</strong> – measures a <em>straight-line</em> relationship and is sensitive to extreme values. Its p-value formally assumes bivariate normality, but with 1,994 customers the central limit theorem makes it reliable. I report it next to Spearman because <strong>r below ρ signals a curved relationship</strong>.</li>
-<li><strong>Log-log regression</strong> – needs positive values (every customer here has income &gt; 0 and spend &gt; 0 ✓, so the logs exist) and a roughly straight relationship on the log scale (R² – say “R-squared” – is 0.61, below). I use only the <strong>slope</strong>, not its p-value, so the assumptions about the residuals (normal, equal spread) don't affect the conclusion; the next cell re-checks the slope without the suspicious incomes.</li>
+<li><strong>Pearson's r (for comparison only)</strong> – measures a <em>straight-line</em> relationship and is sensitive to extreme values. Its p-value formally assumes bivariate normality, but with 1,994 customers the central limit theorem makes it reliable. I report it next to Spearman because <strong>r below ρ (rho – say “roh”) signals a curved relationship</strong>.</li>
+<li><strong>Log-log regression</strong> – needs positive values (every customer here has income &gt; 0 and spend &gt; 0 ✓, so the logs exist) and a roughly straight relationship on the log scale (R² (R-squared) 0.61 below). I use only the <strong>slope</strong>, not its p-value, so the assumptions about the residuals (normal, equal spread) don't affect the conclusion; the next cell re-checks the slope without the suspicious incomes.</li>
 <li><strong>Medians within income deciles</strong> – no model at all, so there is nothing to assume. Comparing inside the same decile <strong>controls for income by design</strong>.</li>
 </ul>
 <p><strong>Output and what it means.</strong></p>
 <ul>
 <li>Spearman <strong>0.86</strong>, Pearson 0.82 – strong, but not purely linear.</li>
-<li>Elasticity <strong>2.37</strong> (R² 0.61): <strong>+10% income → about +25% spend</strong>.</li>
+<li>Elasticity <strong>2.37</strong> (R² (R-squared) 0.61): <strong>+10% income → about +25% spend</strong>.</li>
 <li>Spend as a share of income rises from <strong>0.11%</strong> in the lowest quartile to <strong>0.86%</strong> in the highest – these products behave like "luxury" goods.</li>
-<li><strong>Decile table:</strong> at the same income, families spend far less – decile 3: <strong>66 vs 290</strong>; decile 6: <strong>482 vs 939</strong>. The gap is largest in the middle and smaller at the extremes.</li>
+<li><strong>Decile table:</strong> at the same income, families spend far less – decile 3: <strong>66 versus 290</strong>; decile 6: <strong>482 versus 939</strong>. The gap is largest in the middle and smaller at the extremes.</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>ρ and r</strong> run from −1 to +1: 0 = no relationship, +1 = perfectly rising together, −1 = one rises as the other falls. Rule of thumb: about 0.1 weak, 0.3 moderate, 0.5 and above strong. <strong>0.86 = very strong.</strong> ρ (0.86) &gt; r (0.82) → strongly rising, but along a curve rather than a straight line.</li>
+<li><strong>ρ (rho – say “roh”) and r</strong> run from −1 to +1: 0 = no relationship, +1 = perfectly rising together, −1 = one rises as the other falls. Rule of thumb: about 0.1 weak, 0.3 moderate, 0.5 and above strong. <strong>0.86 = very strong.</strong> ρ (rho – say “roh”; 0.86) &gt; r (0.82) → strongly rising, but along a curve rather than a straight line.</li>
 <li><strong>Elasticity 2.37</strong> – +1% income goes with +2.37% spend. Above 1 means spend grows <em>faster</em> than income (economists call that a luxury good); below 1 would be a necessity. +10% income → 1.1^2.37 − 1 ≈ <strong>+25%</strong> spend.</li>
-<li><strong>R² = 0.61</strong> – income explains 61% of the variation in (log) spend; 0 = nothing, 1 = everything. The remaining 39% is family, habits and everything else.</li>
+<li><strong>R² (R-squared) = 0.61</strong> – income explains 61% of the variation in (log) spend; 0 = nothing, 1 = everything. The remaining 39% is family, habits and everything else.</li>
 <li><strong>ratio_with_vs_without</strong> in the table – the median spend of families ÷ that of non-families in the same decile. 1.00 = the same; 0.50 = families spend half.</li>
 </ul>
 </div>
@@ -12118,7 +11624,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=dd1613ef">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5b1bde4c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12128,12 +11634,12 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 <ul>
 <li><strong>Spend rises steeply with income – along a curve, not a straight line.</strong><br/>→ <em>Where on the chart:</em> left panel – below ~40k the dots hug the bottom (median spend 56); between 40k and 60k the cloud lifts off (median 316); above 60k it is high (median 1,179).</li>
 <li><strong>The biggest spenders are mostly childless.</strong><br/>→ <em>Where on the chart:</em> left panel, the top of the cloud (spend ≥ 1,500) – mostly blue dots: 79% of these 217 customers have no children, against 28% of all customers.</li>
-<li><strong>At the same income, families spend less in every income decile – up to 77% less.</strong><br/>→ <em>Where on the chart:</em> right panel – the orange line is below the blue one at every point. The vertical gap is largest in the middle (at ~36k: 66 vs 291; at ~55k: 482 vs 939) and smallest at both ends (50 vs 55 at ~19k; 1,395 vs 1,566 at ~84k).</li>
+<li><strong>At the same income, families spend less in every income decile – up to 77% less.</strong><br/>→ <em>Where on the chart:</em> right panel – the orange line is below the blue one at every point. The vertical gap is largest in the middle (at ~36k: 66 versus 291; at ~55k: 482 versus 939) and smallest at both ends (50 versus 55 at ~19k; 1,395 versus 1,566 at ~84k).</li>
 <li><strong>Consequence:</strong> income alone overestimates what families spend.</li>
 </ul>
 <p><strong>What I did.</strong></p>
 <ul>
-<li><strong>Left:</strong> a scatter plot of income vs spend, coloured by number of children (0 / 1 / 2+), with small semi-transparent dots so overlapping points stay visible.</li>
+<li><strong>Left:</strong> a scatter plot of income versus spend, coloured by number of children (0 / 1 / 2+), with small semi-transparent dots so overlapping points stay visible.</li>
 <li><strong>Right:</strong> the median spend per income decile, one line for households without children and one for households with children, using the decile table from the previous cell.</li>
 </ul>
 <p><strong>How to read this chart</strong></p>
@@ -12239,7 +11745,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=090de3a5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b89f72f6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12257,7 +11763,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=36029477">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1d0304f5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12315,7 +11821,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=05fe8623">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cfb07903">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12394,7 +11900,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4b961bbc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4ab4ebd9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12403,8 +11909,8 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 <p><strong>Conclusions – and where on the chart you see them</strong></p>
 <ul>
 <li><strong>At the same income, families always spend less.</strong><br/>→ <em>Where on the chart:</em> every orange bar is lower than the blue bar next to it – in all five income bands.</li>
-<li><strong>The gap ranges from −20% to −72%.</strong><br/>→ <em>Where on the chart:</em> the biggest relative gap is the 2nd pair of bars (20–40% band: 81 vs 290, ratio 0.28); the smallest are the last pair (top 20%: 1,179 vs 1,478, ratio 0.80) and the first pair (lowest 20%: 48 vs 66, ratio 0.72).</li>
-<li><strong>The example in the title: −31% in the 60–80% band.</strong><br/>→ <em>Where on the chart:</em> the 4th pair of bars, 825 vs 1,197.</li>
+<li><strong>The gap ranges from −20% to −72%.</strong><br/>→ <em>Where on the chart:</em> the biggest relative gap is the 2nd pair of bars (20–40% band: 81 versus 290, ratio 0.28); the smallest are the last pair (top 20%: 1,179 versus 1,478, ratio 0.80) and the first pair (lowest 20%: 48 versus 66, ratio 0.72).</li>
+<li><strong>The example in the title: −31% in the 60–80% band.</strong><br/>→ <em>Where on the chart:</em> the 4th pair of bars, 825 versus 1,197.</li>
 <li><strong>So what:</strong> income-based targeting overestimates families; offers to them should build the basket, not push premium wine.</li>
 </ul>
 <p><strong>How.</strong> <code>pd.qcut(Income, 5)</code> creates five equal-sized income bands (~400 customers each). Within each band I compare the median spend of households with and without children, with bar labels showing the values. (Medians within bands – a descriptive comparison with nothing to assume; the formal tests are in Q4.)</p>
@@ -12519,7 +12025,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6a62c92c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=43d2823c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12545,7 +12051,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6ea12546">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ec87b660">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12557,7 +12063,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 <li><strong>Family composition is the strongest spend driver</strong> – much stronger than education, while marital status plays no role. Childless households (28% of customers) bring in <strong>52% of revenue</strong>.</li>
 <li>Spend rises steeply with income (+10% income ≈ +25% spend), but <strong>at the same income families spend 20–72% less</strong>.</li>
 <li><strong>Wine (50%) and meat (27%) are the core categories.</strong> Families shift spend towards wine and gold; childless households towards meat and fish.</li>
-<li><strong>Past acceptance is a powerful signal:</strong> 8% response with no history vs 30–82% with it.</li>
+<li><strong>Past acceptance is a powerful signal:</strong> 8% response with no history versus 30–82% with it.</li>
 </ul>
 <p><strong>In plain words for Marketing:</strong></p>
 <ul>
@@ -12570,7 +12076,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=081f52ec">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f6b3b464">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12582,13 +12088,13 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1445ae31">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b45ba803">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_task" data-mime-type="text/markdown">
-<p>Task: test Marketing's claims about families (wine spend, responsiveness) and about complainers; design an A/B test.</p>
+<p>Task: test Marketing's claims about families (wine spend, responsiveness) and about complainers; design an A/B (control version A versus new version B) test.</p>
 </div>
 </div>
 </div>
@@ -12685,7 +12191,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=03b10b55">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0cde8cef">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12711,7 +12217,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0d59c90c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1101181f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12862,7 +12368,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c39138fc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=86dbcb36">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -12888,18 +12394,18 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 <li>two <strong>independent</strong> groups – every customer is either "with children" or "without", never both, and the duplicates are gone ✓;</li>
 <li>an outcome that can be ordered – wine spend ✓;</li>
 <li><strong>no normality</strong> ✓ – which is exactly why it beats the t-test here.</li>
-<li>Read as "how often does one group out-spend the other", it is valid whatever the shape of the two distributions – and that is precisely what Cliff's δ reports.</li>
+<li>Read as "how often does one group out-spend the other", it is valid whatever the shape of the two distributions – and that is precisely what Cliff's δ (delta) reports.</li>
 <li>Two-sided as the main test (it doesn't presume the direction); one-sided only for the directional claim "families spend <em>less</em>".</li>
 </ul>
 </li>
-<li><strong>Welch's t-test (robustness check on the means)</strong> – compares means without assuming equal variances. Needs: independent groups ✓; a roughly normal <em>distribution of the sample mean</em> – with 560 and 1,434 customers the central limit theorem delivers this even for skewed spend ✓. The ordinary Student t-test would also require equal variances, which fails here: the standard deviations are 291 (with children) vs 368 (without), a variance ratio of 1.6. Welch does not need them equal.</li>
+<li><strong>Welch's t-test (robustness check on the means)</strong> – compares means without assuming equal variances. Needs: independent groups ✓; a roughly normal <em>distribution of the sample mean</em> – with 560 and 1,434 customers the central limit theorem delivers this even for skewed spend ✓. The ordinary Student t-test would also require equal variances, which fails here: the standard deviations are 291 (with children) versus 368 (without), a variance ratio of 1.6. Welch does not need them equal.</li>
 <li><strong>Bootstrap confidence intervals</strong> – resample customers with replacement and recompute the statistic. Needs only independent customers ✓ and groups large enough to represent their population ✓. No formula and no normality – and it works for the <strong>median</strong>, for which no simple CI (confidence interval) formula exists.</li>
 </ol>
 <p><strong>Output and what it means.</strong></p>
 <ul>
 <li><strong>Shapiro-Wilk p = 2.5·10⁻¹² and 3.3·10⁻⁴⁰; skewness 0.44 and 1.60</strong> → far from normal, so Mann-Whitney is the right primary test.</li>
-<li>Mean wine spend <strong>232 vs 500 (−54%)</strong>, difference −268 (95% CI −301 to −235); median <strong>97 vs 466</strong>.</li>
-<li><strong>Cliff's δ = −0.44</strong>: a random childless customer out-spends a random parent on wine <strong>72% of the time</strong>.</li>
+<li>Mean wine spend <strong>232 versus 500 (−54%)</strong>, difference −268 (95% CI (confidence interval) −301 to −235); median <strong>97 versus 466</strong>.</li>
+<li><strong>Cliff's δ (delta) = −0.44</strong>: a random childless customer out-spends a random parent on wine <strong>72% of the time</strong>.</li>
 <li>Mann-Whitney p ≈ <strong>10⁻⁵¹</strong>; Welch confirms (p ≈ 10⁻⁴⁷).</li>
 </ul>
 <p>The claim is true, and the effect is large.</p>
@@ -12908,16 +12414,16 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 <li><strong>Shapiro-Wilk p</strong> – below 0.05 = "not normal". Both values are astronomically small → clearly not normal.</li>
 <li><strong>Skewness</strong> – 0 = symmetric; 0.5–1 = moderately and above 1 = strongly right-skewed (a long tail of big spenders). 1.60 for parents → strongly skewed.</li>
 <li><strong>Mann-Whitney p ≈ 9·10⁻⁵²</strong> – the probability of a rank difference this big if parents and non-parents spent the same on wine: practically zero.</li>
-<li><strong>Cliff's δ</strong> – from −1 to +1: P(random parent spends more) − P(random non-parent spends more). 0 = no difference, −1 = every non-parent out-spends every parent. Thresholds: |δ| &lt; 0.15 negligible, 0.15–0.33 small, 0.33–0.47 medium, ≥ 0.47 large. <strong>−0.44 = medium, just short of large.</strong></li>
+<li><strong>Cliff's δ (delta)</strong> – from −1 to +1: P(random parent spends more) − P(random non-parent spends more). 0 = no difference, −1 = every non-parent out-spends every parent. Thresholds: |δ (delta)| &lt; 0.15 negligible, 0.15–0.33 small, 0.33–0.47 medium, ≥ 0.47 large. <strong>−0.44 = medium, just short of large.</strong></li>
 <li><strong>Probability of superiority 72%</strong> – the same thing in plain words: pick one random childless customer and one random parent; 72% of the time the childless one spent more on wine. 50% would mean no difference.</li>
-<li><strong>95% CI −301 to −235</strong> – the range of plausible values for the true difference in mean wine spend. It does not contain 0 → the difference is real; even its most optimistic end is a 235 gap.</li>
+<li><strong>95% CI (confidence interval) −301 to −235</strong> – the range of plausible values for the true difference in mean wine spend. It does not contain 0 → the difference is real; even its most optimistic end is a 235 gap.</li>
 <li><strong>Welch p</strong> – read like the Mann-Whitney p; it confirms the result on the means.</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bfe55472">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e1a0567b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13099,7 +12605,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7f0a1cc7">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9b9d324b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13126,14 +12632,14 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </ul>
 <p><strong>Output and what it means.</strong></p>
 <ul>
-<li><strong>Latest campaign:</strong> <strong>9.6% vs 27.8%</strong>, a difference of −18.2 points (95% CI (confidence interval) −22.4 to −14.3). Relative risk <strong>0.34</strong> (about three times less likely), odds ratio 0.28, Cohen's h −0.48. The smallest expected count is 82, so the chi-square test is valid.</li>
-<li><strong>Any of the 6 campaigns:</strong> 19.8% vs 45.8% (−26 points).</li>
+<li><strong>Latest campaign:</strong> <strong>9.6% versus 27.8%</strong>, a difference of −18.2 points (95% CI (confidence interval) −22.4 to −14.3). Relative risk <strong>0.34</strong> (about three times less likely), odds ratio 0.28, Cohen's h −0.48. The smallest expected count is 82, so the chi-square test is valid.</li>
+<li><strong>Any of the 6 campaigns:</strong> 19.8% versus 45.8% (−26 points).</li>
 <li><strong>After the Holm correction</strong>, all three tests remain highly significant (adjusted p &lt; 10⁻²⁴).</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>diff_pp −18.2 (95% CI −22.4 to −14.3)</strong> – a difference in percentage points. The interval excludes 0 → significant; the true gap is at least 14 points.</li>
-<li><strong>Relative risk 0.34 (0.28–0.42)</strong> – parents respond at 34% of the rate of non-parents, i.e. about 3× less often. 1 = no difference.</li>
+<li><strong>diff_pp −18.2 (95% CI (confidence interval) −22.4 to −14.3)</strong> – a difference in percentage points. The interval excludes 0 → significant; the true gap is at least 14 points.</li>
+<li><strong>Relative risk 0.34 (0.28–0.42)</strong> – parents respond at 34% of the rate of non-parents, that is about 3× less often. 1 = no difference.</li>
 <li><strong>Odds ratio 0.28 (0.21–0.36)</strong> – the same comparison on the odds scale (odds = p / (1 − p)). 1 = no difference. When the outcome is common (28% here) the odds ratio looks more extreme than the relative risk, so <strong>for communication use the relative risk</strong>. I report the odds ratio because logistic regression (next cell) speaks in odds ratios.</li>
 <li><strong>Cohen's h = −0.48</strong> – a standardised difference between two proportions: 0.2 small, 0.5 medium, 0.8 large → <strong>medium</strong>.</li>
 <li><strong>min_expected_count 82</strong> – the validity check of the chi-square test (needs ≥ 5).</li>
@@ -13341,13 +12847,13 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d955e0aa">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=fec4bbf8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
-<p><strong>What I did – step by step.</strong> Parents earn less (mean income <strong>46k vs 66k</strong>), and income drives both spend and response. So I re-estimated both effects <strong>at equal income and age</strong>:</p>
+<p><strong>What I did – step by step.</strong> Parents earn less (mean income <strong>46k versus 66k</strong>), and income drives both spend and response. So I re-estimated both effects <strong>at equal income and age</strong>:</p>
 <ol>
 <li><p><strong>Wine:</strong> <code>ols_robust(X, np.log1p(MntWines))</code>. <code>log1p</code> handles the skew and the zeros; the coefficient becomes a % effect via <code>exp(b) − 1</code>.</p>
 </li>
@@ -13368,11 +12874,11 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 <p><strong>Why regression – and why I could use these two models here</strong></p>
 <ul>
 <li><strong>Why a model at all:</strong> a two-group test can't separate "has children" from "earns less". A regression estimates the children effect <strong>while holding income and age fixed</strong>.</li>
-<li><strong>Linear regression (OLS) with HC1 (heteroscedasticity-consistent, version 1) robust standard errors</strong> on log1p(wine spend). What it needs, and how this data meets it:<ul>
+<li><strong>Linear regression (OLS) with HC1 (heteroscedasticity-consistent, version 1) robust standard errors</strong> on log1p (log(1 + x)) of wine spend. What it needs, and how this data meets it:<ul>
 <li>an outcome that is roughly symmetric – <code>log1p</code> turns the skewed, zero-containing spend into one ✓;</li>
 <li>independent customers ✓;</li>
 <li>predictors that aren't strongly correlated with each other – VIF (variance inflation factor) ≤ 1.29 ✓ (Appendix);</li>
-<li><strong>equal error variance – not needed:</strong> HC1 standard errors stay valid when the spread differs between customers, which it does (richer customers vary more);</li>
+<li><strong>equal error variance – not needed:</strong> HC1 (heteroscedasticity-consistent, version 1) standard errors stay valid when the spread differs between customers, which it does (richer customers vary more);</li>
 <li>normal errors – not needed for the confidence intervals with 1,994 customers (central limit theorem).</li>
 </ul>
 </li>
@@ -13392,11 +12898,11 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>% effect (wine)</strong> = exp(b) − 1: how much more or less wine a household buys <strong>compared with an otherwise identical household (same income and age)</strong>. For <code>HasChildren</code> it compares with vs without children; for <code>Kidhome</code> / <code>Teenhome</code> it is per additional young child / teenager. −52% = about half the wine spend.</li>
+<li><strong>% effect (wine)</strong> = exp(b) − 1: how much more or less wine a household buys <strong>compared with an otherwise identical household (same income and age)</strong>. For <code>HasChildren</code> it compares with versus without children; for <code>Kidhome</code> / <code>Teenhome</code> it is per additional young child / teenager. −52% = about half the wine spend.</li>
 <li><strong>Odds ratio (response)</strong> = exp(b): 1 = no effect; 0.34 = the odds of accepting are about one third.</li>
 <li><strong>The confidence interval decides:</strong> if it contains 0% (or an odds ratio of 1), the effect can't be told apart from no effect. Teenagers on wine in the flexible model: +4% (−5% to +13%) → contains 0 → no effect. Young kids on response: OR (odds ratio) 0.89 (0.65–1.22) → contains 1 → no effect.</li>
-<li><strong>p</strong> – below 0.05 = significant (e.g. Teenhome on response 2·10⁻⁸ in the flexible model).</li>
-<li><strong>"Log income" vs "income deciles"</strong> – two ways of holding income fixed. When both rows tell the same story, the conclusion doesn't depend on that modelling choice.</li>
+<li><strong>p</strong> – below 0.05 = significant (for example Teenhome on response 2·10⁻⁸ in the flexible model).</li>
+<li><strong>"Log income" versus "income deciles"</strong> – two ways of holding income fixed. When both rows tell the same story, the conclusion doesn't depend on that modelling choice.</li>
 </ul>
 </div>
 </div>
@@ -13502,7 +13008,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c5f37d8c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1822d2b7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13510,7 +13016,7 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
 <p><strong>What I did – step by step</strong></p>
 <ol>
-<li><strong><code>lab.groupby(['IncomeQuartile', 'HasChildren'])['Response'].agg(['mean', 'size']).unstack()</code></strong> – response rates for families vs non-families side by side within each income quartile. A table a stakeholder can read.</li>
+<li><strong><code>lab.groupby(['IncomeQuartile', 'HasChildren'])['Response'].agg(['mean', 'size']).unstack()</code></strong> – response rates for families versus non-families side by side within each income quartile. A table a stakeholder can read.</li>
 <li><strong>A 2×2 table per quartile</strong> (children × responded), and from those the <strong>Cochran-Mantel-Haenszel</strong> statistic and the Mantel-Haenszel common odds ratio, computed directly from the formula.</li>
 </ol>
 <p><strong>Why the Cochran-Mantel-Haenszel test – and why I could use it here</strong></p>
@@ -13519,29 +13025,29 @@ Median yearly spend as % of income, by income quartile: {'Q1 (lowest)': '0.11%',
 <li><strong>What it needs, and how this data meets it:</strong><ul>
 <li>independent customers ✓;</li>
 <li>strata defined in advance – income quartiles ✓;</li>
-<li><strong>enough customers in total</strong> – the CMH χ² (chi-squared – say “KAI-squared”) is reliable when the <em>summed</em> counts are large, not each cell (1,975 customers; the smallest stratum group has 43) ✓.</li>
+<li><strong>enough customers in total</strong> – the CMH (Cochran-Mantel-Haenszel) χ² (chi-squared – say “KAI-squared”) is reliable when the <em>summed</em> counts are large, not each cell (1,975 customers; the smallest stratum group has 43) ✓.</li>
 </ul>
 </li>
 <li><strong>One extra condition for the summary number:</strong> the test itself is valid even if the effect differs between bands, but the <strong>single common odds ratio (0.35) is a fair summary only if the bands agree</strong> (homogeneity). I tested this in the Appendix with a likelihood-ratio test: <strong>p = 0.007 → they don't agree</strong>, so I report the effect band by band.</li>
 </ul>
 <p><strong>Output and what it means.</strong></p>
 <ul>
-<li>In the top three quartiles, childless customers respond <strong>2–3.5× more</strong> – e.g. the top quartile <strong>34.7% vs 10.5%</strong>.</li>
-<li>In the <strong>lowest quartile there is no gap</strong> (9.5% vs 10.2%).</li>
-<li>CMH: χ² = 39.8, <strong>p ≈ 3·10⁻¹⁰</strong>, common odds ratio 0.35.</li>
+<li>In the top three quartiles, childless customers respond <strong>2–3.5× more</strong> – for example the top quartile <strong>34.7% versus 10.5%</strong>.</li>
+<li>In the <strong>lowest quartile there is no gap</strong> (9.5% versus 10.2%).</li>
+<li>CMH (Cochran-Mantel-Haenszel): χ² (chi-squared – say “KAI-squared”) = 39.8, <strong>p ≈ 3·10⁻¹⁰</strong>, common odds ratio 0.35.</li>
 </ul>
 <p>Because the effect is <strong>not the same in every band</strong>, the pooled 0.35 is an average of "no effect at the bottom" and a strong effect everywhere else. I report the effect per band.</p>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>Rate table</strong> – read across one row: same income band, families vs non-families. E.g. Q4: 34.7% vs 10.5% → childless customers respond 3.3× more often. The <code>size</code> columns show how many customers each rate is based on (Q2 non-families: only 43 → that rate is less precise).</li>
-<li><strong>CMH χ² = 39.8</strong> (1 degree of freedom) – if families and non-families responded equally within every band, values above 3.84 would occur only 5% of the time. 39.8 → p = 3·10⁻¹⁰ → the within-band difference is real.</li>
-<li><strong>Common odds ratio 0.35</strong> – the average within-band odds ratio; 1 = no effect. It is only a fair average when the bands agree – here they don't (1.08 in Q1 vs 0.22–0.38 elsewhere).</li>
+<li><strong>Rate table</strong> – read across one row: same income band, families versus non-families. E.g. Q4: 34.7% versus 10.5% → childless customers respond 3.3× more often. The <code>size</code> columns show how many customers each rate is based on (Q2 non-families: only 43 → that rate is less precise).</li>
+<li><strong>CMH (Cochran-Mantel-Haenszel) χ² (chi-squared – say “KAI-squared”) = 39.8</strong> (1 degree of freedom) – if families and non-families responded equally within every band, values above 3.84 would occur only 5% of the time. 39.8 → p = 3·10⁻¹⁰ → the within-band difference is real.</li>
+<li><strong>Common odds ratio 0.35</strong> – the average within-band odds ratio; 1 = no effect. It is only a fair average when the bands agree – here they don't (1.08 in Q1 versus 0.22–0.38 elsewhere).</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=097938e6">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2d311f4f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13673,7 +13179,7 @@ Expected responders among complainers if they behaved like everyone else: 2.8
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d5929ea1">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4abc2e44">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13695,16 +13201,16 @@ Expected responders among complainers if they behaved like everyone else: 2.8
 </ul>
 <p><strong>Output and what it means.</strong></p>
 <ul>
-<li><strong>15.8% vs 14.7%</strong> – complainers even respond slightly <em>more</em>, but the 95% CI (confidence interval) for the difference is <strong>−9.3 to +22.9 points</strong>.</li>
+<li><strong>15.8% versus 14.7%</strong> – complainers even respond slightly <em>more</em>, but the 95% CI (confidence interval) for the difference is <strong>−9.3 to +22.9 points</strong>.</li>
 <li>Only <strong>2.8</strong> responders are expected among complainers, so the chi-square test is invalid. <strong>Fisher's exact test: p = 0.75.</strong></li>
-<li>Wilson CI for the complainers alone: <strong>5.5%–37.6%</strong> – a huge range.</li>
+<li>Wilson CI (confidence interval) for the complainers alone: <strong>5.5%–37.6%</strong> – a huge range.</li>
 </ul>
 <p>There is no evidence of an effect – but the next cell shows whether the test could even detect one.</p>
 <p><strong>How to read the numbers</strong></p>
 <ul>
 <li><strong>Fisher p = 0.75</strong> – a difference like this (or a bigger one) appears 75% of the time by pure chance → no evidence of any effect.</li>
-<li><strong>CI of the difference −9.3 to +22.9 points</strong> – contains 0, and it is very wide: complainers could respond 9 points <em>less</em> or 23 points <em>more</em>. The data can't tell.</li>
-<li><strong>Wilson CI 5.5%–37.6%</strong> – the plausible range of the complainers' true response rate.</li>
+<li><strong>CI (confidence interval) of the difference −9.3 to +22.9 points</strong> – contains 0, and it is very wide: complainers could respond 9 points <em>less</em> or 23 points <em>more</em>. The data can't tell.</li>
+<li><strong>Wilson CI (confidence interval) 5.5%–37.6%</strong> – the plausible range of the complainers' true response rate.</li>
 <li><strong>Relative risk 1.07 (0.38–3.05)</strong> – anything from "less than half as likely" to "three times as likely" fits the data.</li>
 <li><strong>min_expected_count 2.8</strong> – the validity check that fails (needs ≥ 5), which is why Fisher is the test to read.</li>
 </ul>
@@ -13839,7 +13345,7 @@ Best possible case for the hypothesis - NOT ONE of the 19 complainers responds: 
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a7db872a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=aebd8175">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13868,8 +13374,8 @@ Best possible case for the hypothesis - NOT ONE of the 19 complainers responds: 
 <p><strong>How to read the numbers</strong></p>
 <ul>
 <li><strong>Power 0%</strong> – even if complainers truly never responded, the test would (almost) never reach p &lt; 0.05. A test with 0% power can't confirm the claim whatever the truth is – so "not significant" here means <strong>"we can't know"</strong>, not "no effect".</li>
-<li><strong>power_normal_approx vs power_fisher_simulated</strong> – the same question answered by the formula and by simulation; when they disagree this much, the formula's assumptions are broken.</li>
-<li><strong>Minimum detectable effect</strong> – the smallest true difference the test would catch 80% of the time: here only rates below 0.5% or above 43% (vs 14.7%).</li>
+<li><strong>power_normal_approx versus power_fisher_simulated</strong> – the same question answered by the formula and by simulation; when they disagree this much, the formula's assumptions are broken.</li>
+<li><strong>Minimum detectable effect</strong> – the smallest true difference the test would catch 80% of the time: here only rates below 0.5% or above 43% (versus 14.7%).</li>
 <li><strong>149 complainers</strong> – the sample needed for a halving to be detected with 80% power.</li>
 </ul>
 </div>
@@ -13912,7 +13418,7 @@ P(difference is "material", i.e. more than 5 pp lower) = 13%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=52319efd">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8e10764d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -13951,13 +13457,13 @@ P(difference is "material", i.e. more than 5 pp lower) = 13%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b97e94be">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=47b0c8cd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_section" data-mime-type="text/markdown">
-<h3 id="Q4c-%E2%80%94-A/B-test-design:-%22free-delivery-over-$30%22">Q4c — A/B test design: "free delivery over $30"<a class="anchor-link" href="#Q4c-%E2%80%94-A/B-test-design:-%22free-delivery-over-$30%22">¶</a></h3>
+<h3 id="Q4c-%E2%80%94-A/B-(control-version-A-versus-new-version-B)-test-design:-%22free-delivery-over-$30%22">Q4c — A/B (control version A versus new version B) test design: "free delivery over $30"<a class="anchor-link" href="#Q4c-%E2%80%94-A/B-(control-version-A-versus-new-version-B)-test-design:-%22free-delivery-over-$30%22">¶</a></h3>
 </div>
 </div>
 </div>
@@ -14059,7 +13565,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b321e005">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=736c578a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14073,7 +13579,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 <ul>
 <li>σ (sigma) = the standard deviation of monthly spend (<code>MntTotal / 24</code>);</li>
 <li>δ (delta) = a 5% change;</li>
-<li><strong>CUPED</strong> (adjusting for each customer's pre-test spend) multiplies σ by √(1 − ρ²), with an assumed correlation ρ (rho – say “roh”) = 0.7.</li>
+<li><strong>CUPED</strong> (Controlled-experiment Using Pre-Experiment Data; adjusting for each customer's pre-test spend) multiplies σ (sigma) by √(1 − ρ²), with an assumed correlation ρ (rho – say “roh”) = 0.7.</li>
 </ul>
 <p><code>n_per_arm_prop()</code> does the same for a conversion metric.</p>
 </li>
@@ -14081,25 +13587,25 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 <p><strong>Why this sample-size formula – and why I could use it</strong></p>
 <ul>
 <li>It is the sample size of a <strong>two-sample z-test on means</strong>: 5% false-alarm rate (two-sided) and 80% power. It assumes that the <strong>average</strong> of each group is approximately normal – true with thousands of customers per group by the central limit theorem, even though individual spend is skewed ✓ – and that customers are independent, which randomising <strong>by customer</strong> guarantees ✓.</li>
-<li>σ is estimated from this data (monthly spend SD (standard deviation) 25.1), so the numbers reflect iFood's real variability.</li>
-<li><strong>CUPED</strong> assumes that pre-period and test-period spend are correlated. ρ = 0.7 is an <strong>assumption</strong> that has to be measured in the A/A (both groups get the same version – a check of the set-up) test before launch.</li>
+<li>σ (sigma) is estimated from this data (monthly spend SD (standard deviation) 25.1), so the numbers reflect iFood's real variability.</li>
+<li><strong>CUPED (Controlled-experiment Using Pre-Experiment Data)</strong> assumes that pre-period and test-period spend are correlated. ρ (rho – say “roh”) = 0.7 is an <strong>assumption</strong> that has to be measured in the A/A (both groups get the same version – a check of the set-up) test before launch.</li>
 <li>The conversion version uses the two-proportion z-test with the same logic.</li>
 </ul>
 <p><strong>Output and what it means.</strong></p>
 <ul>
 <li><strong>50%</strong> of customers already average $30+ per order (median 29.9). For them the offer is pure cost – they get free delivery without changing anything. Only **15%** sit in the "nudgeable" $20–30 zone.</li>
-<li>Monthly spend averages 25.3 (SD 25.1). Detecting +5% needs <strong>~6,100 customers per arm</strong>, or <strong>~3,100 with CUPED</strong>. A conversion metric would need 9,300–36,300 per arm.</li>
+<li>Monthly spend averages 25.3 (SD (standard deviation) 25.1). Detecting +5% needs <strong>~6,100 customers per arm</strong>, or <strong>~3,100 with CUPED (Controlled-experiment Using Pre-Experiment Data)</strong>. A conversion metric would need 9,300–36,300 per arm.</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
 <li><strong>MDE (minimum detectable effect)</strong> – the smallest true change the test will catch 80% of the time; here +5% = +1.27 per customer per month.</li>
-<li><strong>n_per_arm</strong> – customers needed in <em>each</em> group (control and treatment). 6,139 → ~12,300 in total; with CUPED 3,131 → the same precision with half the customers.</li>
+<li><strong>n_per_arm</strong> – customers needed in <em>each</em> group (control and treatment). 6,139 → ~12,300 in total; with CUPED (Controlled-experiment Using Pre-Experiment Data) 3,131 → the same precision with half the customers.</li>
 <li><strong>Power 80% / significance 5%</strong> – a real +5% effect is missed 20% of the time; an effect that doesn't exist is "found" 5% of the time.</li>
 </ul>
 <p><strong>The design</strong></p>
 <ul>
 <li><strong>Hypotheses:</strong> H0 (null hypothesis) – no change in contribution margin per customer; H1 (alternative hypothesis) – a change. The test is two-sided, because the offer can also lose money.</li>
-<li><strong>Randomisation:</strong> by customer – not by session or order – using a hash of the customer ID (identifier), so a customer always sees the same version. Stratified by segment and region, 50/50, with an A/A test and sample-ratio checks first.</li>
+<li><strong>Randomisation:</strong> by customer – not by session or order – using a hash of the customer ID (identifier), so a customer always sees the same version. Stratified by segment and region, 50/50, with an A/A (both groups get the same version – a check of the set-up) test and sample-ratio checks first.</li>
 <li><strong>Primary metric:</strong> contribution margin per customer (revenue − product cost − delivery subsidy − discounts). Conversion alone would reward an offer that sells more and earns less.</li>
 <li><strong>Guardrails:</strong> delivery time, delivery cost per order, cancellations, complaints, unsubscribes, "basket padding" just above $30, and retention after the test.</li>
 <li><strong>Duration:</strong> at least two full weeks (weekday and weekend patterns), and no peeking at results.</li>
@@ -14115,7 +13621,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6406a1f5">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2ef6fddd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14123,10 +13629,10 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_conclusion" data-mime-type="text/markdown">
 <p><strong>Conclusions – Q4</strong></p>
 <ul>
-<li><strong>Both of Marketing's claims hold, and the effects are large:</strong> households with children spend <strong>54% less on wine</strong> and respond about <strong>3× less often</strong> (9.6% vs 27.8%).</li>
+<li><strong>Both of Marketing's claims hold, and the effects are large:</strong> households with children spend <strong>54% less on wine</strong> and respond about <strong>3× less often</strong> (9.6% versus 27.8%).</li>
 <li><strong>The causes differ.</strong> The wine gap comes mostly from <strong>income and young children</strong>; the response gap comes from <strong>households with teenagers</strong>, and it disappears in the lowest income band.</li>
 <li><strong>The complaint question can't be answered with this data:</strong> with 19 complainers, not even a zero response rate would be statistically convincing. The result is inconclusive, not "no effect".</li>
-<li><strong>The free-delivery A/B (control version A vs new version B) test</strong> should randomise customers, measure <strong>margin per customer</strong>, run at least 2 weeks with ~3,000–6,000 customers per group, and watch delivery times.</li>
+<li><strong>The free-delivery A/B (control version A versus new version B) test</strong> should randomise customers, measure <strong>margin per customer</strong>, run at least 2 weeks with ~3,000–6,000 customers per group, and watch delivery times.</li>
 </ul>
 <p><strong>In plain words for Marketing:</strong></p>
 <ul>
@@ -14138,7 +13644,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1cfef303">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bf1180c0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14150,7 +13656,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a8181205">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8ccbb56c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14161,7 +13667,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=588154af">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=43d139cd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14317,7 +13823,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=26a96048">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=255f8f5c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14348,7 +13854,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=94959348">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=98c8f2b8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14416,7 +13922,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=59455579">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=40de6e27">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14427,18 +13933,18 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 <li><strong><code>make_preprocessor()</code></strong> – a <code>ColumnTransformer</code> that sends each group of columns through its own <code>Pipeline</code>:<ul>
 <li><strong>spend:</strong> <code>SimpleImputer(strategy='median')</code> → <code>FunctionTransformer(np.log1p)</code> → <code>StandardScaler()</code>. <code>log1p</code> = log(1 + x) compresses the skewed amounts and handles zeros; <code>StandardScaler</code> gives every feature mean 0 and SD (standard deviation) 1, which a regularised logistic regression needs so that its penalty treats all features equally;</li>
 <li><strong>other numbers:</strong> median imputation → scaling;</li>
-<li><strong>categories:</strong> <code>OneHotEncoder(categories=[...], drop=['Graduation', 'Married'])</code>. <strong>Why drop explicit reference levels:</strong> each coefficient then reads "vs. Graduation" or "vs. Married", and dropping one level per variable avoids perfect collinearity.</li>
+<li><strong>categories:</strong> <code>OneHotEncoder(categories=[...], drop=['Graduation', 'Married'])</code>. <strong>Why drop explicit reference levels:</strong> each coefficient then reads "versus. Graduation" or "versus. Married", and dropping one level per variable avoids perfect collinearity.</li>
 </ul>
 </li>
-<li><strong>Why everything sits inside a <code>Pipeline</code>:</strong> during cross-validation the imputer, scaler and encoder are re-fitted <strong>on each training fold only</strong>. If I scaled the whole dataset first, information from the validation fold (its mean and SD) would leak into training and inflate the scores.</li>
+<li><strong>Why everything sits inside a <code>Pipeline</code>:</strong> during cross-validation the imputer, scaler and encoder are re-fitted <strong>on each training fold only</strong>. If I scaled the whole dataset first, information from the validation fold (its mean and SD (standard deviation)) would leak into training and inflate the scores.</li>
 <li><strong><code>make_logreg()</code></strong> – <code>LogisticRegression(solver='saga', max_iter=20_000)</code>. <code>saga</code> supports L1 (lasso penalty), L2 (ridge penalty) and elastic-net penalties. The function also handles a scikit-learn API (application programming interface) change: from 1.8 the penalty is set through <code>l1_ratio</code>, while older versions need <code>penalty='elasticnet'</code>.</li>
 <li><strong>The four pipelines:</strong> a baseline <code>DummyClassifier(strategy='prior')</code> (always predicts the average rate), <code>LogisticRegression</code>, <code>RandomForestClassifier</code>, <code>HistGradientBoostingClassifier</code>.</li>
 <li><strong>Search spaces:</strong><ul>
-<li><strong>logistic regression:</strong> <code>C</code> over 11 values from 0.001 to 100 (<code>np.logspace</code>; C = 1 / penalty strength); <code>l1_ratio</code> ∈ {0 = L2, 0.5 = elastic net, 1 = L1}; <code>class_weight</code> ∈ {None, balanced} → 66 combinations;</li>
-<li><strong>trees:</strong> depth, leaf size, number of features, learning rate, L2 penalty and class weights, drawn from distributions (<code>randint</code>, <code>loguniform</code>).</li>
+<li><strong>logistic regression:</strong> <code>C</code> over 11 values from 0.001 to 100 (<code>np.logspace</code>; C = 1 / penalty strength); <code>l1_ratio</code> ∈ {0 = L2 (ridge penalty), 0.5 = elastic net, 1 = L1 (lasso penalty)}; <code>class_weight</code> ∈ {None, balanced} → 66 combinations;</li>
+<li><strong>trees:</strong> depth, leaf size, number of features, learning rate, L2 (ridge penalty) penalty and class weights, drawn from distributions (<code>randint</code>, <code>loguniform</code>).</li>
 </ul>
 </li>
-<li><strong><code>SCORING = {AP, ROC-AUC, Brier}</code> with <code>refit='AP'</code>.</strong> Every search records all three metrics but picks the winner on <strong>PR-AUC</strong> (average precision), the right metric for a 15% target.</li>
+<li><strong><code>SCORING = {AP, ROC-AUC, Brier}</code> with <code>refit='AP'</code>.</strong> Every search records all three metrics but picks the winner on <strong>PR-AUC</strong> (area under the precision-recall curve; average precision), the right metric for a 15% target.</li>
 </ol>
 <p><strong>Decision: which models compete, and why.</strong></p>
 <ul>
@@ -14459,7 +13965,7 @@ Customers with an average order between 20 and 30 (the "nudgeable" zone): 15%
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=97d20fcc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d0592c19">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14582,7 +14088,7 @@ Wall time: 1min 51s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bd26dfa4">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a27da492">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14605,14 +14111,14 @@ Wall time: 1min 51s
 </ul>
 <p><strong>Output and what it means.</strong></p>
 <ul>
-<li>Logistic regression: <strong>PR-AUC 0.702</strong> (ROC-AUC 0.914), with C = 31.6, L1 (lasso penalty), no class weights.</li>
+<li>Logistic regression: <strong>PR-AUC (area under the precision-recall curve) 0.702</strong> (ROC-AUC (area under the receiver-operating-characteristic curve) 0.914), with C = 31.6, L1 (lasso penalty), no class weights.</li>
 <li>Gradient boosting: 0.644.</li>
 <li>Random forest: 0.596 – it chose class weights and fully grown trees (<code>min_samples_leaf = 1</code>), a sign of over-fitting.</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>PR-AUC (average precision, "AP")</strong> – how pure the top of the model's ranking is: the average share of real responders among the customers ranked highest, across all cut-offs. <strong>A random model scores the share of responders, 0.147</strong>; a perfect one scores 1. 0.70 = about 4.8× better than random.</li>
-<li><strong>ROC-AUC</strong> – the probability that a randomly chosen responder gets a higher score than a randomly chosen non-responder. 0.5 = coin flip, 0.7–0.8 acceptable, 0.8–0.9 excellent, above 0.9 outstanding. <strong>0.914 = outstanding.</strong> With an imbalanced target it looks flattering, which is why I select on PR-AUC.</li>
+<li><strong>PR-AUC (area under the precision-recall curve; average precision, "AP")</strong> – how pure the top of the model's ranking is: the average share of real responders among the customers ranked highest, across all cut-offs. <strong>A random model scores the share of responders, 0.147</strong>; a perfect one scores 1. 0.70 = about 4.8× better than random.</li>
+<li><strong>ROC-AUC (area under the receiver-operating-characteristic curve)</strong> – the probability that a randomly chosen responder gets a higher score than a randomly chosen non-responder. 0.5 = coin flip, 0.7–0.8 acceptable, 0.8–0.9 excellent, above 0.9 outstanding. <strong>0.914 = outstanding.</strong> With an imbalanced target it looks flattering, which is why I select on PR-AUC (area under the precision-recall curve).</li>
 <li><strong>C</strong> – the inverse of the regularisation strength: small C = strong penalty (simpler model), large C = weak penalty.</li>
 </ul>
 </div>
@@ -14678,7 +14184,7 @@ Wall time: 1min 51s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=5fe10b94">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=87a7cee9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14693,11 +14199,11 @@ Wall time: 1min 51s
 </ul>
 <p><strong>What I did – step by step</strong></p>
 <ol>
-<li><strong>A validation curve:</strong> took <code>cv_results_</code> from the grid search and plotted the mean CV PR-AUC (area under the precision-recall curve) against <code>C</code> (log scale), one line per penalty type and class-weight setting. It shows how sensitive the model is to regularisation.</li>
+<li><strong>A validation curve:</strong> took <code>cv_results_</code> from the grid search and plotted the mean CV (cross-validation) PR-AUC (area under the precision-recall curve) against <code>C</code> (log scale), one line per penalty type and class-weight setting. It shows how sensitive the model is to regularisation.</li>
 <li><strong>The one-standard-error rule:</strong><ul>
-<li>the best mean AP is 0.702; its standard error = SD (standard deviation) across the 5 folds / √5 = 0.028 / √5 = 0.0125;</li>
+<li>the best mean AP (average precision) is 0.702; its standard error = SD (standard deviation) across the 5 folds / √5 = 0.028 / √5 = 0.0125;</li>
 <li>threshold = best − 1 SE (standard error) = <strong>0.689</strong>;</li>
-<li>candidates = settings with AP ≥ 0.689 <strong>and no class weights</strong>;</li>
+<li>candidates = settings with AP (average precision) ≥ 0.689 <strong>and no class weights</strong>;</li>
 <li>sorted by <code>C</code> ascending (strongest regularisation first), the first row wins.</li>
 </ul>
 </li>
@@ -14705,20 +14211,20 @@ Wall time: 1min 51s
 </ol>
 <p><strong>Why the 1-SE (one-standard-error) rule – and why I could use it</strong></p>
 <ul>
-<li>A CV score is itself an estimate with noise: on other folds the ranking of near-identical settings would shuffle. Everything within one standard error of the best is statistically indistinguishable from it, so I take the <strong>simplest</strong> (most regularised) of those – it is more likely to hold up on new data. It is the standard rule from Hastie, Tibshirani &amp; Friedman.</li>
+<li>A CV (cross-validation) score is itself an estimate with noise: on other folds the ranking of near-identical settings would shuffle. Everything within one standard error of the best is statistically indistinguishable from it, so I take the <strong>simplest</strong> (most regularised) of those – it is more likely to hold up on new data. It is the standard rule from Hastie, Tibshirani &amp; Friedman.</li>
 <li><strong>Caveat:</strong> the 5 fold scores share training data, so the standard error is approximate – that is why it is a rule of thumb for choosing between equivalent settings, not a formal test.</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>AP 0.702 / 0.691</strong> – mean CV PR-AUC (random = 0.147, perfect = 1).</li>
-<li><strong>Standard error 0.0125</strong> – how much the mean CV score itself could move with other folds. A difference of 0.011 (0.702 − 0.691) is smaller than that → not a real difference.</li>
-<li><strong>l1_ratio</strong> – 0 = L2 (shrinks all coefficients), 1 = L1 (sets weak ones exactly to zero), 0.5 = elastic net (both).</li>
+<li><strong>AP (average precision) 0.702 / 0.691</strong> – mean CV (cross-validation) PR-AUC (area under the precision-recall curve; random = 0.147, perfect = 1).</li>
+<li><strong>Standard error 0.0125</strong> – how much the mean CV (cross-validation) score itself could move with other folds. A difference of 0.011 (0.702 − 0.691) is smaller than that → not a real difference.</li>
+<li><strong>l1_ratio</strong> – 0 = L2 (ridge penalty; shrinks all coefficients), 1 = L1 (lasso penalty; sets weak ones exactly to zero), 0.5 = elastic net (both).</li>
 </ul>
 <p><strong>How to read this chart</strong></p>
 <ul>
 <li><strong>X axis: C on a log scale</strong> (each step = ×10). Left = <strong>strong</strong> regularisation (coefficients squeezed towards zero, a simpler model); right = <strong>weak</strong> regularisation (a more flexible model).</li>
-<li><strong>Y axis:</strong> the mean cross-validated PR-AUC over 5 folds – higher = better. The <strong>grey horizontal line at 0.147 is a random model</strong>.</li>
-<li><strong>Six lines</strong> = 3 penalty types (L2, elastic net, L1) × 2 class-weight settings (balanced or none).</li>
+<li><strong>Y axis:</strong> the mean cross-validated PR-AUC (area under the precision-recall curve) over 5 folds – higher = better. The <strong>grey horizontal line at 0.147 is a random model</strong>.</li>
+<li><strong>Six lines</strong> = 3 penalty types (L2 (ridge penalty), elastic net, L1 (lasso penalty)) × 2 class-weight settings (balanced or none).</li>
 <li><strong>What to look for:</strong> the point where the curves <strong>flatten out (the plateau)</strong> – beyond it extra flexibility buys nothing.</li>
 </ul>
 </div>
@@ -14843,7 +14349,7 @@ Wall time: 4min 8s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0875364d">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=daa1aee1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -14866,13 +14372,13 @@ Wall time: 4min 8s
 </ol>
 <p><strong>Why nested CV (cross-validation) and a paired comparison – and why I could use them</strong></p>
 <ul>
-<li><strong>Nested CV</strong> is the standard way to measure "tuning + model" honestly. It needs the same thing as ordinary CV – independent customers ✓ – plus enough data for an inner split: each inner training set still has ~840 customers and ~125 responders ✓.</li>
+<li><strong>Nested CV (cross-validation)</strong> is the standard way to measure "tuning + model" honestly. It needs the same thing as ordinary CV (cross-validation) – independent customers ✓ – plus enough data for an inner split: each inner training set still has ~840 customers and ~125 responders ✓.</li>
 <li><strong>Paired by fold:</strong> some folds are simply easier than others. Comparing models <strong>on the same fold</strong> removes that noise, just like a paired test compares the same customers before and after. With only 5 folds I report the <strong>wins and the mean difference</strong> instead of a formal paired t-test – 5 points are too few for a reliable p-value, while "5 of 5" is easy to read.</li>
 </ul>
 <p><strong>Output and what it means.</strong></p>
 <ul>
 <li>Logistic regression <strong>0.71 ± 0.04</strong>, gradient boosting 0.64, random forest 0.60, baseline 0.15.</li>
-<li>Logistic regression wins on <strong>5 of 5</strong> folds against both (+0.07 AP (average precision) vs gradient boosting, +0.11 vs the forest).</li>
+<li>Logistic regression wins on <strong>5 of 5</strong> folds against both (+0.07 AP (average precision) versus gradient boosting, +0.11 versus the forest).</li>
 </ul>
 <p><strong>Why the simple model wins:</strong> the data is small (233 positive examples), and the signal is mostly monotonic – more previous acceptances and more recent purchases mean more response. A linear model captures that with few parameters; the trees spend their flexibility on noise.</p>
 <p><strong>How to read the numbers</strong></p>
@@ -14884,7 +14390,7 @@ Wall time: 4min 8s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=548f9f42">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6769e730">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15042,7 +14548,7 @@ Wall time: 4min 8s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e6ede489">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4033b4fb">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15055,7 +14561,7 @@ Wall time: 4min 8s
 <li><strong>Metrics:</strong><ul>
 <li><code>roc_auc_score</code> – overall ranking quality;</li>
 <li><code>average_precision_score</code> (PR-AUC) – ranking quality among the top-ranked customers we would actually contact;</li>
-<li><code>brier_score_loss</code> – the mean squared error of the probabilities, i.e. calibration;</li>
+<li><code>brier_score_loss</code> – the mean squared error of the probabilities, that is calibration;</li>
 <li><code>log_loss</code>;</li>
 <li><strong>lift at the top 10%</strong> – the response rate among the 10% highest scores ÷ the overall rate.</li>
 </ul>
@@ -15064,25 +14570,25 @@ Wall time: 4min 8s
 </ol>
 <p><strong>Why bootstrap confidence intervals – and why I could use them here</strong></p>
 <ul>
-<li>With only <strong>58 responders</strong> in the test set, a single number hides a lot of uncertainty. AUC and AP have no simple formula for their confidence interval, so I resample.</li>
+<li>With only <strong>58 responders</strong> in the test set, a single number hides a lot of uncertainty. AUC (area under the curve) and AP (average precision) have no simple formula for their confidence interval, so I resample.</li>
 <li>The bootstrap needs <strong>independent test customers</strong> ✓ (one row per customer) and a test set that represents the population ✓ (stratified split, 14.7% responders).</li>
 </ul>
 <p><strong>Output and what it means.</strong> The final model reaches:</p>
 <ul>
 <li>ROC-AUC (area under the receiver-operating-characteristic curve) <strong>0.906</strong> (95% CI (confidence interval) 0.87–0.94);</li>
-<li>PR-AUC <strong>0.662</strong> (95% CI 0.55–0.76) vs 0.147 for random;</li>
-<li>Brier <strong>0.080</strong> vs 0.125 for the baseline;</li>
-<li><strong>lift 4.4×</strong> – the top 10% respond at ~65% vs 14.7% on average.</li>
+<li>PR-AUC (area under the precision-recall curve) <strong>0.662</strong> (95% CI (confidence interval) 0.55–0.76) versus 0.147 for random;</li>
+<li>Brier <strong>0.080</strong> versus 0.125 for the baseline;</li>
+<li><strong>lift 4.4×</strong> – the top 10% respond at ~65% versus 14.7% on average.</li>
 </ul>
 <p>Gradient boosting scores 0.59 and the forest 0.51. The test results agree with nested CV (cross-validation), so the model is not over-fitted.</p>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>ROC-AUC 0.906</strong> – a random responder outranks a random non-responder 91% of the time (0.5 = coin flip, above 0.9 = outstanding).</li>
-<li><strong>PR-AUC 0.662</strong> – read against the random level 0.147: about 4.5× better than random.</li>
+<li><strong>ROC-AUC (area under the receiver-operating-characteristic curve) 0.906</strong> – a random responder outranks a random non-responder 91% of the time (0.5 = coin flip, above 0.9 = outstanding).</li>
+<li><strong>PR-AUC (area under the precision-recall curve) 0.662</strong> – read against the random level 0.147: about 4.5× better than random.</li>
 <li><strong>Brier score</strong> – the average of (predicted probability − actual 0/1)²: 0 = perfect, lower = better. Always predicting the base rate scores 0.147 × 0.853 = <strong>0.125</strong>; the model scores <strong>0.080</strong> – 36% better.</li>
 <li><strong>Log loss</strong> – like Brier, but punishes confident wrong predictions harder; lower = better.</li>
 <li><strong>Lift 4.4×</strong> – the top 10% of scores respond 4.4 times more often than the average customer.</li>
-<li><strong>95% CI</strong> – the range the metric would plausibly take on another sample of 395 customers. AP 0.55–0.76 is wide (only 58 responders), but even its lower end is 3.7× random.</li>
+<li><strong>95% CI (confidence interval)</strong> – the range the metric would plausibly take on another sample of 395 customers. AP (average precision) 0.55–0.76 is wide (only 58 responders), but even its lower end is 3.7× random.</li>
 </ul>
 </div>
 </div>
@@ -15150,7 +14656,7 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b49af9c2">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a18b40b8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15160,8 +14666,8 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 <ol>
 <li><strong>Accuracy check:</strong> <code>(y_test == 0).mean()</code> is the accuracy of always predicting "nobody responds". I compared it with the model at a 0.5 threshold.</li>
 <li><strong>Out-of-fold probabilities on the training data:</strong> <code>cross_val_predict(final_model, X_train, y_train, cv=inner_cv, method='predict_proba')</code>. Every training customer gets a score from a model that didn't see them. <strong>Why:</strong> thresholds are chosen on these scores, so the test set stays untouched.</li>
-<li><strong><code>profit(y, contact) = 11 × responders reached − 3 × customers contacted</code></strong>, evaluated for 89 thresholds from 0.02 to 0.90 (<code>np.linspace</code>). The best threshold is <code>grid[profit.argmax()]</code>. The F1-optimal threshold (F1 score, say “F-one”, = the harmonic mean of precision and recall) is found the same way, for comparison.</li>
-<li><strong><code>calibration_curve(y_train, oof, n_bins=8, strategy='quantile')</code></strong> – customers sorted into 8 equal-sized groups by predicted probability, comparing average predicted vs actually observed response.</li>
+<li><strong><code>profit(y, contact) = 11 × responders reached − 3 × customers contacted</code></strong>, evaluated for 89 thresholds from 0.02 to 0.90 (<code>np.linspace</code>). The best threshold is <code>grid[profit.argmax()]</code>. The threshold that maximises F1 (F-one score – the harmonic mean of precision and recall) is found the same way, for comparison.</li>
+<li><strong><code>calibration_curve(y_train, oof, n_bins=8, strategy='quantile')</code></strong> – customers sorted into 8 equal-sized groups by predicted probability, comparing average predicted versus actually observed response.</li>
 </ol>
 <p><strong>Why these checks – and why I could use them</strong></p>
 <ul>
@@ -15360,7 +14866,7 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1fa4e43f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=69b3b26b">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15432,7 +14938,7 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 <li><strong>Contacted</strong> – the share of customers the rule would send the offer to (= cost).</li>
 <li><strong>Responders reached (recall)</strong> – of all customers who would accept, the share the rule reaches.</li>
 <li><strong>Precision</strong> (in the full output) – of the contacted customers, the share who accept; above 27.3% each contact pays for itself on average.</li>
-<li><strong>TP / FP / FN</strong> – responders reached / wasted contacts / missed responders.</li>
+<li><strong>TP (true positives) / FP (false positives) / FN (false negatives)</strong> – responders reached / wasted contacts / missed responders.</li>
 <li><strong>Profit per 1,000 customers</strong> – 11 × responders reached − 3 × contacts, scaled to 1,000 customers so the rules can be compared directly.</li>
 </ul>
 <p><strong>Decision: contact customers above the break-even threshold of 27.3%.</strong></p>
@@ -15534,7 +15040,7 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=71578267">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e73aed66">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15545,15 +15051,15 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 <li><strong>The model puts the responders at the top of the list: the top 20% of scores contain 66% of all responders.</strong><br/>→ <em>Where on the chart:</em> panel 1 – the dot on the blue curve (X = 20%, Y = 66%); the grey diagonal (random) would give 20%. Also: top 10% → 43%, top 30% → 90%.</li>
 <li><strong>Profit peaks when roughly the top quarter is contacted (+243 on the test set) and turns negative beyond ~51%; contacting everyone loses 547.</strong><br/>→ <em>Where on the chart:</em> panel 2 – the peak dot at 24%, the point where the curve crosses the grey zero line (~51%), and the end of the curve at 100%.</li>
 <li><strong>The predicted probabilities are honest (calibrated).</strong><br/>→ <em>Where on the chart:</em> panel 3 – the points lie close to the diagonal: predicted 0.26 → observed 0.29, predicted 0.68 → observed 0.66.</li>
-<li><strong>The profit-optimal threshold equals the economic break-even.</strong><br/>→ <em>Where on the chart:</em> panel 4 – the blue line (maximum at 0.26) and the red line (break-even 0.273) almost coincide, on a flat top of ~900 between 0.2 and 0.3 (934 vs 917).</li>
+<li><strong>The profit-optimal threshold equals the economic break-even.</strong><br/>→ <em>Where on the chart:</em> panel 4 – the blue line (maximum at 0.26) and the red line (break-even 0.273) almost coincide, on a flat top of ~900 between 0.2 and 0.3 (934 versus 917).</li>
 <li><strong>The 27.3% rule earns +191 on the test set – about 40% of the perfect-foresight ceiling (+464).</strong></li>
 </ul>
 <p><strong>What I did.</strong> Four charts:</p>
 <ol>
 <li><strong>Cumulative gains</strong> – customers sorted by score (<code>np.argsort(-p_test)</code>), and the <code>cumsum()</code> of responders ÷ all responders as we go down the list.</li>
-<li><strong>Profit vs depth of targeting</strong> – cumulative profit (11 × responders − 3 × contacts) when contacting the top <em>k</em> customers.</li>
+<li><strong>Profit versus depth of targeting</strong> – cumulative profit (11 × responders − 3 × contacts) when contacting the top <em>k</em> customers.</li>
 <li><strong>Calibration</strong> – the out-of-fold reliability curve from the previous cell.</li>
-<li><strong>Profit vs threshold</strong> on the training data (out-of-fold), with lines at the data-driven optimum and the break-even.</li>
+<li><strong>Profit versus threshold</strong> on the training data (out-of-fold), with lines at the data-driven optimum and the break-even.</li>
 </ol>
 <p>(Charts 1–2 use the 395 test customers; charts 3–4 the 1,580 training customers' out-of-fold scores, so the threshold is never chosen on the test set.)</p>
 <p><strong>How to read the numbers</strong></p>
@@ -15565,15 +15071,15 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 <p><strong>How to read this chart – panel by panel</strong></p>
 <ol>
 <li><strong>Cumulative gains.</strong> X = share of customers contacted, <strong>starting with the highest score</strong>; Y = share of all responders reached. The grey diagonal = picking customers at random (10% contacted → 10% of responders). <strong>The higher the blue curve above the diagonal, the better the model ranks.</strong></li>
-<li><strong>Profit vs depth.</strong> X = share contacted (highest score first); Y = campaign profit in MU on the test customers. The grey line is 0. The curve rises while the next customers are mostly responders and falls once most of them are wasted contacts.</li>
+<li><strong>Profit versus depth.</strong> X = share contacted (highest score first); Y = campaign profit in MU (monetary units) on the test customers. The grey line is 0. The curve rises while the next customers are mostly responders and falls once most of them are wasted contacts.</li>
 <li><strong>Calibration.</strong> X = predicted probability (the average of a group of ~198 customers); Y = the share of that group that actually responded. <strong>Points on the diagonal = the probabilities are honest.</strong> Above the diagonal = the model underestimates; below = it overestimates.</li>
-<li><strong>Profit vs threshold.</strong> X = the probability threshold (contact everyone above it); Y = profit on the training customers. Blue vertical line = the threshold with the highest profit (0.26); red = the theoretical break-even (0.273).</li>
+<li><strong>Profit versus threshold.</strong> X = the probability threshold (contact everyone above it); Y = profit on the training customers. Blue vertical line = the threshold with the highest profit (0.26); red = the theoretical break-even (0.273).</li>
 </ol>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ab7ebbcb">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=74c9d72c">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15716,7 +15222,7 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b931d663">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8135e005">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15725,16 +15231,16 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 <p><strong>What I did.</strong> A fair comparison of all four models. For each one, <code>cross_val_predict</code> gives out-of-fold probabilities on the training data, and from those I pick <strong>its own</strong> profit-optimal threshold (<code>grid[np.argmax(profit)]</code>). Then I compute test PR-AUC (area under the precision-recall curve), ROC-AUC (area under the receiver-operating-characteristic curve), Brier, and test profit both at its own threshold and at 27.3%. <strong>Why own thresholds:</strong> a model with inflated probabilities (the forest, with class weights) shouldn't be penalised just because 27.3% doesn't suit it.</p>
 <p><strong>Output and what it means.</strong> Logistic regression wins on every column:</p>
 <ul>
-<li><strong>Nested PR-AUC:</strong> 0.71, vs 0.64 for gradient boosting and 0.60 for the forest.</li>
-<li><strong>Test PR-AUC:</strong> 0.66, vs 0.59 and 0.51.</li>
-<li><strong>Brier:</strong> 0.080, vs 0.088 and 0.094.</li>
-<li><strong>Profit:</strong> +182 / +191 for the 1-SE (one-standard-error) model, vs +154 (gradient boosting) and +151 (forest), even at their own optimised thresholds.</li>
+<li><strong>Nested PR-AUC (area under the precision-recall curve):</strong> 0.71, versus 0.64 for gradient boosting and 0.60 for the forest.</li>
+<li><strong>Test PR-AUC (area under the precision-recall curve):</strong> 0.66, versus 0.59 and 0.51.</li>
+<li><strong>Brier:</strong> 0.080, versus 0.088 and 0.094.</li>
+<li><strong>Profit:</strong> +182 / +191 for the 1-SE (one-standard-error) model, versus +154 (gradient boosting) and +151 (forest), even at their own optimised thresholds.</li>
 </ul>
 <p>The lightly regularised logistic regression earned +216 at its own threshold (0.15) – examined in the next cell.</p>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>Nested PR-AUC</strong> – the honest estimate from nested CV (higher = better; random 0.147).</li>
-<li><strong>Test PR-AUC / ROC-AUC</strong> – the same metrics on the untouched test set.</li>
+<li><strong>Nested PR-AUC (area under the precision-recall curve)</strong> – the honest estimate from nested CV (cross-validation; higher = better; random 0.147).</li>
+<li><strong>Test PR-AUC (area under the precision-recall curve) / ROC-AUC (area under the receiver-operating-characteristic curve)</strong> – the same metrics on the untouched test set.</li>
 <li><strong>Brier</strong> – the error of the probabilities (lower = better; 0.125 = always predicting the average).</li>
 <li><strong>Profit (own threshold / 27.3%)</strong> – MU (monetary units) earned on the 395 test customers, at the threshold each model chose for itself on its training data, and at the economic break-even.</li>
 </ul>
@@ -15869,7 +15375,7 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bfb0dc4f">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=744a1886">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15877,7 +15383,7 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_script" data-mime-type="text/markdown">
 <p><strong>What I did.</strong></p>
 <ol>
-<li><strong>A paired bootstrap on the test set:</strong> 5,000 resampled test sets (<code>np.random.default_rng(42).integers(0, 395, (5000, 395))</code>). <code>boot_profit()</code> computes the profit of each model <strong>on the same resampled customers</strong>, and the 2.5–97.5 percentiles of the difference vs the final model give a 95% CI (confidence interval).</li>
+<li><strong>A paired bootstrap on the test set:</strong> 5,000 resampled test sets (<code>np.random.default_rng(42).integers(0, 395, (5000, 395))</code>). <code>boot_profit()</code> computes the profit of each model <strong>on the same resampled customers</strong>, and the 2.5–97.5 percentiles of the difference versus the final model give a 95% CI (confidence interval).</li>
 <li><strong>Out-of-fold profit on the training data</strong> – the comparison that can be made <em>before</em> touching the test set.</li>
 </ol>
 <p><strong>Why a paired bootstrap – and why I could use it here</strong></p>
@@ -15888,13 +15394,13 @@ Calibration (OOF, quantile bins) - mean predicted vs observed rate: ['0.00-&gt;0
 </ul>
 <p><strong>Output and what it means.</strong></p>
 <ul>
-<li>The best-CV (cross-validation) logistic regression at threshold 0.15 earned <strong>+25 more</strong> on the test set (216 vs 191) and more out-of-fold (977 vs 917).</li>
-<li>But the <strong>95% CI of the difference is −30 to +87</strong>: it includes zero, and in 20% of resamples it does worse. <strong>Not significant.</strong></li>
+<li>The best-CV (cross-validation) logistic regression at threshold 0.15 earned <strong>+25 more</strong> on the test set (216 versus 191) and more out-of-fold (977 versus 917).</li>
+<li>But the <strong>95% CI (confidence interval) of the difference is −30 to +87</strong>: it includes zero, and in 20% of resamples it does worse. <strong>Not significant.</strong></li>
 <li>Gradient boosting and the forest are about 37–40 lower (also not significant individually, but consistently behind).</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>95% CI of the profit difference</strong> – the plausible range of how much more (or less) the alternative would earn. <strong>If it contains 0, the data can't tell the two models apart.</strong></li>
+<li><strong>95% CI (confidence interval) of the profit difference</strong> – the plausible range of how much more (or less) the alternative would earn. <strong>If it contains 0, the data can't tell the two models apart.</strong></li>
 <li><strong>"Worse in 20% of resamples"</strong> – a bootstrap version of "how sure are we": the alternative is better in 80% of plausible test sets – not convincing (you'd want 95%+).</li>
 </ul>
 </div>
@@ -16021,7 +15527,7 @@ Wall time: 19.6 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9668553b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c32c7f2a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16039,21 +15545,21 @@ Wall time: 19.6 s
 </ul>
 <p><strong>Output and what it means.</strong></p>
 <ul>
-<li><strong>Same accuracy:</strong> test PR-AUC (area under the precision-recall curve) 0.662 vs 0.666, Brier 0.080 vs 0.081.</li>
-<li><strong>Smaller coefficients:</strong> largest 1.15 vs 1.79, sum 13.5 vs 21.4.</li>
-<li><strong>About 40% less variable</strong> across refits: mean SD <strong>0.155 vs 0.271</strong>.</li>
+<li><strong>Same accuracy:</strong> test PR-AUC (area under the precision-recall curve) 0.662 versus 0.666, Brier 0.080 versus 0.081.</li>
+<li><strong>Smaller coefficients:</strong> largest 1.15 versus 1.79, sum 13.5 versus 21.4.</li>
+<li><strong>About 40% less variable</strong> across refits: mean SD (standard deviation) <strong>0.155 versus 0.271</strong>.</li>
 <li>Sign flips are equally rare in both (~7%), so both tell the same story – the 1-SE (one-standard-error) model just tells it with steadier numbers.</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>Mean SD of the coefficients</strong> – how much a coefficient changes when the model is refitted on a different sample: lower = steadier. 0.155 vs 0.271 → the 1-SE model's coefficients move about 40% less.</li>
+<li><strong>Mean SD (standard deviation) of the coefficients</strong> – how much a coefficient changes when the model is refitted on a different sample: lower = steadier. 0.155 versus 0.271 → the 1-SE (one-standard-error) model's coefficients move about 40% less.</li>
 <li><strong>Sign flips</strong> – how often a feature switches between "raises" and "lowers" the response across refits; a high rate would mean the direction can't be trusted.</li>
 </ul>
-<p><strong>Decision: the final model is the logistic regression with an elastic-net penalty, selected with the 1-SE rule, without class weights.</strong></p>
+<p><strong>Decision: the final model is the logistic regression with an elastic-net penalty, selected with the 1-SE (one-standard-error) rule, without class weights.</strong></p>
 <ol>
 <li><strong>Best model family</strong> on every view (nested CV (cross-validation), test, profit).</li>
 <li><strong>Equal accuracy, steadier coefficients</strong> – a safer bet for the <em>next</em> campaign.</li>
-<li><strong>It needs the regularisation:</strong> only 7 events per parameter, and strongly correlated spend features (VIF up to 24, see Appendix).</li>
+<li><strong>It needs the regularisation:</strong> only 7 events per parameter, and strongly correlated spend features (VIF (variance inflation factor) up to 24, see Appendix).</li>
 <li><strong>Calibrated</strong> probabilities, which the 27.3% rule depends on.</li>
 <li><strong>Explainable:</strong> every coefficient is an odds ratio.</li>
 </ol>
@@ -16062,7 +15568,7 @@ Wall time: 19.6 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d374b5a9">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=176169c5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16487,7 +15993,7 @@ Wall time: 19.6 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2b38953b">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3c1acd98">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16499,37 +16005,37 @@ Wall time: 19.6 s
 <li><strong>Next come Recency, purchase channels, tenure and kids &amp; teens at home.</strong><br/>→ <em>Where on the chart:</em> right panel, bars 2–5 (about 0.09, 0.09, 0.06 and 0.05).</li>
 <li><strong>Income, age and complaints add nothing beyond the other inputs.</strong><br/>→ <em>Where on the chart:</em> right panel, the bottom three pairs – bars at ≈ 0, with their grey ±1 SD (standard deviation) lines crossing zero.</li>
 <li><strong>Both models agree on what matters (Spearman 0.96).</strong><br/>→ <em>Where on the chart:</em> right panel – the blue and orange bars follow the same order from top to bottom.</li>
-<li><strong>Direction of the effects:</strong> singles ×3.17 vs married; PhD ×2.85 vs Graduation; each extra standard deviation of days since the last purchase ×0.39; long tenure ×2.26; teenagers at home ×0.62.<br/>→ <em>Where on the chart:</em> left panel – blue bars (raise the odds) vs orange bars (lower the odds), with the OR (odds ratio) label at the end of each bar.</li>
-<li><strong>Wine (−) vs meat (+) is about the basket mix, not "wine buyers don't respond".</strong><br/>→ <em>Where on the chart:</em> left panel, rows MntMeatProducts (blue) and MntWines (orange) – correlated inputs that split the credit between them.</li>
+<li><strong>Direction of the effects:</strong> singles ×3.17 versus married; PhD ×2.85 versus Graduation; each extra standard deviation of days since the last purchase ×0.39; long tenure ×2.26; teenagers at home ×0.62.<br/>→ <em>Where on the chart:</em> left panel – blue bars (raise the odds) versus orange bars (lower the odds), with the OR (odds ratio) label at the end of each bar.</li>
+<li><strong>Wine (−) versus meat (+) is about the basket mix, not "wine buyers don't respond".</strong><br/>→ <em>Where on the chart:</em> left panel, rows MntMeatProducts (blue) and MntWines (orange) – correlated inputs that split the credit between them.</li>
 <li><strong>Young kids don't affect response</strong> (their coefficient was set to 0 by the penalty – consistent with Q4).<br/>→ <em>Where on the chart:</em> Kidhome is absent from the top 15 on the left.</li>
 </ul>
 <p><strong>What I did – step by step</strong></p>
 <ol>
 <li><strong>Coefficients:</strong> <code>final_model.named_steps['clf'].coef_</code> paired with <code>named_steps['prep'].get_feature_names_out()</code> – the feature names after preprocessing. Every feature is standardised, so each coefficient is the effect of <strong>+1 standard deviation</strong>, and <code>np.exp(coef)</code> turns it into an odds ratio. I plotted the top 15.</li>
-<li><strong><code>grouped_permutation_importance()</code></strong> – my own version of permutation importance: a <strong>group</strong> of columns (e.g. all 5 campaign flags, or all 7 spend columns) is shuffled together 50 times, and I measure the drop in test PR-AUC (area under the precision-recall curve).</li>
+<li><strong><code>grouped_permutation_importance()</code></strong> – my own version of permutation importance: a <strong>group</strong> of columns (for example all 5 campaign flags, or all 7 spend columns) is shuffled together 50 times, and I measure the drop in test PR-AUC (area under the precision-recall curve).</li>
 <li><strong>Ran it for two different model families</strong> – the final logistic regression and gradient boosting – and measured agreement with <code>stats.spearmanr</code> on their importance rankings.</li>
 </ol>
 <p><strong>Why these two methods – and why I could use them here</strong></p>
 <ul>
-<li><strong>Standardised coefficients</strong> are comparable with each other because every input is on the same scale (mean 0, SD 1) ✓. Two caveats: the penalty shrinks them towards zero (so read their <em>order and direction</em>, not their exact size), and correlated inputs share the credit between them.</li>
+<li><strong>Standardised coefficients</strong> are comparable with each other because every input is on the same scale (mean 0, SD (standard deviation) 1) ✓. Two caveats: the penalty shrinks them towards zero (so read their <em>order and direction</em>, not their exact size), and correlated inputs share the credit between them.</li>
 <li><strong>Permutation importance</strong> works for <strong>any</strong> model (so the linear model and the trees can be compared on one scale) and is measured on the <strong>test set</strong>, which neither model saw ✓. It assumes that shuffling a column destroys its information without creating impossible customers – which fails for correlated columns (shuffling one, the others still carry the information). <strong>That is why I shuffle correlated columns together as a group.</strong> 50 repeats give a mean and a standard deviation.</li>
 <li><strong>Spearman rank correlation</strong> between the two importance lists compares <em>rankings</em>, which is what "do the models agree on what matters" means.</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>Odds ratio per SD</strong> – 1 = no effect; above 1 raises, below 1 lowers the odds of accepting. Odds are p / (1 − p): at a 15% base rate, odds ×2 is roughly 15% → 26%.</li>
-<li><strong>Drop in AP</strong> – how much worse the ranking gets without that information (test AP of the final model = 0.66). 0.28 = without campaign history the model loses over 40% of its AP.</li>
+<li><strong>Odds ratio per SD (standard deviation)</strong> – 1 = no effect; above 1 raises, below 1 lowers the odds of accepting. Odds are p / (1 − p): at a 15% base rate, odds ×2 is roughly 15% → 26%.</li>
+<li><strong>Drop in AP (average precision)</strong> – how much worse the ranking gets without that information (test AP (average precision) of the final model = 0.66). 0.28 = without campaign history the model loses over 40% of its AP (average precision).</li>
 <li><strong>Spearman 0.96</strong> – rank agreement from −1 to 1; 0.96 = practically the same ranking.</li>
 </ul>
 <p><strong>How to read this chart</strong></p>
 <ul>
-<li><strong>Left – coefficients.</strong> One bar per input (the 15 strongest). <strong>Blue, to the right of 0 = raises the chance of accepting; orange, to the left = lowers it.</strong> Longer bar = stronger. The label <strong>OR</strong> = odds ratio = e^coefficient:<ul>
-<li>for a <strong>number</strong> (e.g. Recency): the change in the odds of accepting for <strong>+1 standard deviation</strong> of that input, everything else equal;</li>
-<li>for a <strong>category</strong> (e.g. Marital_Status_Single): the odds compared with the <strong>reference group</strong> – Graduation for education, Married for marital status.</li>
-<li>OR 1 = no effect; 3.17 = odds ×3.2; 0.39 = odds ×0.39 (−61%).</li>
+<li><strong>Left – coefficients.</strong> One bar per input (the 15 strongest). <strong>Blue, to the right of 0 = raises the chance of accepting; orange, to the left = lowers it.</strong> Longer bar = stronger. The label <strong>OR (odds ratio)</strong> = odds ratio = e^coefficient:<ul>
+<li>for a <strong>number</strong> (for example Recency): the change in the odds of accepting for <strong>+1 standard deviation</strong> of that input, everything else equal;</li>
+<li>for a <strong>category</strong> (for example Marital_Status_Single): the odds compared with the <strong>reference group</strong> – Graduation for education, Married for marital status.</li>
+<li>OR (odds ratio) 1 = no effect; 3.17 = odds ×3.2; 0.39 = odds ×0.39 (−61%).</li>
 </ul>
 </li>
-<li><strong>Right – grouped permutation importance.</strong> One pair of bars per group of inputs: how much the model's test PR-AUC <strong>drops when that group is randomly shuffled</strong>. Blue = logistic regression, orange = gradient boosting. <strong>The longer the bar, the more the model relies on that information.</strong> The thin grey line through each bar = ± 1 standard deviation over the 50 shuffles. A bar whose grey line crosses 0 = the model doesn't really use that information.</li>
+<li><strong>Right – grouped permutation importance.</strong> One pair of bars per group of inputs: how much the model's test PR-AUC (area under the precision-recall curve) <strong>drops when that group is randomly shuffled</strong>. Blue = logistic regression, orange = gradient boosting. <strong>The longer the bar, the more the model relies on that information.</strong> The thin grey line through each bar = ± 1 standard deviation over the 50 shuffles. A bar whose grey line crosses 0 = the model doesn't really use that information.</li>
 </ul>
 </div>
 </div>
@@ -16574,7 +16080,7 @@ InCouple           0: 22% (n=706.0)  1: 11% (n=1269.0)
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f4c4dcec">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=94d1f2f6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16584,10 +16090,10 @@ InCouple           0: 22% (n=706.0)  1: 11% (n=1269.0)
 <p><strong>Output – the top 3 drivers, with observed response rates:</strong></p>
 <ol>
 <li><strong>Campaign history:</strong> <strong>8%</strong> with no earlier acceptance, 30% with one, 52% with two, <strong>82%</strong> with three or more.</li>
-<li><strong>Recency:</strong> <strong>29%</strong> for customers who bought in the last 20 days vs <strong>6%</strong> after 80–100 days.</li>
-<li><strong>Channel:</strong> heavy catalogue buyers (6+ purchases) respond at <strong>31%</strong>, vs <strong>4%</strong> for customers who never buy by catalogue.</li>
+<li><strong>Recency:</strong> <strong>29%</strong> for customers who bought in the last 20 days versus <strong>6%</strong> after 80–100 days.</li>
+<li><strong>Channel:</strong> heavy catalogue buyers (6+ purchases) respond at <strong>31%</strong>, versus <strong>4%</strong> for customers who never buy by catalogue.</li>
 </ol>
-<p>Also: the longest-tenured quarter responds at 26% vs 9% for the newest; households with teenagers 8% vs 21% without; couples 11% vs 22% for singles.</p>
+<p>Also: the longest-tenured quarter responds at 26% versus 9% for the newest; households with teenagers 8% versus 21% without; couples 11% versus 22% for singles.</p>
 <p><strong>How to read the numbers</strong> – each rate is simply "of the customers in this band, the share who accepted the last campaign". Compare it with the <strong>27.3% break-even</strong>: bands above it are worth contacting as a whole, bands below it only through the model's individual scores.</p>
 <p><strong>Recommendation.</strong> Contact customers who said yes before, bought recently and shop by catalogue – and let the model's score decide who is above 27%.</p>
 </div>
@@ -16712,7 +16218,7 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=14840863">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=def20e8d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16723,8 +16229,8 @@ Wall time: 1.8 s
 <li><strong>Five feature sets:</strong> all features; without <code>Recency</code>; without demographics (age, kids, teens, marital status, education); without both; without campaign history.</li>
 <li><strong>For each:</strong> a fresh pipeline restricted to those columns, the <strong>same final settings</strong> (<code>set_params(**one_se['params'])</code>), scored with <code>RepeatedStratifiedKFold(n_splits=5, n_repeats=3)</code>. <strong>Why repeated:</strong> 15 estimates per variant instead of 5, so small differences are less noisy.</li>
 </ol>
-<p><strong>Output (CV PR-AUC (area under the precision-recall curve)).</strong> All features <strong>0.694</strong>; without Recency 0.621; without demographics 0.646; without both 0.578; without campaign history 0.547.</p>
-<p><strong>How to read the numbers</strong> – each value is the CV PR-AUC of the same model with fewer inputs (random = 0.147). <strong>The drop from 0.694 is the price of leaving that group out:</strong> campaign history −0.15 (the most valuable), Recency −0.07, demographics −0.05.</p>
+<p><strong>Output (CV (cross-validation) PR-AUC (area under the precision-recall curve)).</strong> All features <strong>0.694</strong>; without Recency 0.621; without demographics 0.646; without both 0.578; without campaign history 0.547.</p>
+<p><strong>How to read the numbers</strong> – each value is the CV (cross-validation) PR-AUC (area under the precision-recall curve) of the same model with fewer inputs (random = 0.147). <strong>The drop from 0.694 is the price of leaving that group out:</strong> campaign history −0.15 (the most valuable), Recency −0.07, demographics −0.05.</p>
 <p><strong>Decision: keep all features.</strong></p>
 <ul>
 <li><strong>Highest accuracy</strong>, and every removal has a measurable cost.</li>
@@ -16735,7 +16241,7 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=592cced8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f464fbb6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16968,7 +16474,7 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f55bd736">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8126eec6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -16987,13 +16493,13 @@ Wall time: 1.8 s
 </ol>
 <p><strong>Output and what it means.</strong></p>
 <ul>
-<li><strong>Selection rates:</strong> <strong>34% of childless households vs 13% / 8%</strong> of families with 1 / 2+ children; <strong>34% of the richest quarter vs 11–13%</strong> of everyone else; 26% of singles vs 13% of couples.</li>
+<li><strong>Selection rates:</strong> <strong>34% of childless households versus 13% / 8%</strong> of families with 1 / 2+ children; <strong>34% of the richest quarter versus 11–13%</strong> of everyone else; 26% of singles versus 13% of couples.</li>
 <li><strong>Among actual responders</strong>, it finds <strong>79%</strong> of the childless ones but only <strong>50%</strong> of those in families with 2+ children.</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
 <li><strong>Selection rate</strong> – the share of a group that would receive the offer. Different selection rates are not unfair by themselves if the groups really respond differently – compare it with the group's <strong>actual response rate</strong>.</li>
-<li><strong>True positive rate</strong> – of the group's real responders, the share the model picks. <strong>This is the fairness number:</strong> equal TPRs mean that a customer who would accept has the same chance of being offered, whatever their group. 79% vs 50% means responsive large families are missed more often.</li>
+<li><strong>True positive rate</strong> – of the group's real responders, the share the model picks. <strong>This is the fairness number:</strong> equal TPRs mean that a customer who would accept has the same chance of being offered, whatever their group. 79% versus 50% means responsive large families are missed more often.</li>
 <li><strong>Precision</strong> – of the selected customers in a group, the share who accept; above 27.3% the selection pays for itself in that group.</li>
 </ul>
 <p><strong>Risks to flag before using this model to hand out discounts:</strong></p>
@@ -17008,7 +16514,7 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=685a38f9">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2f65f7c5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17016,7 +16522,7 @@ Wall time: 1.8 s
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_conclusion" data-mime-type="text/markdown">
 <p><strong>Conclusions – Q5</strong></p>
 <ul>
-<li><strong>A simple, explainable model wins.</strong> Logistic regression predicts who will accept the next campaign better than random forest and gradient boosting: ROC-AUC (area under the receiver-operating-characteristic curve) 0.91, PR-AUC (area under the precision-recall curve) 0.66 (vs 0.15 for random), and its <strong>top 10% respond 4.4× more</strong> than average.</li>
+<li><strong>A simple, explainable model wins.</strong> Logistic regression predicts who will accept the next campaign better than random forest and gradient boosting: ROC-AUC (area under the receiver-operating-characteristic curve) 0.91, PR-AUC (area under the precision-recall curve) 0.66 (versus 0.15 for random), and its <strong>top 10% respond 4.4× more</strong> than average.</li>
 <li><strong>Used with the break-even rule</strong> (contact only if the predicted chance is above 27%), it turns <strong>−1,385 into +484 per 1,000 customers</strong>, contacting only 18% of customers while still reaching 64% of responders.</li>
 <li><strong>The strongest signals:</strong> accepted an offer before, bought recently, buys by catalogue. Then tenure, and no teenagers at home.</li>
 <li><strong>Before using it to hand out discounts:</strong> it favours wealthy, childless customers; it predicts acceptance, not extra sales caused by the offer; and it needs monitoring and a check on Recency's timing.</li>
@@ -17031,7 +16537,7 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=492f0111">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2f414fb7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17043,7 +16549,7 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=31a1105c">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=480d58a2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17151,7 +16657,7 @@ Wall time: 1.8 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=20183b15">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4a96b9fd">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17179,7 +16685,7 @@ Wall time: 1.8 s
 </ul>
 </li>
 </ul>
-<p><strong>Output and what it means.</strong> Silhouette 0.31 (raw), 0.25 (log), 0.25 (rank). Smallest cluster: 260 customers on raw values vs 407 with logs.</p>
+<p><strong>Output and what it means.</strong> Silhouette 0.31 (raw), 0.25 (log), 0.25 (rank). Smallest cluster: 260 customers on raw values versus 407 with logs.</p>
 <p><strong>How to read the numbers</strong></p>
 <ul>
 <li><strong>Silhouette</strong> – for each customer: (distance to the nearest <em>other</em> cluster − distance to its own cluster) ÷ the larger of the two, averaged over everyone. From −1 to 1: near 1 = clearly in the right cluster, 0 = on the border, negative = probably in the wrong one. Kaufman &amp; Rousseeuw's rule of thumb: above 0.7 strong, 0.5–0.7 reasonable, 0.25–0.5 weak structure, below 0.25 no substantial structure.</li>
@@ -17188,7 +16694,7 @@ Wall time: 1.8 s
 <p><strong>Decision: log + standardisation.</strong></p>
 <ul>
 <li>With logs, going from 10 to 100 counts as much as going from 100 to 1,000 – how a marketer thinks about spend – and a few heavy spenders don't dominate the distances.</li>
-<li>Because the silhouettes can't be compared across spaces, the choice rests on that logic, and log scaling also gives the more balanced clusters (smallest 407 vs 260 customers).</li>
+<li>Because the silhouettes can't be compared across spaces, the choice rests on that logic, and log scaling also gives the more balanced clusters (smallest 407 versus 260 customers).</li>
 </ul>
 </div>
 </div>
@@ -17416,7 +16922,7 @@ Wall time: 12.2 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=27d1baf0">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2c27ced6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17442,7 +16948,7 @@ Wall time: 12.2 s
 <li><strong>Stability:</strong> 20 times, refit k-means on a bootstrap sample (<code>rng.integers</code> row indices) and compare its labels on the full data with the original solution using <code>adjusted_rand_score</code> (ARI).</li>
 <li><strong>Two other algorithms as cross-checks:</strong><ul>
 <li><code>GaussianMixture(k, covariance_type='full')</code> with BIC (Bayesian information criterion) – allows elliptical clusters of different sizes;</li>
-<li><code>AgglomerativeClustering(k, linkage='ward')</code> – hierarchical clustering, with its agreement with k-means measured by ARI.</li>
+<li><code>AgglomerativeClustering(k, linkage='ward')</code> – hierarchical clustering, with its agreement with k-means measured by ARI (adjusted Rand index).</li>
 </ul>
 </li>
 <li><strong>The smallest cluster's share of customers</strong> – a segment that is too small isn't worth a separate campaign.</li>
@@ -17451,16 +16957,16 @@ Wall time: 12.2 s
 <ul>
 <li>There is no single "correct" number of clusters; each criterion measures something different, so I look for agreement <strong>and</strong> business usefulness.</li>
 <li><strong>Silhouette, Calinski-Harabasz, Davies-Bouldin</strong> need a meaningful distance – Euclidean distance on log-transformed, standardised features ✓.</li>
-<li><strong>Bootstrap ARI</strong> resamples customers – needs independent customers ✓.</li>
-<li><strong>Gaussian-mixture BIC</strong> assumes the data is a blend of bell-shaped clouds. That is only partly true here: many customers have <strong>exactly zero</strong> in some columns (26% never buy by catalogue; 17–19% buy no fruit, fish or sweets), and such spikes break the bell shape. So I read the BIC with care (see below).</li>
+<li><strong>Bootstrap ARI (adjusted Rand index)</strong> resamples customers – needs independent customers ✓.</li>
+<li><strong>Gaussian-mixture BIC (Bayesian information criterion)</strong> assumes the data is a blend of bell-shaped clouds. That is only partly true here: many customers have <strong>exactly zero</strong> in some columns (26% never buy by catalogue; 17–19% buy no fruit, fish or sweets), and such spikes break the bell shape. So I read the BIC (Bayesian information criterion) with care (see below).</li>
 <li><strong>Ward</strong> builds clusters bottom-up with a different algorithm – an independent check that the structure isn't an artefact of k-means.</li>
 </ul>
 <p><strong>Decision: 4 segments.</strong></p>
 <ul>
 <li>k = 2 only splits light buyers from heavy buyers.</li>
 <li>k = 3 merges the deal-seeking teen parents with the affluent families.</li>
-<li>k = 5 only splits the low spenders into 41 vs 105 with an identical profile – no new action.</li>
-<li><strong>k = 4</strong> is stable (0.87), every segment holds at least 20% of customers, it agrees with Ward (ARI 0.71), and each segment needs a different action.</li>
+<li>k = 5 only splits the low spenders into 41 versus 105 with an identical profile – no new action.</li>
+<li><strong>k = 4</strong> is stable (0.87), every segment holds at least 20% of customers, it agrees with Ward (ARI (adjusted Rand index) 0.71), and each segment needs a different action.</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
@@ -17474,8 +16980,8 @@ Wall time: 12.2 s
 <ol>
 <li><strong>Elbow:</strong> X = number of clusters k; Y = within-cluster sum of squares (how far customers are from their own cluster's centre, in total). It <strong>always</strong> falls as k grows; look for the <strong>bend</strong> where adding a cluster stops helping much.</li>
 <li><strong>Silhouette:</strong> higher = better-separated clusters.</li>
-<li><strong>Stability (bootstrap ARI):</strong> 1 = the same clusters every time the data is resampled; lower = the clusters change with the sample.</li>
-<li><strong>GMM (Gaussian mixture model) BIC:</strong> lower = the Gaussian mixture describes the data better.</li>
+<li><strong>Stability (bootstrap ARI (adjusted Rand index)):</strong> 1 = the same clusters every time the data is resampled; lower = the clusters change with the sample.</li>
+<li><strong>GMM (Gaussian mixture model) BIC (Bayesian information criterion):</strong> lower = the Gaussian mixture describes the data better.</li>
 </ol>
 </div>
 </div>
@@ -17802,7 +17308,7 @@ Wall time: 12.2 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=30391b7e">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a6c9b32a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17855,7 +17361,7 @@ Wall time: 12.2 s
 </table>
 <p><strong>How to read the numbers</strong></p>
 <ul>
-<li><strong>Customers / revenue</strong> – the segment's share of the customer base vs its share of revenue. Revenue share far above customer share = a high-value segment (Connoisseurs 22% → 47%); far below = low value (Young Families 36% → 4%).</li>
+<li><strong>Customers / revenue</strong> – the segment's share of the customer base versus its share of revenue. Revenue share far above customer share = a high-value segment (Connoisseurs 22% → 47%); far below = low value (Young Families 36% → 4%).</li>
 <li><strong>Expected profit per contact = 11 × response rate − 3</strong> – what one contact earns on average. Positive only if the response rate is above 27.3%.</li>
 <li><strong>Demographics in the profile</strong> (income, kids, age) were <strong>not</strong> used to build the clusters – so if the segments differ clearly on them, that is independent evidence that the segments are real.</li>
 </ul>
@@ -17973,7 +17479,7 @@ Wall time: 12.2 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a4b93a28">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cb762998">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -17985,7 +17491,7 @@ Wall time: 12.2 s
 <li><strong>Budget Young Families buy the least.</strong><br/>→ <em>Where on the chart:</em> panel 0 – the blue cloud is far left on PC1 (principal component 1).</li>
 <li><strong>Deal-Seeking Teen Parents are the most deal- and web-driven</strong> (3.9 deal purchases, 6.6 web visits a month).<br/>→ <em>Where on the chart:</em> panel 1 – the cloud sits highest on PC2 (principal component 2).</li>
 <li><strong>Established Family Foodies buy a lot, with some deals</strong> (3.1).<br/>→ <em>Where on the chart:</em> panel 2 – right of centre, slightly above zero.</li>
-<li><strong>Affluent Childless Connoisseurs buy the most with the fewest deals</strong> (1.0) and web visits (2.1).<br/>→ <em>Where on the chart:</em> panel 3 – far right and lowest on PC2.</li>
+<li><strong>Affluent Childless Connoisseurs buy the most with the fewest deals</strong> (1.0) and web visits (2.1).<br/>→ <em>Where on the chart:</em> panel 3 – far right and lowest on PC2 (principal component 2).</li>
 <li><strong>The picture is a fair summary:</strong> the two axes show 72% of the variation (57% + 15%).</li>
 </ul>
 <p><strong>What I did.</strong> <code>PCA(2)</code> projects the 11 dimensions onto the 2 directions with the most variation, <em>only</em> to draw the segments – the clustering itself used all 11 features. Each panel highlights one segment over the others in grey. The loadings table shows what each axis means.</p>
@@ -17997,16 +17503,16 @@ Wall time: 12.2 s
 </ul>
 <p><strong>How to read this chart</strong></p>
 <ul>
-<li><strong>Each dot is one customer</strong>, placed by its two PCA scores; the positions are identical in all four panels. In each panel <strong>one segment is blue</strong> and everyone else is grey.</li>
-<li><strong>X axis – PC1 (57% of the variation) = "how much the customer buys":</strong> all spend columns and web / catalogue / store purchases load positively on it (0.29–0.37), deal purchases not at all (0.00) and web visits negatively (−0.23). Left = buys little, right = buys a lot.</li>
-<li><strong>Y axis – PC2 (15%) = "deal-hunting and browsing":</strong> it loads on deal purchases (0.68), web visits (0.49) and web purchases (0.39). Up = many deals and visits, down = few.</li>
+<li><strong>Each dot is one customer</strong>, placed by its two PCA (principal component analysis) scores; the positions are identical in all four panels. In each panel <strong>one segment is blue</strong> and everyone else is grey.</li>
+<li><strong>X axis – PC1 (principal component 1; 57% of the variation) = "how much the customer buys":</strong> all spend columns and web / catalogue / store purchases load positively on it (0.29–0.37), deal purchases not at all (0.00) and web visits negatively (−0.23). Left = buys little, right = buys a lot.</li>
+<li><strong>Y axis – PC2 (principal component 2; 15%) = "deal-hunting and browsing":</strong> it loads on deal purchases (0.68), web visits (0.49) and web purchases (0.39). Up = many deals and visits, down = few.</li>
 <li><strong>Where a blue cloud sits describes the segment</strong>; a little overlap at the edges is normal, because the clustering used all 11 dimensions and the chart shows only 2.</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7b75b8dd">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=1d2086c1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18030,19 +17536,19 @@ Wall time: 12.2 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=a845afca">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=680a15be">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_section" data-mime-type="text/markdown">
 <p><a id="q7"></a></p>
-<h2 id="Q7-%E2%80%94-SQL-&amp;-turning-this-into-a-recurring-report">Q7 — SQL &amp; turning this into a recurring report<a class="anchor-link" href="#Q7-%E2%80%94-SQL-&amp;-turning-this-into-a-recurring-report">¶</a></h2>
+<h2 id="Q7-%E2%80%94-SQL-(Structured-Query-Language)-&amp;-turning-this-into-a-recurring-report">Q7 — SQL (Structured Query Language) &amp; turning this into a recurring report<a class="anchor-link" href="#Q7-%E2%80%94-SQL-(Structured-Query-Language)-&amp;-turning-this-into-a-recurring-report">¶</a></h2>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=36d9a373">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=ba8b1f6f">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18360,7 +17866,7 @@ Literal query on the raw table (duplicates + MntTotal without gold):
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=04bdf867">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=cba34e10">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18374,7 +17880,7 @@ Literal query on the raw table (duplicates + MntTotal without gold):
 <li><code>SELECT DISTINCT *</code> removes the 184 exact duplicates;</li>
 <li><code>CASE WHEN education_Basic = 1 THEN 'Basic' ...</code> turns the flags into one <code>education</code> column. <code>"education_2n Cycle"</code> is in double quotes because the column name contains a space;</li>
 <li>the total is <strong>recomputed</strong> as the sum of all 6 categories, because the delivered <code>MntTotal</code> excludes gold;</li>
-<li><code>AVG(CAST(Response AS REAL))</code> – some databases (e.g. SQL Server) average integers as integers and would return 0;</li>
+<li><code>AVG(CAST(Response AS REAL))</code> – some databases (for example SQL (Structured Query Language) Server) average integers as integers and would return 0;</li>
 <li><code>GROUP BY education ORDER BY avg_mnt_total DESC</code>.</li>
 </ul>
 </li>
@@ -18391,7 +17897,7 @@ Literal query on the raw table (duplicates + MntTotal without gold):
 <ol>
 <li><strong>Ingestion</strong> into a warehouse, with campaign contacts and responses stored as time-stamped events.</li>
 <li><strong>Transformation in dbt (data build tool):</strong> totals always computed from their components, ages and tenure relative to the snapshot date, and metric definitions stored in one place.</li>
-<li><strong>Weekly orchestration</strong> with Airflow, Dagster or dbt Cloud.</li>
+<li><strong>Weekly orchestration</strong> with Airflow, Dagster or dbt (data build tool) Cloud.</li>
 <li><strong>A dashboard</strong> showing the response rate against the 27% break-even, campaign profit and the segments.</li>
 </ol>
 <p>Every Q1 issue becomes an <strong>automated test that stops the run</strong> before bad data reaches the dashboard:</p>
@@ -18407,7 +17913,7 @@ Literal query on the raw table (duplicates + MntTotal without gold):
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2636a75a">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=3bb0078a">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18423,19 +17929,19 @@ Literal query on the raw table (duplicates + MntTotal without gold):
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=f66324cc">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=89c805ac">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_section" data-mime-type="text/markdown">
 <p><a id="q8"></a></p>
-<h2 id="Q8-%E2%80%94-Executive-summary-for-the-CMO">Q8 — Executive summary for the CMO<a class="anchor-link" href="#Q8-%E2%80%94-Executive-summary-for-the-CMO">¶</a></h2>
+<h2 id="Q8-%E2%80%94-Executive-summary-for-the-CMO-(Chief-Marketing-Officer)">Q8 — Executive summary for the CMO (Chief Marketing Officer)<a class="anchor-link" href="#Q8-%E2%80%94-Executive-summary-for-the-CMO-(Chief-Marketing-Officer)">¶</a></h2>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=75dee318">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=9e816165">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18459,7 +17965,7 @@ Literal query on the raw table (duplicates + MntTotal without gold):
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d7296a25">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=89e59552">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18719,7 +18225,7 @@ Wall time: 6.63 s
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=c11bced3">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=faf41fcf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -18731,37 +18237,37 @@ Wall time: 6.63 s
 <li><strong>Chi-square validity</strong> – at least 5 expected per cell: the smallest expected count from <code>chi2_contingency</code>.</li>
 <li><strong>The same effect in every income band</strong> – needed for one pooled odds ratio. A likelihood-ratio test: <code>logit_loglik()</code> gives the log-likelihood of a logistic model with and without "children × income quartile" interaction terms, and <code>stats.chi2.sf(2 × difference, 3)</code> gives the p-value.</li>
 <li><strong>Events per parameter</strong> – the rule of thumb is ≥ 10 for an unpenalised logistic regression: responders / number of coefficients.</li>
-<li><strong>Multicollinearity (VIF):</strong> each feature regressed on all the others with <code>np.linalg.lstsq</code>; VIF = 1 / (1 − R²).</li>
+<li><strong>Multicollinearity (VIF):</strong> each feature regressed on all the others with <code>np.linalg.lstsq</code>; VIF (variance inflation factor) = 1 / (1 − R² (R-squared)).</li>
 <li><strong>Linearity of the log-odds:</strong> the same logistic regression with <code>SplineTransformer(n_knots=4, degree=3)</code>, which lets every numeric feature bend freely, tuned with <code>GridSearchCV</code> on the same folds, compared with the linear version.</li>
 <li><strong>k-means assumptions</strong> (compact, round clusters): agreement (ARI) with a <code>GaussianMixture(covariance_type='full')</code>, which allows any elliptical shape, and with Ward.</li>
-<li><strong>Calibration:</strong> the Brier score vs a naive guess.</li>
+<li><strong>Calibration:</strong> the Brier score versus a naive guess.</li>
 </ol>
 <p><strong>Why the likelihood-ratio test for check 3 – and why I could use it.</strong> It compares two <strong>nested</strong> logistic models (with and without the 3 interaction terms) fitted by maximum likelihood on the same customers ✓. Twice the difference in log-likelihood then follows a χ² (chi-squared – say “KAI-squared”) distribution with 3 degrees of freedom (one per extra term) – valid with large samples and enough events ✓ (291 responders). It is the standard test of "does the effect differ between groups?"</p>
 <p><strong>Output and what it means.</strong></p>
 <ul>
 <li><strong>Independence:</strong> 0 duplicates ✓.</li>
 <li><strong>Chi-square:</strong> 82 expected for children ✓, but only <strong>2.8</strong> for complaints ✗ – which is why Fisher's exact test was used there.</li>
-<li><strong>Same effect across income bands:</strong> p = <strong>0.007</strong> ✗ – odds ratio 1.08 in the lowest quartile vs 0.22–0.38 in the others, which is why the effect is reported per band.</li>
+<li><strong>Same effect across income bands:</strong> p = <strong>0.007</strong> ✗ – odds ratio 1.08 in the lowest quartile versus 0.22–0.38 in the others, which is why the effect is reported per band.</li>
 <li><strong>Events per parameter:</strong> 26–97 for the Q4 models ✓, but only <strong>7.3</strong> for the Q5 model ✗ – which is why it is regularised.</li>
-<li><strong>VIF:</strong> up to <strong>24</strong> for the Q5 inputs (order value 24.2, wine 17.9, meat 11.8) – handled by the elastic net, which zeroed order value. For the Q4 controls, VIF ≤ 1.3 ✓.</li>
-<li><strong>Linearity:</strong> spline <strong>0.698 vs 0.702</strong> linear – curves add nothing ✓.</li>
-<li><strong>k-means:</strong> ARI <strong>0.71</strong> with Ward (moderate agreement) and <strong>0.59</strong> with the Gaussian mixture (below "moderate") – the main split by volume and deal orientation is shared, but the exact borders depend on the algorithm. Together with the silhouette of 0.25 this says: <strong>a stable, useful partition of a continuum, not naturally separated groups</strong> (stability 0.87).</li>
+<li><strong>VIF (variance inflation factor):</strong> up to <strong>24</strong> for the Q5 inputs (order value 24.2, wine 17.9, meat 11.8) – handled by the elastic net, which zeroed order value. For the Q4 controls, VIF (variance inflation factor) ≤ 1.3 ✓.</li>
+<li><strong>Linearity:</strong> spline <strong>0.698 versus 0.702</strong> linear – curves add nothing ✓.</li>
+<li><strong>k-means:</strong> ARI (adjusted Rand index) <strong>0.71</strong> with Ward (moderate agreement) and <strong>0.59</strong> with the Gaussian mixture (below "moderate") – the main split by volume and deal orientation is shared, but the exact borders depend on the algorithm. Together with the silhouette of 0.25 this says: <strong>a stable, useful partition of a continuum, not naturally separated groups</strong> (stability 0.87).</li>
 <li><strong>PCA (principal component analysis):</strong> 72% of the variation in 2 components – used only for drawing.</li>
-<li><strong>Calibration:</strong> Brier <strong>0.080 vs 0.125</strong> ✓.</li>
+<li><strong>Calibration:</strong> Brier <strong>0.080 versus 0.125</strong> ✓.</li>
 </ul>
 <p><strong>How to read the numbers</strong></p>
 <ul>
 <li><strong>p = 0.007 (homogeneity)</strong> – here a <em>small</em> p is bad news for the assumption: it means the odds ratios really differ between income bands (p &gt; 0.05 would mean "consistent with one common effect").</li>
 <li><strong>Events per parameter (EPV)</strong> – responders ÷ estimated coefficients. Below ~10 an unpenalised logistic regression gives unstable, exaggerated coefficients; regularisation fixes this.</li>
 <li><strong>VIF</strong> (variance inflation factor) – how much a coefficient's uncertainty is inflated because that input can be predicted from the others. 1 = not at all; above 5 = worrying; above 10 = serious. 24 = order value is almost a combination of the spend columns.</li>
-<li><strong>ARI</strong> – 1 = identical clusterings, 0 = chance agreement; ≥ 0.90 excellent, 0.80–0.90 good, 0.65–0.80 moderate, below 0.65 poor (Steinley).</li>
+<li><strong>ARI (adjusted Rand index)</strong> – 1 = identical clusterings, 0 = chance agreement; ≥ 0.90 excellent, 0.80–0.90 good, 0.65–0.80 moderate, below 0.65 poor (Steinley).</li>
 <li><strong>Brier score</strong> – 0 = perfect; 0.125 = always predicting the 14.7% average; 0.080 = 36% better.</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7e06fe56">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b0bc207d">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
